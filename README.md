@@ -1,10 +1,10 @@
 # LAIG 2020/2021
 
-## Group T0xG0y
-| Name             | Number    | E-Mail               |
-| ---------------- | --------- | -------------------- |
-| José Macedo      | 201705226 | up201705226@fe.up.pt |
-| Jane Doe         | 201801011 | ...                  |
+## Group T01G11
+| Name               | Number    | E-Mail               |
+| -------------------| --------- | -------------------- |
+| José Macedo        | 201705226 | up201705226@fe.up.pt |
+| Guilherme Calassi  | 201800157 | up201800157@fe.up.pt |
 
 ----
 
