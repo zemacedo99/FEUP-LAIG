@@ -245,7 +245,47 @@ class MySceneGraph {
      * @param {view block element} viewsNode
      */
     parseViews(viewsNode) {
-        this.onXMLMinorError("To do: Parse views and create cameras.");
+        var defaultView = this.reader.getString(viewsNode, 'default')
+        if (defaultView == null)
+            return "Erro on parse view element: no default defined.";
+
+        var children = viewsNode.children;
+        var nodeNames = [];
+
+        for (var i = 0; i < children.length; i++)
+            nodeNames.push(children[i].nodeName);
+
+        var perspectiveIndex = nodeNames.indexOf("perspective");
+        var orthoIndex = nodeNames.indexOf("ortho");
+
+        if(perspectiveIndex == -1)
+            return "No perspective defined for scene.";
+        if(orthoIndex == -1)
+            return "No ortho defined for scene.";
+
+        var perspectiveNode = children[perspectiveIndex];
+        var perspectiveData = [0];
+        perspectiveData['id'] = this.reader.getString(perspectiveNode, 'id');
+        perspectiveData['near'] = this.reader.getString(perspectiveNode, 'near');
+        perspectiveData['far'] = this.reader.getString(perspectiveNode, 'far');
+        perspectiveData['angle'] = this.reader.getString(perspectiveNode, 'angle');
+        if (perspectiveData == null)
+            return "Erro on parse perspective element.";
+
+        var orthoNode = children[orthoIndex];
+        var orthoData = [0];
+        orthoData['id'] = this.reader.getString(orthoNode, 'id');
+        orthoData['near'] = this.reader.getString(orthoNode, 'near');
+        orthoData['far'] = this.reader.getString(orthoNode, 'far');
+        orthoData['left'] = this.reader.getString(orthoNode, 'left');
+        orthoData['right'] = this.reader.getString(orthoNode, 'right');
+        orthoData['top'] = this.reader.getString(orthoNode, 'top');
+        orthoData['bottom'] = this.reader.getString(orthoNode, 'bottom');
+        if (orthoData == null)
+            return "Erro on parse ortho element.";
+        
+
+        this.onXMLMinorError("In progress: Parse views and create cameras.");
         return null;
     }
 
