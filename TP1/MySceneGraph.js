@@ -283,7 +283,7 @@ class MySceneGraph {
         orthoData['bottom'] = this.reader.getString(orthoNode, 'bottom');
         if (orthoData == null)
             return "Erro on parse ortho element.";
-        
+
 
         this.onXMLMinorError("In progress: Parse views and create cameras.");
         return null;
