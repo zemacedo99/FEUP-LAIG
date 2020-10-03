@@ -42,6 +42,7 @@
         <!-- NOTE: this block "TEXTURE" must be repeated as necessary with different "id" -->
         <texture id="demoTexture" path="./scenes/images/vidral.jpg" />
         <texture id="sandTexture" path="./scenes/images/sand.jpg" />
+        <texture id="skyTexture" path="./scenes/images/clearSky.jpg" />
         <texture id="ballTexture" path="./scenes/images/ball.jpg" />
         <texture id="buoyTexture" path="./scenes/images/buoy.jpg" />
         <texture id="donutTexture" path="./scenes/images/donut.jpg" />
@@ -110,7 +111,7 @@
             <!-- next two lines are mandatory -->
             <material id="null" /><!-- this superimposes the material received from parent node id="null" maintains material from parent node -->
 
-            <texture id="sandTexture"><!-- declared texture superimposes the texture received from parent node id="null" maintains texture from parent node id="clear" clears texture declaration received from parent node -->
+            <texture id="null"><!-- declared texture superimposes the texture received from parent node id="null" maintains texture from parent node id="clear" clears texture declaration received from parent node -->
                 <amplification afs="2.0" aft="2.0" /><!-- for primitives = dx/afs, dy/aft -->
             </texture>
 
@@ -124,16 +125,52 @@
             <!-- declaring descendants, at least one node or one leaf must be present
              descendants may be mixed, nodes and leafs -->
             <descendants>
-                <noderef id="ball" />
-                <noderef id="buoy" />
-                <noderef id="towel" />
-                <!-- "ss" is the identifier of a node or of leaf; -->
-                <!-- may be repeated as necessary. It can refer an -->
-                <!-- identifier of another node, before or later defined in the file. -->
-                <!-- next lines define nodes of type leaf; may be repeated, in any order, as necessary -->
-                <leaf type="rectangle" x1="-10" y1="-10" x2="10" y2="10" />
-                <!-- 2D coordinates on the XY plane for left-top and right-bottom vertices. -->
+                <noderef id="sand" />
+                <noderef id="sky" />
             </descendants>
+        </node>
+
+        
+        <node id="sand">            
+                   
+                    <material id="null" />
+
+                    <texture id="sandTexture">
+                        <amplification afs="2.0" aft="2.0" />
+                    </texture>
+
+                    <transformations>
+                        <translation x="2" y="0.0" z="2.0" />
+                    </transformations>
+
+                    <descendants>
+                        <noderef id="ball" />
+                        <noderef id="buoy" />
+                        <noderef id="towel" />
+                        <!-- "ss" is the identifier of a node or of leaf; -->
+                        <!-- may be repeated as necessary. It can refer an -->
+                        <!-- identifier of another node, before or later defined in the file. -->
+                        <!-- next lines define nodes of type leaf; may be repeated, in any order, as necessary -->
+                        <leaf type="rectangle" x1="-10" y1="-10" x2="10" y2="10" />
+                        <!-- 2D coordinates on the XY plane for left-top and right-bottom vertices. -->
+                     </descendants>
+        </node>
+
+        <node id="sky">            
+                   
+                    <material id="null" />
+
+                    <texture id="skyTexture">
+                        <amplification afs="2.0" aft="2.0" />
+                    </texture>
+
+                    <transformations>
+                        <translation x="2" y="20.0" z="2.0" />
+                    </transformations>
+
+                    <descendants>
+                        <leaf type="rectangle" x1="-10" y1="-10" x2="10" y2="10" />
+                    </descendants>
         </node>
 
         <node id="ball">            <!-- defines one intermediate node; may be repeated as necessary -->
@@ -227,11 +264,11 @@
                     </texture>
 
                     <transformations>
-                        <translation x="2" y="0.0" z="2.0" />
+                        
                     </transformations>
 
                     <descendants>
-                        <leaf type="rectangle" x1="-0.5" y1="-0.5" x2="0.5" y2="0.5" />
+                        <leaf type="rectangle" x1="0" y1="0" x2="1.0" y2="1.0" />
                     </descendants>
         </node>
 
@@ -244,11 +281,11 @@
                     </texture>
 
                     <transformations>
-                        <translation x="2" y="0.0" z="2.0" />
+                        <translation x="0.0" y="0.0" z="2.0" />
                     </transformations>
 
                     <descendants>
-                        <leaf type="rectangle" x1="-0.5" y1="-0.5" x2="0.5" y2="0.5" />
+                        <leaf type="rectangle" x1="0" y1="0" x2="1.0" y2="1.0" />
                     </descendants>
         </node>
 
@@ -261,11 +298,12 @@
                     </texture>
 
                     <transformations>
-                        <translation x="2" y="0.0" z="2.0" />
+                        <translation x="0.0" y="0.0" z="2.0" />
+                        <rotation axis="yy" angle="90" />
                     </transformations>
 
                     <descendants>
-                        <leaf type="rectangle" x1="-1" y1="-1" x2="1" y2="1" />
+                        <leaf type="rectangle" x1="0" y1="0" x2="2.0" y2="2.0" />
                     </descendants>
         </node>
 
@@ -278,11 +316,12 @@
                     </texture>
 
                     <transformations>
-                        <translation x="2" y="0.0" z="2.0" />
+                        <translation x="2.0" y="0.0" z="2.0" />
+                        <rotation axis="yy" angle="90" />
                     </transformations>
 
                     <descendants>
-                        <leaf type="rectangle" x1="-1" y1="-1" x2="1" y2="1" />
+                        <leaf type="rectangle" x1="0" y1="0" x2="2.0" y2="2.0" />
                     </descendants>
         </node>
 
@@ -295,11 +334,13 @@
                     </texture>
 
                     <transformations>
-                        <translation x="2" y="0.0" z="2.0" />
+                        <translation x="0.0" y="0.0" z="2.0" />
+                        <rotation axis="zz" angle="-90" />
+                        <rotation axis="yy" angle="90" />
                     </transformations>
 
                     <descendants>
-                        <leaf type="rectangle" x1="-0.5" y1="-1" x2="0.5" y2="1" />
+                        <leaf type="rectangle" x1="0" y1="0" x2="2.0" y2="2.0" />
                     </descendants>
         </node>
 
@@ -312,11 +353,12 @@
                     </texture>
 
                     <transformations>
-                        <translation x="2" y="0.0" z="2.0" />
+                        <translation x="0.0" y="1.0" z="0.0" />
+                        <rotation axis="xx" angle="90" />
                     </transformations>
 
                     <descendants>
-                        <leaf type="rectangle" x1="-0.5" y1="-0.5" x2="0.5" y2="0.5" />
+                         <leaf type="rectangle" x1="0" y1="0" x2="1.0" y2="1.0" />
                     </descendants>
         </node>
 
@@ -329,11 +371,12 @@
                     </texture>
 
                     <transformations>
-                        <translation x="2" y="0.0" z="2.0" />
+                        <translation x="0.0" y="1.0" z="1.0" />
+                        <rotation axis="xx" angle="80" />
                     </transformations>
 
                     <descendants>
-                        <leaf type="rectangle" x1="-0.5" y1="-0.5" x2="0.5" y2="0.5" />
+                         <leaf type="rectangle" x1="0" y1="0" x2="1.0" y2="1.0" />
                     </descendants>
         </node>
 
@@ -346,7 +389,8 @@
                     </texture>
 
                     <transformations>
-                        <translation x="2" y="0.0" z="2.0" />
+                        <translation x="0.0" y="1.0" z="1.0" />
+                        <rotation axis="yy" angle="90" />
                     </transformations>
 
                     <descendants>
@@ -363,7 +407,7 @@
                     </texture>
 
                     <transformations>
-                        <translation x="2" y="0.0" z="2.0" />
+                       
                     </transformations>
 
                     <descendants>
@@ -384,11 +428,11 @@
                     </texture>
 
                     <transformations>
-                        <translation x="2" y="0.0" z="2.0" />
+                        
                     </transformations>
 
                     <descendants>
-                         <leaf type="triangle" x1="0.0" y1="0.0" x2="0.0" y2="1.0" x3="2.0" y3="0.0" />
+                         <leaf type="triangle" x1="0.0" y1="0.0" x2="0.0" y2="0.3" x3="0.5" y3="0.0" />
                     </descendants>
         </node>
         
@@ -401,11 +445,11 @@
                     </texture>
 
                     <transformations>
-                        <translation x="2" y="0.0" z="2.0" />
+                        <translation x="0.0" y="0.0" z="0.5" />
                     </transformations>
 
                     <descendants>
-                         <leaf type="triangle" x1="0.0" y1="0.0" x2="0.0" y2="1.0" x3="2.0" y3="0.0" />
+                         <leaf type="triangle" x1="0.0" y1="0.0" x2="0.0" y2="0.3" x3="0.5" y3="0.0" />
                     </descendants>
         </node>
 
@@ -418,11 +462,11 @@
                     </texture>
 
                     <transformations>
-                        <translation x="2" y="0.0" z="2.0" />
+                        <rotation axis="yy" angle="90" />
                     </transformations>
 
                     <descendants>
-                         <leaf type="rectangle" x1="-0.5" y1="-0.5" x2="0.5" y2="0.5" />
+                         <leaf type="rectangle" x1="0" y1="0" x2="0.5" y2="0.3" />
                     </descendants>
         </node>
 
@@ -435,11 +479,11 @@
                     </texture>
 
                     <transformations>
-                        <translation x="2" y="0.0" z="2.0" />
+                        <rotation axis="xx" angle="90" />
                     </transformations>
 
                     <descendants>
-                         <leaf type="rectangle" x1="-0.5" y1="-0.5" x2="0.5" y2="0.5" />
+                        <leaf type="rectangle" x1="0" y1="0" x2="0.5" y2="0.5" />
                     </descendants>
         </node>
 
@@ -452,11 +496,14 @@
                     </texture>
 
                     <transformations>
-                        <translation x="2" y="0.0" z="2.0" />
+                        <translation x="0.5" y="0.0" z="0.0" />
+                        <rotation axis="zz" angle="-20" />
+                        <translation x="-0.5" y="0.0" z="0.0" />
+                        <rotation axis="xx" angle="90" />
                     </transformations>
 
                     <descendants>
-                         <leaf type="rectangle" x1="-0.5" y1="-0.5" x2="0.5" y2="0.5" />
+                        <leaf type="rectangle" x1="0" y1="0" x2="0.5" y2="0.5" />
                     </descendants>
         </node>
 
@@ -469,7 +516,7 @@
                     </texture>
 
                     <transformations>
-                        <translation x="2" y="0.0" z="2.0" />
+
                     </transformations>
 
                     <descendants>
@@ -491,11 +538,11 @@
                     </texture>
 
                     <transformations>
-                        <translation x="2" y="0.0" z="2.0" />
+                        <translation x="0.0" y="0.0" z="1.5" />
                     </transformations>
 
                     <descendants>
-                        <leaf type="rectangle" x1="-0.5" y1="-0.5" x2="0.5" y2="0.5" />
+                        <leaf type="rectangle" x1="0" y1="0" x2="1" y2="0.5" />
                     </descendants>
         </node>
 
@@ -508,11 +555,11 @@
                     </texture>
 
                     <transformations>
-                        <translation x="2" y="0.0" z="2.0" />
+                        
                     </transformations>
 
                     <descendants>
-                        <leaf type="rectangle" x1="-0.5" y1="-0.5" x2="0.5" y2="0.5" />
+                        <leaf type="rectangle" x1="0" y1="0" x2="1" y2="0.5" />
                     </descendants>
         </node>
 
@@ -525,11 +572,11 @@
                     </texture>
 
                     <transformations>
-                        <translation x="2" y="0.0" z="2.0" />
+                        <rotation axis="yy" angle="90" />
                     </transformations>
 
                     <descendants>
-                        <leaf type="rectangle" x1="-1" y1="-1" x2="1" y2="1" />
+                        <leaf type="rectangle" x1="0" y1="0" x2="1.5" y2="0.5" />
                     </descendants>
         </node>
 
@@ -542,11 +589,12 @@
                     </texture>
 
                     <transformations>
-                        <translation x="2" y="0.0" z="2.0" />
+                        <translation x="1.0" y="0.0" z="0.0" />
+                        <rotation axis="yy" angle="90" />
                     </transformations>
 
                     <descendants>
-                        <leaf type="rectangle" x1="-1" y1="-1" x2="1" y2="1" />
+                        <leaf type="rectangle" x1="0" y1="0" x2="1.5" y2="0.5" />
                     </descendants>
         </node>
 
@@ -559,11 +607,11 @@
                     </texture>
 
                     <transformations>
-                        <translation x="2" y="0.0" z="2.0" />
+                        <rotation axis="xx" angle="90" />
                     </transformations>
 
                     <descendants>
-                        <leaf type="rectangle" x1="-0.5" y1="-1" x2="0.5" y2="1" />
+                        <leaf type="rectangle" x1="0" y1="0" x2="1" y2="1.5" />
                     </descendants>
         </node>
 
@@ -576,11 +624,12 @@
                     </texture>
 
                     <transformations>
-                        <translation x="2" y="0.0" z="2.0" />
+                        <translation x="0.0" y="0.3" z="0.0" />
+                        <rotation axis="xx" angle="90" />
                     </transformations>
 
                     <descendants>
-                        <leaf type="rectangle" x1="-0.5" y1="-0.5" x2="0.5" y2="0.5" />
+                        <leaf type="rectangle" x1="0" y1="0" x2="1" y2="1.5" />
                     </descendants>
         </node>
 
