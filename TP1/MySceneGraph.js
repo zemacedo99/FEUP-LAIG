@@ -496,13 +496,135 @@ class MySceneGraph {
             var descendantsIndex = nodeNames.indexOf("descendants");
 
             this.onXMLMinorError("To do: Parse nodes.");
+
+
             // Transformations
+            
+            if(transformationsIndex != -1) 
+            {
+                grandgrandChildren = grandChildren[transformationsIndex].children;
+
+                let matrix = mat4.create();
+
+                for(var t = 0; t < grandgrandChildren.length ; t++)
+                {
+                    switch(grandgrandChildren[t])
+                    {
+                        case "translation":
+                            matrix = mat4.create(matrix,matrix, this.parseCoordinates3D(grandgrandChildren[t],nodeID));
+                            break;
+
+                        case "scale":
+                            matrix = mat4.scale(matrix,matrix,  this.parseCoordinates3D(grandgrandChildren[t],nodeID));
+                            break;
+                        
+
+                        case "rotation":
+                            var axis = this.reader.getString(grandgrandChildren[t], 'axis');
+                            var rad = this.reader.getString(grandgrandChildren[t], 'angle') * Math.PI / 180;
+                            matrix = mat4.rotate(matrix, matrix, rad, axis);
+                            break;
+                            
+                        default:
+                            this.onXMLMinorError("Warning, something wrong w/ transformations");
+                    }
+                }
+            }
+            else
+            {
+                this.onXMLMinorError("No transformations");
+            }
 
             // Material
 
             // Texture
 
             // Descendants
+
+            if(descendantsIndex != -1) 
+            {
+                grandgrandChildren = grandChildren[transformationsIndex].children;
+                let descendants = [];
+
+                for(var d = 0; d < grandgrandChildren.length ; d++)
+                {
+                    switch(grandgrandChildren[d].nodeName)
+                    {
+                        case "noderef":
+                            
+                            // Get id of the current descendent.
+                            var descendant_nodeID = this.reader.getString(grandgrandChildren[d], 'id');
+                            if (descendant_nodeID == null)
+                            this.onXMLMinorError("no descendant id");
+
+
+                            descendants.push(descendant_nodeID) 
+                            break;
+                            
+
+                        case "leaf":
+                        
+                            var primitiveType = this.reader.getString(grandgrandChildren[t], 'type');
+                                
+                            switch(primitiveType)
+                            {
+                                case "rectangle":
+                                    var x1 = this.reader.getFloat(grandgrandChildren[t], 'x1');
+                                    var y1 = this.reader.getFloat(grandgrandChildren[t], 'y1');
+                                    var x2 = this.reader.getFloat(grandgrandChildren[t], 'x2');
+                                    var y1 = this.reader.getFloat(grandgrandChildren[t], 'y2');
+
+                                    let primitive = new MyRectangle(this.scene, x1, y1, x2, y2);
+                                    break;
+                                
+                                case "triangle":
+
+                                    let primitive = new MyTriangle(this.scene,x1,y1,x2,y2,x3,y3);
+                                    break;
+
+                                case "torus":
+                                    let primitive = new MyTorus(this.scene,inner, outer, slices, loops);
+                                    break;
+                                    
+                                case "sphere":
+                                    let primitive = new MySphere(this.scene,radius,slices,stacks);
+                                    break;
+
+                                case "cylinder":
+                                    let primitive = new MyCylinder(this.scene,height,topRadius,bottomRadius,stacks,slices);
+                                    break;
+                                
+                                default:
+                                    this.onXMLMinorError("Warning, invalid primitive");
+                                    
+                            }
+
+                            descendants.push(primitive);
+                            break;
+                    
+                        default:
+                            this.onXMLMinorError("Warning, something wrong w/ descendants");
+                            
+                    }
+                }
+            }
+            else
+            {
+                this.onXMLMinorError("No descendants");
+            }
+            /*
+            loop descendants{
+                switch(descendantsIndex,tag)
+                //noderef
+                descendants.push(noderef.id);
+
+                //primitive
+                let prim = new Primitive()
+                descendants.push(prim)
+            }
+            */
+
+            //this.nodes[nodeID] = new MyNode(nodeID,matrix,descendants,...)
         }
     }
 
@@ -609,5 +731,43 @@ class MySceneGraph {
         //To do: Create display loop for transversing the scene graph, calling the root node's display function
         
         //this.nodes[this.idRoot].display()
+
+        this.processNode(this.idRoot,null,null)
+    }
+
+    processNode(id, matParent, texParent, matrixParent)
+    {
+        // Apply materials and textures
+
+        /*
+        this.scene.pushMatrix()
+
+        this.scene.multMatrix()
+
+        loop descendants{
+
+            // if leaf/primitive
+            descendants.display();
+            // if noderef
+            this.processNode(descendant.id, ...);
+        }
+
+        this.scene.popMatrix()
+        */
+        
     }
 }
+
+
+
+/*
+TO DO until next week:
+
+acabar parce node, menos as texturas e materiais
+fazer todas as primitivas
+fazer MyNode
+fazer process node
+corrigir xml -> as transformações , xx yy zz é na verdade so x y z 
+
+
+*/
