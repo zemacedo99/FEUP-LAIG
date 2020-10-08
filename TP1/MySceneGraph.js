@@ -92,6 +92,35 @@ class MySceneGraph {
         console.log("   " + message);
     }
 
+    missingAttributeMessage(node_name, attr = "some") {
+       return (node_name + " - " + attr +" attribute is not defined") ;
+    }
+
+    missingNodeMessage(node_name) {
+        return (node_name + " node is not defined") ;
+    }
+
+    getStringAttr(node, attr){
+        if(!this.reader.hasAttribute(node, attr)) {
+            this.onXMLMinorError(this.missingAttributeMessage(node.nodeName, attr));
+        }
+        return this.reader.getString(node, attr);
+    }
+
+    getFloatAttr(node, attr){
+        if(!this.reader.hasAttribute(node, attr)) {
+            this.onXMLMinorError( this.missingAttributeMessage(node.nodeName, attr));
+        }
+        return this.reader.getFloat(node, attr);
+    }
+
+    getCoords(node) {
+        let x = this.getFloatAttr(node, "x");
+        let y = this.getFloatAttr(node, "y");
+        let z = this.getFloatAttr(node, "z");
+        return [x, y, z];
+    }
+
     /**
      * Parses the XML file, processing each block.
      * @param {XML root element} rootElement
@@ -245,7 +274,7 @@ class MySceneGraph {
      * @param {view block element} viewsNode
      */
     parseViews(viewsNode) {
-        var defaultView = this.reader.getString(viewsNode, 'default')
+        var defaultView = this.getStringAttr(viewsNode, 'default')
         if (defaultView == null)
             return "Erro on parse view element: no default defined.";
 
@@ -258,35 +287,95 @@ class MySceneGraph {
         var perspectiveIndex = nodeNames.indexOf("perspective");
         var orthoIndex = nodeNames.indexOf("ortho");
 
-        if(perspectiveIndex == -1)
+        if(perspectiveIndex === -1)
             return "No perspective defined for scene.";
-        if(orthoIndex == -1)
+        if(orthoIndex === -1)
             return "No ortho defined for scene.";
 
         var perspectiveNode = children[perspectiveIndex];
-        var perspectiveData = [0];
-        perspectiveData['id'] = this.reader.getString(perspectiveNode, 'id');
-        perspectiveData['near'] = this.reader.getString(perspectiveNode, 'near');
-        perspectiveData['far'] = this.reader.getString(perspectiveNode, 'far');
-        perspectiveData['angle'] = this.reader.getString(perspectiveNode, 'angle');
-        if (perspectiveData == null)
-            return "Erro on parse perspective element.";
+        this.parsePerspectiveView(perspectiveNode);
 
         var orthoNode = children[orthoIndex];
-        var orthoData = [0];
-        orthoData['id'] = this.reader.getString(orthoNode, 'id');
-        orthoData['near'] = this.reader.getString(orthoNode, 'near');
-        orthoData['far'] = this.reader.getString(orthoNode, 'far');
-        orthoData['left'] = this.reader.getString(orthoNode, 'left');
-        orthoData['right'] = this.reader.getString(orthoNode, 'right');
-        orthoData['top'] = this.reader.getString(orthoNode, 'top');
-        orthoData['bottom'] = this.reader.getString(orthoNode, 'bottom');
-        if (orthoData == null)
-            return "Erro on parse ortho element.";
+        this.parseOrthoView(orthoNode);
 
-
-        this.onXMLMinorError("In progress: Parse views and create cameras.");
+        this.onXMLMinorError("In progress: Parse views and create views.");
         return null;
+    }
+
+    parsePerspectiveView(perspectiveNode){
+        var perspectiveData = [0];
+        perspectiveData['type'] = "perspective";
+        perspectiveData['id'] = this.getStringAttr(perspectiveNode, 'id');
+        perspectiveData['near'] = this.getFloatAttr(perspectiveNode, 'near');
+        perspectiveData['far'] = this.getFloatAttr(perspectiveNode, 'far');
+        perspectiveData['angle'] = this.getFloatAttr(perspectiveNode, 'angle');
+
+        let viewCoords = perspectiveNode.children;
+
+        if (viewCoords.length !== 2) {
+            this.onXMLMinorError( "Perspective View (id = " + perspectiveNode['id'] + ") invalid number of view coordinates");
+        } else if (viewCoords[0].nodeName !== "from") {
+            this.onXMLMinorError( this.missingNodeMessage(perspectiveNode.nodeName, "from"));
+        } else if (viewCoords[1].nodeName !== "to") {
+            this.onXMLMinorError( this.missingNodeMessage(perspectiveNode.nodeName, "to"));
+        }
+
+        perspectiveData['from'] = this.getCoords(viewCoords[0]);
+        perspectiveData['to'] = this.getCoords(viewCoords[1]);
+
+        if (perspectiveData['from'].x === perspectiveData['to'].x && perspectiveData['from'].y === perspectiveData['to'].y && perspectiveData['from'].z === perspectiveData['to'].z) {
+            this.onXMLMinorError( "Perspective View (id = " + perspectiveData['id'] + ") 'from' and 'to' attributes cannot be the same.");
+        }
+        if(perspectiveData['near'] >= perspectiveData['far']){
+            this.onXMLMinorError( "Perspective View (id = " + perspectiveData['id'] + ") has near attr higher than far");
+        }
+        if (perspectiveData['angle'] <= 0) {
+            this.onXMLMinorError('Perspective View (id = ' + perspectiveData['id'] + '): view angle should be bigger than 0, setting angle to 0.1');
+            perspectiveData['angle'] = 0.1;
+        } else if (perspectiveData['angle'] > 180) {
+            this.onXMLMinorError('Perspective View (id = ' + perspectiveData['id'] + '): view angle should be smaller or equal to 180, setting angle to 180');
+            perspectiveData['angle'] = 180;
+        }
+    }
+
+    parseOrthoView(orthoNode){
+        var orthoData = [0];
+        orthoData['type'] = "ortho";
+        orthoData['id'] = this.getStringAttr(orthoNode, 'id');
+        orthoData['near'] = this.getFloatAttr(orthoNode, 'near');
+        orthoData['far'] = this.getFloatAttr(orthoNode, 'far');
+        orthoData['left'] = this.getFloatAttr(orthoNode, 'left');
+        orthoData['right'] = this.getFloatAttr(orthoNode, 'right');
+        orthoData['top'] = this.getFloatAttr(orthoNode, 'top');
+        orthoData['bottom'] = this.getFloatAttr(orthoNode, 'bottom');
+
+        let viewCoords = orthoNode.children;
+
+        if (viewCoords.length !== 2 && viewCoords.length !== 3) {
+            this.onXMLMinorError( "Ortho View (id = " + orthoData['id'] + ") invalid number of view coordinates");
+        } else if (viewCoords[0].nodeName !== "from") {
+            this.onXMLMinorError( this.missingNodeMessage(orthoNode.nodeName, "from"));
+        } else if (viewCoords[1].nodeName !== "to") {
+            this.onXMLMinorError( this.missingNodeMessage(orthoNode.nodeName, "to"));
+        }
+
+        orthoData['from'] = this.getCoords(viewCoords[0]);
+        orthoData['to'] = this.getCoords(viewCoords[1]);
+        orthoData['up'] = this.getCoords(viewCoords[2]);
+
+        if (orthoData['from'].x === orthoData['to'].x && orthoData['from'].y === orthoData['to'].y && orthoData['from'].z === orthoData['to'].z) {
+            this.onXMLMinorError( "Ortho View (id = " + orthoData['id'] + ") 'from' and 'to' attributes cannot be the same.");
+        }
+        if(orthoData['near'] >= orthoData['far']){
+            this.onXMLMinorError( "Ortho View (id = " + orthoData['id'] + ") has near attr higher than far");
+        }
+        if(orthoData['left'] >= orthoData['right']){
+            this.onXMLMinorError( "Ortho View (id = " + orthoData['id'] + ") has left attr higher than right");
+        }
+        if(orthoData['bottom'] >= orthoData['top']){
+            this.onXMLMinorError( "Ortho View (id = " + orthoData['id'] + ") has bottom attr higher than top");
+        }
+
     }
 
     /**
@@ -357,7 +446,7 @@ class MySceneGraph {
             }
 
             // Get id of the current light.
-            var lightId = this.reader.getString(children[i], 'id');
+            var lightId = this.getStringAttr(children[i], 'id');
             if (lightId == null)
                 return "no ID defined for light";
 
@@ -437,7 +526,7 @@ class MySceneGraph {
             }
 
             // Get id of the current material.
-            var materialID = this.reader.getString(children[i], 'id');
+            var materialID = this.getStringAttr(children[i], 'id');
             if (materialID == null)
                 return "no ID defined for material";
 
@@ -475,7 +564,7 @@ class MySceneGraph {
             }
 
             // Get id of the current node.
-            var nodeID = this.reader.getString(children[i], 'id');
+            var nodeID = this.getStringAttr(children[i], 'id');
             if (nodeID == null)
                 return "no ID defined for nodeID";
 
@@ -565,7 +654,7 @@ class MySceneGraph {
                         case "leaf":
                         
                             var primitiveType = this.reader.getString(grandgrandChildren[t], 'type');
-                                
+                            let primitive;
                             switch(primitiveType)
                             {
                                 case "rectangle":
@@ -574,24 +663,24 @@ class MySceneGraph {
                                     var x2 = this.reader.getFloat(grandgrandChildren[t], 'x2');
                                     var y1 = this.reader.getFloat(grandgrandChildren[t], 'y2');
 
-                                    let primitive = new MyRectangle(this.scene, x1, y1, x2, y2);
+                                    primitive = new MyRectangle(this.scene, x1, y1, x2, y2);
                                     break;
                                 
                                 case "triangle":
 
-                                    let primitive = new MyTriangle(this.scene,x1,y1,x2,y2,x3,y3);
+                                    primitive = new MyTriangle(this.scene,x1,y1,x2,y2,x3,y3);
                                     break;
 
                                 case "torus":
-                                    let primitive = new MyTorus(this.scene,inner, outer, slices, loops);
+                                    primitive = new MyTorus(this.scene,inner, outer, slices, loops);
                                     break;
                                     
                                 case "sphere":
-                                    let primitive = new MySphere(this.scene,radius,slices,stacks);
+                                    primitive = new MySphere(this.scene,radius,slices,stacks);
                                     break;
 
                                 case "cylinder":
-                                    let primitive = new MyCylinder(this.scene,height,topRadius,bottomRadius,stacks,slices);
+                                    primitive = new MyCylinder(this.scene,height,topRadius,bottomRadius,stacks,slices);
                                     break;
                                 
                                 default:
