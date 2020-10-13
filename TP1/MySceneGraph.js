@@ -564,10 +564,58 @@ class MySceneGraph {
                 return "ID must be unique for each material (conflict: ID = " + materialID + ")";
 
             //Continue here
-            this.onXMLMinorError("To do: Parse materials.");
+
+            grandChildren = children[i].children;
+
+            for(var d = 0; d < grandChildren.length ; d++)
+                {
+                    switch(grandChildren[d].nodeName)
+                    {
+                        case "shininess":
+
+                            var shininess = this.reader.getFloat(grandChildren[d], 'value');
+                            //nodeNames.push(grandChildren[d].nodeName);
+                            break;
+                            
+
+                        case "ambient":
+                            var ambient = this.parseColor(grandChildren[d], "ambient");
+                            //nodeNames.push(grandChildren[d].nodeName);
+                            break;
+
+                        case "diffuse":
+                            var diffuse = this.parseColor(grandChildren[d],"diffuse");
+                            //nodeNames.push(grandChildren[d].nodeName);
+                            break;
+
+                        case "specular":
+                            var specular = this.parseColor(grandChildren[d],"specular");
+                            //nodeNames.push(grandChildren[d].nodeName);
+                            break;
+
+                        case "emissive":
+                            var emissive = this.parseColor(grandChildren[d],"emissive");
+                            //nodeNames.push(grandChildren[d].nodeName);
+                            break;
+                    
+                        default:
+                            this.onXMLMinorError("Warning, something wrong w/ materials");
+                            
+                    }
+                }
+                
+            var material = new CGFappearance(this.scene);
+            material.setAmbient(ambient);
+            material.setDiffuse(diffuse);
+            material.setEmission(emissive);
+            material.setSpecular(specular);
+            material.setShininess(shininess);
+
+
+            this.materials[materialID] = material; 
         }
 
-        //this.log("Parsed materials");
+        this.log("Parsed materials");
         return null;
     }
 
@@ -661,7 +709,7 @@ class MySceneGraph {
 
             if(descendantsIndex != -1) 
             {
-                grandgrandChildren = grandChildren[transformationsIndex].children;
+                grandgrandChildren = grandChildren[descendantsIndex].children;
                 let descendants = [];
 
                 for(var d = 0; d < grandgrandChildren.length ; d++)
@@ -690,7 +738,7 @@ class MySceneGraph {
                                     var x1 = this.reader.getFloat(grandgrandChildren[t], 'x1');
                                     var y1 = this.reader.getFloat(grandgrandChildren[t], 'y1');
                                     var x2 = this.reader.getFloat(grandgrandChildren[t], 'x2');
-                                    var y1 = this.reader.getFloat(grandgrandChildren[t], 'y2');
+                                    var y2 = this.reader.getFloat(grandgrandChildren[t], 'y2');
 
                                     primitive = new MyRectangle(this.scene, x1, y1, x2, y2);
                                     break;
@@ -699,7 +747,7 @@ class MySceneGraph {
                                     var x1 = this.reader.getFloat(grandgrandChildren[t], 'x1');
                                     var y1 = this.reader.getFloat(grandgrandChildren[t], 'y1');
                                     var x2 = this.reader.getFloat(grandgrandChildren[t], 'x2');
-                                    var y1 = this.reader.getFloat(grandgrandChildren[t], 'y2');
+                                    var y2 = this.reader.getFloat(grandgrandChildren[t], 'y2');
                                     var x3 = this.reader.getFloat(grandgrandChildren[t], 'x3');
                                     var y3 = this.reader.getFloat(grandgrandChildren[t], 'y3');
 

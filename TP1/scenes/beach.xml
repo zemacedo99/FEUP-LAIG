@@ -56,7 +56,7 @@
         <!-- NOTE: the "MATERIAL" block may be repeated as required. Each defined material
          requires a distinct "id". At least one material should be present. -->
         <material id="demoMaterial">
-            <shininess value="ff" />
+            <shininess value="0.0" />
             <ambient r="1.0" g="0.0" b="0.0" a="1.0" />
             <diffuse r="0.6" g="0.0" b="0.0" a="1.0" />
             <specular r="0.6" g="0.0" b="0.0" a="1.0" />
@@ -64,7 +64,7 @@
         </material>
 
         <material id="redMaterial">
-            <shininess value="ff" />
+            <shininess value="0.0" />
             <ambient r="1.0" g="0.0" b="0.0" a="1.0" />
             <diffuse r="1.0" g="0.0" b="0.0" a="1.0" />
             <specular r="1.0" g="0.0" b="0.0" a="1.0" />
@@ -72,7 +72,7 @@
         </material>
 
         <material id="greenMaterial">
-            <shininess value="ff" />
+            <shininess value="0.0" />
             <ambient r="0.0" g="1.0" b="0.0" a="1.0" />
             <diffuse r="0.0" g="1.0" b="0.0" a="1.0" />
             <specular r="0.0" g="1.0" b="0.0" a="1.0" />
@@ -80,7 +80,7 @@
         </material>
 
         <material id="blueMaterial">
-            <shininess value="ff" />
+            <shininess value="0.0" />
             <ambient r="0.0" g="0.0" b="1.0" a="1.0" />
             <diffuse r="0.0" g="0.0" b="1.0" a="1.0" />
             <specular r="0.0" g="0.0" b="1.0" a="1.0" />
@@ -88,7 +88,7 @@
         </material>
 
         <material id="blackMaterial">
-            <shininess value="ff" />
+            <shininess value="0.0" />
             <ambient r="0.0" g="0.0" b="0.0" a="1.0" />
             <diffuse r="0.0" g="0.0" b="0.0" a="1.0" />
             <specular r="0.0" g="0.0" b="0.0" a="1.0" />
@@ -96,7 +96,7 @@
         </material>
 
         <material id="whiteMaterial">
-            <shininess value="ff" />
+            <shininess value="0.0" />
             <ambient r="1.0" g="1.0" b="1.0" a="1.0" />
             <diffuse r="1.0" g="1.0" b="1.0" a="1.0" />
             <specular r="1.0" g="1.0" b="1.0" a="1.0" />
