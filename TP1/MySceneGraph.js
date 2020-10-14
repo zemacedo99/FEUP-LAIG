@@ -522,7 +522,36 @@ class MySceneGraph {
     parseTextures(texturesNode) {
 
         //For each texture in textures block, check ID and file URL
-        this.onXMLMinorError("To do: Parse textures.");
+        var children = texturesNode.children;
+
+        this.textures = [];
+
+        // Any number of textures.
+        for (var i = 0; i < children.length; i++) {
+
+            if (children[i].nodeName != "texture") {
+                this.onXMLMinorError("unknown tag <" + children[i].nodeName + ">");
+                continue;
+            }
+
+            // Get id of the current texture
+            var textureID = this.getStringAttr(children[i], 'id');
+            if (textureID == null)
+                return "no ID defined for texture";
+
+            // Checks for repeated IDs.
+            if (this.textures[textureID] != null)
+                return "ID must be unique for each texture (conflict: ID = " + textureID + ")";
+
+            var textureURL = this.reader.getString(children[i],'path');
+            if(textureURL == null)
+                return "No path for texture with ID = " + textureID + ")";
+
+            var texture = new CGFtexture(this.scene, textureURL);
+            this.textures[textureID] = texture;
+        }
+
+        this.log("Parsed materials");
         return null;
     }
 
@@ -553,13 +582,61 @@ class MySceneGraph {
 
             // Checks for repeated IDs.
             if (this.materials[materialID] != null)
-                return "ID must be unique for each light (conflict: ID = " + materialID + ")";
+                return "ID must be unique for each material (conflict: ID = " + materialID + ")";
 
             //Continue here
-            this.onXMLMinorError("To do: Parse materials.");
+
+            grandChildren = children[i].children;
+
+            for(var d = 0; d < grandChildren.length ; d++)
+                {
+                    switch(grandChildren[d].nodeName)
+                    {
+                        case "shininess":
+
+                            var shininess = this.reader.getFloat(grandChildren[d], 'value');
+                            //nodeNames.push(grandChildren[d].nodeName);
+                            break;
+                            
+
+                        case "ambient":
+                            var ambient = this.parseColor(grandChildren[d], "ambient");
+                            //nodeNames.push(grandChildren[d].nodeName);
+                            break;
+
+                        case "diffuse":
+                            var diffuse = this.parseColor(grandChildren[d],"diffuse");
+                            //nodeNames.push(grandChildren[d].nodeName);
+                            break;
+
+                        case "specular":
+                            var specular = this.parseColor(grandChildren[d],"specular");
+                            //nodeNames.push(grandChildren[d].nodeName);
+                            break;
+
+                        case "emissive":
+                            var emissive = this.parseColor(grandChildren[d],"emissive");
+                            //nodeNames.push(grandChildren[d].nodeName);
+                            break;
+                    
+                        default:
+                            this.onXMLMinorError("Warning, something wrong w/ materials");
+                            
+                    }
+                }
+                
+            var material = new CGFappearance(this.scene);
+            material.setAmbient(ambient);
+            material.setDiffuse(diffuse);
+            material.setEmission(emissive);
+            material.setSpecular(specular);
+            material.setShininess(shininess);
+
+
+            this.materials[materialID] = material; 
         }
 
-        //this.log("Parsed materials");
+        this.log("Parsed materials");
         return null;
     }
 
@@ -646,8 +723,10 @@ class MySceneGraph {
 
             // Descendants
 
-            if (descendantsIndex != -1) {
-                grandgrandChildren = grandChildren[transformationsIndex].children;
+
+            if(descendantsIndex != -1)
+            {
+                grandgrandChildren = grandChildren[descendantsIndex].children;
                 let descendants = [];
 
                 for (var d = 0; d < grandgrandChildren.length; d++) {
@@ -673,7 +752,7 @@ class MySceneGraph {
                                     var x1 = this.reader.getFloat(grandgrandChildren[t], 'x1');
                                     var y1 = this.reader.getFloat(grandgrandChildren[t], 'y1');
                                     var x2 = this.reader.getFloat(grandgrandChildren[t], 'x2');
-                                    var y1 = this.reader.getFloat(grandgrandChildren[t], 'y2');
+                                    var y2 = this.reader.getFloat(grandgrandChildren[t], 'y2');
 
                                     primitive = new MyRectangle(this.scene, x1, y1, x2, y2);
                                     break;
@@ -682,7 +761,7 @@ class MySceneGraph {
                                     var x1 = this.reader.getFloat(grandgrandChildren[t], 'x1');
                                     var y1 = this.reader.getFloat(grandgrandChildren[t], 'y1');
                                     var x2 = this.reader.getFloat(grandgrandChildren[t], 'x2');
-                                    var y1 = this.reader.getFloat(grandgrandChildren[t], 'y2');
+                                    var y2 = this.reader.getFloat(grandgrandChildren[t], 'y2');
                                     var x3 = this.reader.getFloat(grandgrandChildren[t], 'x3');
                                     var y3 = this.reader.getFloat(grandgrandChildren[t], 'y3');
 

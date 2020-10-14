@@ -95,7 +95,7 @@ class MySphere extends CGFobject {
   /*
   TO DO:
   Alteral radius = 1 para o valor que recebe 
-  */
+
   display()
   {
     this.scene.pushMatrix();
@@ -103,4 +103,5 @@ class MySphere extends CGFobject {
     this.display();
     this.scene.popMatrix();
   }
+  */
   
