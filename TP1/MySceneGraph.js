@@ -682,7 +682,7 @@ class MySceneGraph {
             var textureIndex = nodeNames.indexOf("texture");
             var descendantsIndex = nodeNames.indexOf("descendants");
 
-            this.onXMLMinorError("To do: Parse nodes.");
+            this.onXMLMinorError("To do: Parse nodes- Texture and Materials");
 
 
             // Transformations
@@ -693,7 +693,7 @@ class MySceneGraph {
                 let matrix = mat4.create();
 
                 for (var t = 0; t < grandgrandChildren.length; t++) {
-                    switch (grandgrandChildren[t]) {
+                    switch (grandgrandChildren[t].nodeName) {
                         case "translation":
                             matrix = mat4.create(matrix, matrix, this.parseCoordinates3D(grandgrandChildren[t], nodeID));
                             break;
@@ -710,7 +710,7 @@ class MySceneGraph {
                             break;
 
                         default:
-                            this.onXMLMinorError("Warning, something wrong w/ transformations");
+                            this.onXMLMinorError("transformations not recognized " + grandgrandChildren[t].nodeName);
                     }
                 }
             } else {

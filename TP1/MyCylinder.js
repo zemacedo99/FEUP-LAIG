@@ -10,88 +10,48 @@ class MyCylinder extends CGFobject {
         this.bottomRadius = bottomRadius;
         this.stacks = stacks;
         this.slices = slices;
+
+        this.base = new MyCircle(scene, slices);
         this.initBuffers();
     }
+
+
     initBuffers() {
-        this.vertices = [];
-        this.indices = [];
-        this.normals = [];
-        this.texCoords = [];
+		this.vertices = [];
+		this.indices = [];
+		this.normals = [];
+		this.texCoords = [];
 
-        var ang = 0;
-        var alphaAng = 2*Math.PI/this.slices;
+		let div = 2*Math.PI/this.slices;
+		let div_radius = (this.topRadius - this.bottomRadius)/this.stacks;
+		let div_stack = this.height/this.stacks;
 
-      
+		// Cylinder
+		for(let i = 0; i <= this.slices; ++i) {
 
-        for(var i = 0; i <= this.slices; i++){
-            // All vertices have to be declared for a given face
-            // even if they are shared with others, as the normals 
-            // in each face will be different
+			for(let j = 0; j <= this.stacks; ++j) {
 
-            var sa=Math.sin(ang);
-            var saa=Math.sin(ang+alphaAng);
-            var ca=Math.cos(ang);
-            var caa=Math.cos(ang+alphaAng);
+				this.vertices.push((this.bottomRadius + div_radius*j) * Math.cos(div*i), (this.bottomRadius + div_radius*j) * Math.sin(div*i),j*div_stack);
 
-            
-            
-            this.vertices.push(ca, 0, -sa);
-            this.texCoords.push(i/this.slices,1); //baixo esquerdo
-            
-            this.vertices.push(caa, 0, -saa);
-            this.texCoords.push((i+1)/this.slices,1); //baixo direito
-            
-            this.vertices.push(ca, 1, -sa);
-            this.texCoords.push(i/this.slices,0); //topo esquerdo
-            
-            this.vertices.push(caa, 1, -saa);
-            this.texCoords.push((i+1)/this.slices,0); //topo direito
-            
-            /*
-            Texture coords (s,t)
-            +----------> s
-            |
-            |
-            |
-            v
-            t
-            */
+				this.texCoords.push(i*1/this.slices,1 - (j*1/this.stacks));
 
-        
+				this.normals.push(Math.cos(div*i), Math.sin(div*i),0);
 
-            // this.texCoords.push(ca,-sa); //baixo esquerdo
-            // this.texCoords.push(caa,-saa); //baixo direito
-            // this.texCoords.push(ca,-sa); //topo esquerdo
-            // this.texCoords.push(caa,-saa); //topo direito
+			}
 
-            
-            this.normals.push(ca, 0, -sa);
-            this.normals.push(caa, 0, -saa);
-            this.normals.push(ca, 0, -sa);
-            this.normals.push(caa, 0, -saa);
+		}
 
+		for (let i = 0; i < this.slices; ++i) {
+			for(let j = 0; j < this.stacks; ++j) {
+                this.indices.push(  (i+1)*(this.stacks+1) + j, 
+                                     i*(this.stacks+1) + j+1, i*(this.stacks+1) + j,i*(this.stacks+1) + j+1,
+                                    (i+1)*(this.stacks+1) + j, (i+1)*(this.stacks+1) + j+1);
+			}
+		}	
 
-            this.indices.push(4*i, (4*i+1) , (4*i+2) );
-            this.indices.push((4*i+1), (4*i+3) , (4*i+2) );
-
-            // baixo
-            this.indices.push((4*i*this.slices)%this.slices, (4*i+1) , (4*i) );
-
-            //cima
-            this.indices.push( (4*i+2), (4*i+3), (4*i*this.slices+2)%this.slices );
-
-
- 
-    
-            ang+=alphaAng;
-        }
-
-
-
-
-        this.primitiveType = this.scene.gl.TRIANGLES;
-        this.initGLBuffers();
-    }
+		this.primitiveType = this.scene.gl.TRIANGLES;
+		this.initGLBuffers();
+	};
     
 
 
@@ -102,10 +62,23 @@ class MyCylinder extends CGFobject {
         this.initBuffers();
         this.initNormalVizBuffers();
     }
+
+	display() {
+
+		//Base Bottom
+		this.scene.pushMatrix();
+		this.scene.scale(this.bottomRadius, this.bottomRadius, 1);
+		this.scene.rotate(Math.PI, 0, 1, 0);
+		this.base.display();
+		this.scene.popMatrix();
+        this.display();  // display the cylinder himself
+        
+		//Base Top
+		this.scene.pushMatrix();
+		this.scene.translate(0, 0, this.height);
+		this.scene.scale(this.topRadius, this.topRadius, 1);
+		this.circle.display();
+		this.scene.popMatrix();
+	}
 }
 
-
-/*
-Codigo antigo de cgra,
-TO DO: atualizar! 
-*/ 

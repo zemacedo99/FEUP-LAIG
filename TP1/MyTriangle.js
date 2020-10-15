@@ -12,8 +12,43 @@ class MyTriangle extends CGFobject {
 	}
 	
 	initBuffers() {
+		this.vertices = 
+		[
+            this.x1, this.y1, 0, 
+            this.x2, this.y2, 0,
+            this.x3, this.y3, 0,  
+            this.x1, this.y1, 0, 
+            this.x2, this.y2, 0, 
+            this.x3, this.y3, 0  
+        ]
+
+        this.indices = [0,1,2]
+
+        this.normals = [
+			0, 0, 1,
+			0, 0, 1,
+            0, 0, 1,
+            0, 0, -1,
+			0, 0, -1,
+			0, 0, -1,
+		]
+        
+        var a = Math.sqrt(Math.pow(this.x2-this.x1, 2) + Math.pow(this.y2-this.y1, 2));
+        var b = Math.sqrt(Math.pow(this.x3-this.x2, 2) + Math.pow(this.y3-this.y2, 2));
+        var c = Math.sqrt(Math.pow(this.x1-this.x3, 2) + Math.pow(this.y1-this.y3, 2));
+     
+        var cos = (Math.pow(a, 2) - Math.pow(b, 2) + Math.pow(c, 2))/(2*a*c);
+        var sin = Math.sqrt(1 - Math.pow(cos, 2)); 
+
+        this.texCoords = [
+            0, 0,
+            a, 0,
+            c*cos, c*sin
+        ]
 		
-	}
+        this.primitiveType = this.scene.gl.TRIANGLES
+        this.initGLBuffers()
+    }
 
 	/**
 	 * @method updateTexCoords

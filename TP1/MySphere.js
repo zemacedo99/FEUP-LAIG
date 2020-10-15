@@ -41,8 +41,8 @@ class MySphere extends CGFobject {
   
       // build an all-around stack at a time, starting on "north pole" and proceeding "south"
       for (let latitude = 0; latitude <= this.latDivs; latitude++) {
-        var sinPhi = Math.sin(phi);
-        var cosPhi = Math.cos(phi);
+        var sinPhi = Math.sin(phi)*this.radius;
+        var cosPhi = Math.cos(phi)*this.radius;
   
         // in each stack, build all the slices around, starting on longitude 0
         theta = 0;
@@ -95,6 +95,8 @@ class MySphere extends CGFobject {
   /*
   TO DO:
   Alteral radius = 1 para o valor que recebe 
+  44
+  45
 
   display()
   {
