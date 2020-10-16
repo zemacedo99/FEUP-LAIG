@@ -1,4 +1,4 @@
-class MyCylinder extends CGFobject {
+class MyCircle extends CGFobject {
 	constructor(scene, sides) {
 		super(scene);
 

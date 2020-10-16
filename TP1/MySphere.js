@@ -41,8 +41,8 @@ class MySphere extends CGFobject {
   
       // build an all-around stack at a time, starting on "north pole" and proceeding "south"
       for (let latitude = 0; latitude <= this.latDivs; latitude++) {
-        var sinPhi = Math.sin(phi)*this.radius;
-        var cosPhi = Math.cos(phi)*this.radius;
+        var sinPhi = Math.sin(phi);
+        var cosPhi = Math.cos(phi);
   
         // in each stack, build all the slices around, starting on longitude 0
         theta = 0;
@@ -50,9 +50,9 @@ class MySphere extends CGFobject {
   
         for (let longitude = 0; longitude <= this.longDivs; longitude++) {
           //--- Vertices coordinates
-          var x = Math.cos(theta) * sinPhi;
-          var y = cosPhi;
-          var z = Math.sin(-theta) * sinPhi;
+          var x = Math.cos(theta) * sinPhi *this.radius;
+          var y = cosPhi *this.radius;
+          var z = Math.sin(-theta) * sinPhi *this.radius;
           this.vertices.push(x, y, z);
   
           //--- Indices

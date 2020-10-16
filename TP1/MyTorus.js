@@ -1,64 +1,57 @@
+    
 class MyTorus extends CGFobject {
 	constructor(scene, inner, outer, slices, loops) {
 		super(scene);
 		this.inner = inner;
 		this.outer = outer;
 		this.slices = slices;
-		this.loops = loops;
+        this.loops = loops;
 
 		this.initBuffers();
 	}
 	
 	initBuffers() {
-        this.vertices = [];
-        this.indices = [];
-        this.normals = [];
-        this.texCoords = [];
+		this.vertices = [];
+		this.indices = [];
+		this.normals = [];
+		this.texCoords = [];
+    
+        
+		for(var n = 0; n <= this.slices; n++){
+			var theta = n*2*Math.PI/this.slices;
 
-        let slices_angle = 0;
-        let loops_angle = 0;
-        let slices_delta = (2 * Math.PI) / this.slices;
-        let loops_delta = (2 * Math.PI) / this.loops;
+			for(var s=0; s <= this.loops; s++){
+				var phi = s*2*Math.PI/this.loops;
+				var x = (this.outer + (this.inner * Math.cos(phi))) * Math.cos(theta);
+				var y = (this.outer + (this.inner * Math.cos(phi))) * Math.sin(theta);
+				var z = this.inner * Math.sin(phi);
 
-        while (slices_angle < 2 * Math.PI + slices_delta) {
-            let cos_slices = Math.cos(slices_angle);
-            let sin_slices = Math.sin(slices_angle);
-            let cos_loops = Math.cos(loops_angle);
-            let sin_loops = Math.sin(loops_angle);
+				var k  = n/this.loops;
+				var t  = s/this.slices;	
 
-            while (loops_angle < 2 * Math.PI + loops_delta) {
+				this.vertices.push(x,y,z);
+				this.normals.push(Math.cos(theta)*Math.cos(phi),Math.sin(theta)*Math.cos(phi),Math.sin(phi));
+				this.texCoords.push(t,k);
+			}
+			
+		}
+		
+		for(var s=0; s < this.slices; s++){	
+			for(var n=0; n < this.loops; n++){
+				var i = s*(this.loops+1) + n;
+				var j = i + this.loops + 1;
 
-                let x = (this.outer + this.inner * cos_slices) * cos_loops;
-                let y = (this.outer + this.inner * cos_slices) * sin_loops;
-                let z = this.inner * sin_slices;
-
-                this.vertices.push(x, y, z);
-                this.normals.push(x, y, z);
-                loops_angle += loops_delta;
-            }
-
-            slices_angle += slices_delta;
-        }
-
-        for (var i = 0; i < this.loops; i++) {
-            let v1 = i * (this.slices + 1);
-            let v2 = v1 + this.slices + 1;
-
-            for (var j = 0; j < this.slices; j++) {
-
-                this.indices.push(v1);
-                this.indices.push(v2);
-                this.indices.push(v1 + 1);
-
-                this.indices.push(v1 + 1);
-                this.indices.push(v2);
-                this.indices.push(v2 + 1);
-
-                v1++;
-                v2++;
-            }
-        }
+				this.indices.push(i+1, i, j);
+				this.indices.push(i+1, j, j+1);
+			}
+			
+		}
+		
+		this.primitiveType = this.scene.gl.TRIANGLES;
+		this.initGLBuffers();
 	}
+
+
 
 	/**
 	 * @method updateTexCoords
@@ -69,5 +62,5 @@ class MyTorus extends CGFobject {
 		this.texCoords = [...coords];
 		this.updateTexCoordsGLBuffers();
 	}
-}
 
+}

@@ -38,6 +38,9 @@ class XMLscene extends CGFscene {
 
         this.defaultAppearance=new CGFappearance(this);
 
+        this.sphere = new MySphere (this,5,10,10);
+        this.torus = new  MyCylinder(this,3,0.5,0.5,16,16);
+        
     }
 
     /**
@@ -125,7 +128,10 @@ class XMLscene extends CGFscene {
             this.defaultAppearance.apply();
 
             // Displays the scene (MySceneGraph function).
-            this.graph.displayScene();
+            //this.graph.displayScene();
+            
+
+            this.torus.display();
         }
         else
         {
