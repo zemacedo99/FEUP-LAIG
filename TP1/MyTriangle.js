@@ -24,10 +24,7 @@ class MyTriangle extends CGFobject {
         this.normals = [
 			0, 0, 1,
 			0, 0, 1,
-            0, 0, 1,
-            0, 0, -1,
-			0, 0, -1,
-			0, 0, -1,
+            0, 0, 1
 		]
         
         var a = Math.sqrt(Math.pow(this.x2-this.x1, 2) + Math.pow(this.y2-this.y1, 2));

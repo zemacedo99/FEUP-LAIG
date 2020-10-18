@@ -297,6 +297,11 @@ class MySceneGraph {
             this.onXMLMinorError("Default Id of Views do not exist");
             return "Do not exist default view. ";
         }
+
+        if (this.views[defaultView]==null)
+            return "Can't find default view";
+
+        this.views.push(defaultView);
         this.log("Parsed Views");
         return null;
     }
@@ -551,7 +556,7 @@ class MySceneGraph {
             this.textures[textureID] = texture;
         }
 
-        this.log("Parsed materials");
+        this.log("Parsed textures");
         return null;
     }
 
@@ -626,11 +631,11 @@ class MySceneGraph {
                 }
                 
             var material = new CGFappearance(this.scene);
+            material.setShininess(shininess);
             material.setAmbient(ambient);
             material.setDiffuse(diffuse);
-            material.setEmission(emissive);
             material.setSpecular(specular);
-            material.setShininess(shininess);
+            material.setEmission(emissive);
 
 
             this.materials[materialID] = material; 
@@ -963,13 +968,10 @@ class MySceneGraph {
 
 
 /*
-TO DO until next week:
+TO DO:
 
-acabar parce node, menos as texturas e materiais
-fazer todas as primitivas
-fazer MyNode
-fazer process node
-corrigir xml -> as transformações , xx yy zz é na verdade so x y z 
-
-
+acabar parce node, (texturas e materiais)
+MyNode
+process node
+display
 */
