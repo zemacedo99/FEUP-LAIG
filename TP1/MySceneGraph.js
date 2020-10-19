@@ -691,11 +691,12 @@ class MySceneGraph {
 
 
             // Transformations
+            let matrix;
 
             if (transformationsIndex != -1) {
                 grandgrandChildren = grandChildren[transformationsIndex].children;
 
-                let matrix = mat4.create();
+                matrix = mat4.create();
 
                 for (var t = 0; t < grandgrandChildren.length; t++) {
                     switch (grandgrandChildren[t].nodeName) {
@@ -722,37 +723,79 @@ class MySceneGraph {
                 this.onXMLMinorError("No transformations");
             }
 
+
             // Material
+
+            let material;
+            if (materialIndex != -1) 
+            {
+                material = this.reader.getString(grandChildren[materialIndex], 'id');
+                if(this.materials[material] == null)
+                {
+                    this.onXMLError("No material found");
+                }
+            }
+            else
+            {
+                this.onXMLMinorError("No materials");
+            }
+
 
             // Texture
 
+            let texture;
+
+            if (textureIndex != -1) {
+
+
+                texture = this.reader.getString(grandChildren[textureIndex], 'id');
+                grandgrandChildren = grandChildren[textureIndex].children;
+
+                /*
+                for (var t = 0; t < grandgrandChildren.length; t++) 
+                {
+                    grandgrandChildren[t].nodeName == "amplification"
+                }
+                */
+
+            } else {
+                this.onXMLMinorError("No textures");
+            }
+
+        
+
             // Descendants
 
-
+            console.log(children[i]);
+            let descendants = [];
+            let primitive;
             if(descendantsIndex != -1)
             {
+              
                 grandgrandChildren = grandChildren[descendantsIndex].children;
-                let descendants = [];
-
-                for (var d = 0; d < grandgrandChildren.length; d++) {
-                    switch (grandgrandChildren[d].nodeName) {
+                
+                for (var d = 0; d < grandgrandChildren.length; d++) 
+                {
+                    
+                    switch (grandgrandChildren[d].nodeName) 
+                    {
                         case "noderef":
-
+                            
+                            
                             // Get id of the current descendent.
                             var descendant_nodeID = this.reader.getString(grandgrandChildren[d], 'id');
                             if (descendant_nodeID == null)
                                 this.onXMLMinorError("no descendant id");
 
-
-                            descendants.push(descendant_nodeID)
+                            descendants.push(descendant_nodeID);
+                            console.log(descendant_nodeID);
                             break;
 
-
                         case "leaf":
-
+                            console.log(grandgrandChildren[d].nodeName);
                             var primitiveType = this.reader.getString(grandgrandChildren[t], 'type');
-                            let primitive;
-                            switch (primitiveType) {
+                            switch (primitiveType) 
+                            {
                                 case "rectangle":
                                     var x1 = this.reader.getFloat(grandgrandChildren[t], 'x1');
                                     var y1 = this.reader.getFloat(grandgrandChildren[t], 'y1');
@@ -805,30 +848,24 @@ class MySceneGraph {
 
                             }
 
+                            //console.log("leaf found");
                             descendants.push(primitive);
                             break;
 
                         default:
+                            //console.log("switch default ");
                             this.onXMLMinorError("Warning, something wrong w/ descendants");
 
                     }
                 }
-            } else {
+            }
+            else 
+            {
                 this.onXMLMinorError("No descendants");
             }
-            /*
-            loop descendants{
-                switch(descendantsIndex,tag)
-                //noderef
-                descendants.push(noderef.id);
 
-                //primitive
-                let prim = new Primitive()
-                descendants.push(prim)
-            }
-            */
 
-            //this.nodes[nodeID] = new MyNode(nodeID,matrix,descendants,...)
+            this.nodes[nodeID] = new MyNode(nodeID, material, texture, matrix, descendants);
         }
     }
 
@@ -941,37 +978,61 @@ class MySceneGraph {
 
         //this.nodes[this.idRoot].display()
 
-        this.processNode(this.idRoot, null, null)
+        this.processNode(this.idRoot, this.nodes[this.idRoot].material, this.nodes[this.idRoot].texture);
     }
 
-    processNode(id, matParent, texParent, matrixParent) {
+    processNode(id, matParent, texParent) {
         // Apply materials and textures
 
-        /*
-        this.scene.pushMatrix()
+        this.scene.pushMatrix();
 
-        this.scene.multMatrix()
+        this.scene.multMatrix(this.nodes[id].matrix);
 
-        loop descendants{
-
-            // if leaf/primitive
-            descendants.display();
-            // if noderef
-            this.processNode(descendant.id, ...);
+        if(!(id == this.idRoot && this.node[id].material == 'null'))
+        {
+            if(this.node[id].material == 'null')
+            {
+                this.node[id].material = matParent;
+            }
+    
+            let material = this.materials[this.node[id].material];
+    
+    
+            if(this.node[id].texture == 'null')
+            {
+                this.node[id].texture = texParent;
+                material.setTexture(texParent);
+            }
+    
+            else if(this.node[id].texture == 'clear')
+            {
+                this.node[id].texture = null;
+                material.setTexture(null);
+            }
+            else 
+            {
+                material.setTexture(this.node[id].texture);
+            }
+    
+            //material.setTextureWrap("...","...");
+            material.apply();
         }
 
-        this.scene.popMatrix()
-        */
+
+        for( var x in this.nodes[id].descendants)
+        {
+            if (typeof x === 'string' || x instanceof String)
+            {
+                this.processNode(x,this.nodes[id].material,this.node[id].texture);
+            }
+            else
+            {
+                x.display();
+            }
+        }
+
+
+        this.scene.popMatrix();
 
     }
 }
-
-
-/*
-TO DO:
-
-acabar parce node, (texturas e materiais)
-MyNode
-process node
-display
-*/

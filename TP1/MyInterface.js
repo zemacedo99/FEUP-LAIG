@@ -49,7 +49,6 @@ class MyInterface extends CGFinterface {
     }
     
 
-
     viewsGroup(views)
     {
         var viewValues = [];

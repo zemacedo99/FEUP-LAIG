@@ -1,9 +1,11 @@
 class MyNode extends CGFobject {
-	constructor(scene, id, matP, texP) {
+	constructor(scene, id, material, texture,matrix,descendants) {
 		super(scene);
 		this.id = id;
-		this.matP = matP;
-		this.texP = texP;
+		this.material = material;
+		this.texture = texture;
+		this.matrix = matrix;
+		this.descendants = descendants;
 	}
 	
 }
