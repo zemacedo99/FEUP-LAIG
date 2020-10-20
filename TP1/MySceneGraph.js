@@ -556,6 +556,7 @@ class MySceneGraph {
             this.textures[textureID] = texture;
         }
 
+        
         this.log("Parsed textures");
         return null;
     }
@@ -632,10 +633,13 @@ class MySceneGraph {
                 
             var material = new CGFappearance(this.scene);
             material.setShininess(shininess);
-            material.setAmbient(ambient);
-            material.setDiffuse(diffuse);
-            material.setSpecular(specular);
-            material.setEmission(emissive);
+            material.setAmbient(...ambient);
+            material.setDiffuse(...diffuse);
+            material.setSpecular(...specular);
+            material.setEmission(...emissive);
+
+
+  
 
 
             this.materials[materialID] = material; 
@@ -691,29 +695,45 @@ class MySceneGraph {
 
 
             // Transformations
-            let matrix;
+            var matrix = mat4.create();
 
             if (transformationsIndex != -1) {
                 grandgrandChildren = grandChildren[transformationsIndex].children;
 
-                matrix = mat4.create();
-                console.log(matrix);
-
                 for (var t = 0; t < grandgrandChildren.length; t++) {
                     switch (grandgrandChildren[t].nodeName) {
                         case "translation":
-                            matrix = mat4.translate(matrix, matrix, this.parseCoordinates3D(grandgrandChildren[t], nodeID));
+                            let vec = this.parseCoordinates3D(grandgrandChildren[t], nodeID);
+                            matrix = mat4.translate(matrix, matrix,vec);
                             break;
 
                         case "scale":
                             matrix = mat4.scale(matrix, matrix, this.parseScale(grandgrandChildren[t], nodeID));
+                            
                             break;
 
 
                         case "rotation":
                             var axis = this.reader.getString(grandgrandChildren[t], 'axis');
+                            var axis_vec;
+                            switch (axis)
+                            {
+                                case "x":
+                                    axis_vec = [1,0,0];
+                                    break;
+                                    case "y":
+                                        axis_vec = [0,1,0];
+                                        break;
+                                        case "z":
+                                            axis_vec = [0,0,1];
+                                            break;
+                                            default:
+                                                axis_vec = [1,0,0];
+                                                break;
+
+                            }
                             var rad = this.reader.getString(grandgrandChildren[t], 'angle') * Math.PI / 180;
-                            matrix = mat4.rotate(matrix, matrix, rad, axis);
+                            matrix = mat4.rotate(matrix, matrix, rad, axis_vec);
                             break;
 
                         default:
@@ -731,6 +751,7 @@ class MySceneGraph {
             if (materialIndex != -1) 
             {
                 material = this.reader.getString(grandChildren[materialIndex], 'id');
+                
                 if(this.materials[material] == null)
                 {
                     this.onXMLError("No material found");
@@ -763,11 +784,9 @@ class MySceneGraph {
                 this.onXMLMinorError("No textures");
             }
 
-        
 
             // Descendants
 
-            console.log(children[i]);
             let descendants = [];
             let primitive;
             if(descendantsIndex != -1)
@@ -789,11 +808,9 @@ class MySceneGraph {
                                 this.onXMLMinorError("no descendant id");
 
                             descendants.push(descendant_nodeID);
-                            console.log(descendant_nodeID);
                             break;
 
                         case "leaf":
-                            console.log(grandgrandChildren[d].nodeName);
                             var primitiveType = this.reader.getString(grandgrandChildren[t], 'type');
                             switch (primitiveType) 
                             {
@@ -849,12 +866,10 @@ class MySceneGraph {
 
                             }
 
-                            //console.log("leaf found");
                             descendants.push(primitive);
                             break;
 
                         default:
-                            //console.log("switch default ");
                             this.onXMLMinorError("Warning, something wrong w/ descendants");
 
                     }
@@ -1017,7 +1032,7 @@ class MySceneGraph {
     processNode(id, matParent, texParent) {
         // Apply materials and textures
 
-        console.log(this.nodes[id]);
+
 
         this.scene.pushMatrix();
 
@@ -1030,13 +1045,19 @@ class MySceneGraph {
                 this.nodes[id].material = matParent;
             }
     
+      
             let material = this.materials[this.nodes[id].material];
-    
-    
+            //let texture = this.textures[this.nodes[id].texture];
+
+           
             if(this.nodes[id].texture == 'null')
             {
+                if(texParent == 'null')
+                {
+                    texParent = null;
+                }
                 this.nodes[id].texture = texParent;
-                material.setTexture(texParent);
+                material.setTexture(this.textures[this.nodes[id].texParent]);
             }
     
             else if(this.nodes[id].texture == 'clear')
@@ -1046,23 +1067,26 @@ class MySceneGraph {
             }
             else 
             {
-                material.setTexture(this.nodes[id].texture);
+                material.setTexture(this.textures[this.nodes[id].texture]);
             }
     
-            material.setTextureWrap("REPEATE","REPEATE");
+            material.setTextureWrap("REPEAT","REPEAT");
             material.apply();
         }
 
 
-        for( var x in this.nodes[id].descendants)
-        {
-            if (typeof x === 'string' || x instanceof String)
+        for( var x= 0; x < this.nodes[id].descendants.length ;x++)
+        { 
+            //console.log(this.nodes[id].descendants[x]);
+            if (typeof this.nodes[id].descendants[x] === 'string' || this.nodes[id].descendants[x] instanceof String)
             {
-                this.processNode(x,this.nodes[id].material,this.nodes[id].texture);
+                console.log(this.nodes[id].descendants[x]);
+                this.processNode(this.nodes[id].descendants[x],this.nodes[id].material,this.nodes[id].texture);
             }
             else
             {
-                x.display();
+                this.nodes[id].descendants[x].display();
+                console.log(this.nodes[id].descendants[x]);
             }
         }
 
