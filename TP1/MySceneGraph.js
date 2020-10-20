@@ -242,7 +242,7 @@ class MySceneGraph {
             return "No root id defined for scene.";
 
         var rootNode = children[rootIndex];
-        var id = this.reader.getString(rootNode, 'id');
+        var id = this.getStringAttr(rootNode, 'id');
         if (id == null)
             return "No root id defined for scene.";
 
@@ -293,12 +293,12 @@ class MySceneGraph {
         var orthoNode = children[orthoIndex];
         this.parseOrthoView(orthoNode);
 
-        if(!this.existIndex(defaultView, this.views)){
+        if (!this.existIndex(defaultView, this.views)) {
             this.onXMLMinorError("Default Id of Views do not exist");
             return "Do not exist default view. ";
         }
 
-        if (this.views[defaultView]==null)
+        if (this.views[defaultView] == null)
             return "Can't find default view";
 
         this.views.push(defaultView);
@@ -341,13 +341,13 @@ class MySceneGraph {
             perspectiveData['angle'] = 180;
         }
 
-        if( !this.existIndex(perspectiveData['id'], this.views) ){
+        if (!this.existIndex(perspectiveData['id'], this.views)) {
             this.views[perspectiveData['id']] = new CGFcamera(
-               perspectiveData['angle'],
-               perspectiveData['near'],
-               perspectiveData['far'],
-               perspectiveData['from'],
-               perspectiveData['to'],
+                perspectiveData['angle'],
+                perspectiveData['near'],
+                perspectiveData['far'],
+                perspectiveData['from'],
+                perspectiveData['to'],
             );
         }
     }
@@ -390,7 +390,7 @@ class MySceneGraph {
             this.onXMLMinorError("Ortho View (id = " + orthoData['id'] + ") has bottom attr higher than top");
         }
 
-        if( !this.existIndex(orthoData['id'], this.views) ){
+        if (!this.existIndex(orthoData['id'], this.views)) {
             this.views[orthoData['id']] = new CGFcameraOrtho(
                 orthoData['left'],
                 orthoData['right'],
@@ -548,8 +548,8 @@ class MySceneGraph {
             if (this.textures[textureID] != null)
                 return "ID must be unique for each texture (conflict: ID = " + textureID + ")";
 
-            var textureURL = this.reader.getString(children[i],'path');
-            if(textureURL == null)
+            var textureURL = this.reader.getString(children[i], 'path');
+            if (textureURL == null)
                 return "No path for texture with ID = " + textureID + ")";
 
             var texture = new CGFtexture(this.scene, textureURL);
@@ -593,43 +593,41 @@ class MySceneGraph {
 
             grandChildren = children[i].children;
 
-            for(var d = 0; d < grandChildren.length ; d++)
-                {
-                    switch(grandChildren[d].nodeName)
-                    {
-                        case "shininess":
+            for (var d = 0; d < grandChildren.length; d++) {
+                switch (grandChildren[d].nodeName) {
+                    case "shininess":
 
-                            var shininess = this.reader.getFloat(grandChildren[d], 'value');
-                            //nodeNames.push(grandChildren[d].nodeName);
-                            break;
-                            
+                        var shininess = this.reader.getFloat(grandChildren[d], 'value');
+                        //nodeNames.push(grandChildren[d].nodeName);
+                        break;
 
-                        case "ambient":
-                            var ambient = this.parseColor(grandChildren[d], "ambient");
-                            //nodeNames.push(grandChildren[d].nodeName);
-                            break;
 
-                        case "diffuse":
-                            var diffuse = this.parseColor(grandChildren[d],"diffuse");
-                            //nodeNames.push(grandChildren[d].nodeName);
-                            break;
+                    case "ambient":
+                        var ambient = this.parseColor(grandChildren[d], "ambient");
+                        //nodeNames.push(grandChildren[d].nodeName);
+                        break;
 
-                        case "specular":
-                            var specular = this.parseColor(grandChildren[d],"specular");
-                            //nodeNames.push(grandChildren[d].nodeName);
-                            break;
+                    case "diffuse":
+                        var diffuse = this.parseColor(grandChildren[d], "diffuse");
+                        //nodeNames.push(grandChildren[d].nodeName);
+                        break;
 
-                        case "emissive":
-                            var emissive = this.parseColor(grandChildren[d],"emissive");
-                            //nodeNames.push(grandChildren[d].nodeName);
-                            break;
-                    
-                        default:
-                            this.onXMLMinorError("Warning, something wrong w/ materials");
-                            
-                    }
+                    case "specular":
+                        var specular = this.parseColor(grandChildren[d], "specular");
+                        //nodeNames.push(grandChildren[d].nodeName);
+                        break;
+
+                    case "emissive":
+                        var emissive = this.parseColor(grandChildren[d], "emissive");
+                        //nodeNames.push(grandChildren[d].nodeName);
+                        break;
+
+                    default:
+                        this.onXMLMinorError("Warning, something wrong w/ materials");
+
                 }
-                
+            }
+
             var material = new CGFappearance(this.scene);
             material.setShininess(shininess);
             material.setAmbient(ambient);
@@ -638,7 +636,7 @@ class MySceneGraph {
             material.setEmission(emissive);
 
 
-            this.materials[materialID] = material; 
+            this.materials[materialID] = material;
         }
 
         this.log("Parsed materials");
@@ -700,6 +698,7 @@ class MySceneGraph {
 
                 for (var t = 0; t < grandgrandChildren.length; t++) {
                     switch (grandgrandChildren[t].nodeName) {
+
                         case "translation":
                             matrix = mat4.create(matrix, matrix, this.parseCoordinates3D(grandgrandChildren[t], nodeID));
                             break;
@@ -710,8 +709,8 @@ class MySceneGraph {
 
 
                         case "rotation":
-                            var axis = this.reader.getString(grandgrandChildren[t], 'axis');
-                            var rad = this.reader.getString(grandgrandChildren[t], 'angle') * Math.PI / 180;
+                            var axis = this.getStringAttr(grandgrandChildren[t], 'axis');
+                            var rad = this.getStringAttr(grandgrandChildren[t], 'angle') * Math.PI / 180;
                             matrix = mat4.rotate(matrix, matrix, rad, axis);
                             break;
 
@@ -723,20 +722,15 @@ class MySceneGraph {
                 this.onXMLMinorError("No transformations");
             }
 
-
             // Material
 
             let material;
-            if (materialIndex != -1) 
-            {
-                material = this.reader.getString(grandChildren[materialIndex], 'id');
-                if(this.materials[material] == null)
-                {
+            if (materialIndex != -1) {
+                material = this.getStringAttr(grandChildren[materialIndex], 'id');
+                if (this.materials[material] == null) {
                     this.onXMLError("No material found");
                 }
-            }
-            else
-            {
+            } else {
                 this.onXMLMinorError("No materials");
             }
 
@@ -748,7 +742,7 @@ class MySceneGraph {
             if (textureIndex != -1) {
 
 
-                texture = this.reader.getString(grandChildren[textureIndex], 'id');
+                texture = this.getStringAttr(grandChildren[textureIndex], 'id');
                 grandgrandChildren = grandChildren[textureIndex].children;
 
                 /*
@@ -762,28 +756,23 @@ class MySceneGraph {
                 this.onXMLMinorError("No textures");
             }
 
-        
 
             // Descendants
 
             console.log(children[i]);
             let descendants = [];
             let primitive;
-            if(descendantsIndex != -1)
-            {
-              
+            if (descendantsIndex != -1) {
+
                 grandgrandChildren = grandChildren[descendantsIndex].children;
-                
-                for (var d = 0; d < grandgrandChildren.length; d++) 
-                {
-                    
-                    switch (grandgrandChildren[d].nodeName) 
-                    {
+
+                for (var d = 0; d < grandgrandChildren.length; d++) {
+
+                    switch (grandgrandChildren[d].nodeName) {
                         case "noderef":
-                            
-                            
+
                             // Get id of the current descendent.
-                            var descendant_nodeID = this.reader.getString(grandgrandChildren[d], 'id');
+                            var descendant_nodeID = this.getStringAttr(grandgrandChildren[d], 'id');
                             if (descendant_nodeID == null)
                                 this.onXMLMinorError("no descendant id");
 
@@ -793,9 +782,8 @@ class MySceneGraph {
 
                         case "leaf":
                             console.log(grandgrandChildren[d].nodeName);
-                            var primitiveType = this.reader.getString(grandgrandChildren[t], 'type');
-                            switch (primitiveType) 
-                            {
+                            var primitiveType = this.getStringAttr(grandgrandChildren[t], 'type');
+                            switch (primitiveType) {
                                 case "rectangle":
                                     var x1 = this.reader.getFloat(grandgrandChildren[t], 'x1');
                                     var y1 = this.reader.getFloat(grandgrandChildren[t], 'y1');
@@ -858,9 +846,7 @@ class MySceneGraph {
 
                     }
                 }
-            }
-            else 
-            {
+            } else {
                 this.onXMLMinorError("No descendants");
             }
 
@@ -888,17 +874,17 @@ class MySceneGraph {
         var position = [];
 
         // x
-        var x = this.reader.getFloat(node, 'x');
+        var x = this.getFloatAttr(node, 'x');
         if (!(x != null && !isNaN(x)))
             return "unable to parse x-coordinate of the " + messageError;
 
         // y
-        var y = this.reader.getFloat(node, 'y');
+        var y = this.getFloatAttr(node, 'y');
         if (!(y != null && !isNaN(y)))
             return "unable to parse y-coordinate of the " + messageError;
 
         // z
-        var z = this.reader.getFloat(node, 'z');
+        var z = this.getFloatAttr(node, 'z');
         if (!(z != null && !isNaN(z)))
             return "unable to parse z-coordinate of the " + messageError;
 
@@ -988,45 +974,33 @@ class MySceneGraph {
 
         this.scene.multMatrix(this.nodes[id].matrix);
 
-        if(!(id == this.idRoot && this.node[id].material == 'null'))
-        {
-            if(this.node[id].material == 'null')
-            {
+        if (!(id == this.idRoot && this.node[id].material == 'null')) {
+            if (this.node[id].material == 'null') {
                 this.node[id].material = matParent;
             }
-    
+
             let material = this.materials[this.node[id].material];
-    
-    
-            if(this.node[id].texture == 'null')
-            {
+
+
+            if (this.node[id].texture == 'null') {
                 this.node[id].texture = texParent;
                 material.setTexture(texParent);
-            }
-    
-            else if(this.node[id].texture == 'clear')
-            {
+            } else if (this.node[id].texture == 'clear') {
                 this.node[id].texture = null;
                 material.setTexture(null);
-            }
-            else 
-            {
+            } else {
                 material.setTexture(this.node[id].texture);
             }
-    
+
             //material.setTextureWrap("...","...");
             material.apply();
         }
 
 
-        for( var x in this.nodes[id].descendants)
-        {
-            if (typeof x === 'string' || x instanceof String)
-            {
-                this.processNode(x,this.nodes[id].material,this.node[id].texture);
-            }
-            else
-            {
+        for (var x in this.nodes[id].descendants) {
+            if (typeof x === 'string' || x instanceof String) {
+                this.processNode(x, this.nodes[id].material, this.node[id].texture);
+            } else {
                 x.display();
             }
         }
