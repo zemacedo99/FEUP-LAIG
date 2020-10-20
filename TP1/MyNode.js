@@ -1,6 +1,5 @@
-class MyNode extends CGFobject {
-	constructor(scene, id, material, texture,matrix,descendants) {
-		super(scene);
+class MyNode {
+	constructor(id, material, texture,matrix,descendants) {
 		this.id = id;
 		this.material = material;
 		this.texture = texture;
