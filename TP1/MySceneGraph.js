@@ -697,15 +697,16 @@ class MySceneGraph {
                 grandgrandChildren = grandChildren[transformationsIndex].children;
 
                 matrix = mat4.create();
+                console.log(matrix);
 
                 for (var t = 0; t < grandgrandChildren.length; t++) {
                     switch (grandgrandChildren[t].nodeName) {
                         case "translation":
-                            matrix = mat4.create(matrix, matrix, this.parseCoordinates3D(grandgrandChildren[t], nodeID));
+                            matrix = mat4.translate(matrix, matrix, this.parseCoordinates3D(grandgrandChildren[t], nodeID));
                             break;
 
                         case "scale":
-                            matrix = mat4.scale(matrix, matrix, this.parseCoordinates3D(grandgrandChildren[t], nodeID));
+                            matrix = mat4.scale(matrix, matrix, this.parseScale(grandgrandChildren[t], nodeID));
                             break;
 
 
@@ -879,6 +880,38 @@ class MySceneGraph {
         return boolVal || 1;
     }
 
+
+
+    /**
+     * Parse the coordinates of the scale factor from a node with ID = id
+     * @param {block element} node
+     * @param {message to be displayed in case of error} messageError
+     */
+    parseScale(node, messageError = "Error on parse scale") {
+        var position = [];
+
+        // x
+        var x = this.reader.getFloat(node, 'sx');
+        if (!(x != null && !isNaN(x)))
+            return "unable to parse sx-coordinate of the " + messageError;
+
+        // y
+        var y = this.reader.getFloat(node, 'sy');
+        if (!(y != null && !isNaN(y)))
+            return "unable to parse sy-coordinate of the " + messageError;
+
+        // z
+        var z = this.reader.getFloat(node, 'sz');
+        if (!(z != null && !isNaN(z)))
+            return "unable to parse sz-coordinate of the " + messageError;
+
+        position.push(...[x, y, z]);
+
+        return position;
+    }
+
+
+
     /**
      * Parse the coordinates from a node with ID = id
      * @param {block element} node
@@ -984,37 +1017,39 @@ class MySceneGraph {
     processNode(id, matParent, texParent) {
         // Apply materials and textures
 
+        console.log(this.nodes[id]);
+
         this.scene.pushMatrix();
 
         this.scene.multMatrix(this.nodes[id].matrix);
 
-        if(!(id == this.idRoot && this.node[id].material == 'null'))
+        if(!(id == this.idRoot && this.nodes[id].material == 'null'))
         {
-            if(this.node[id].material == 'null')
+            if(this.nodes[id].material == 'null')
             {
-                this.node[id].material = matParent;
+                this.nodes[id].material = matParent;
             }
     
-            let material = this.materials[this.node[id].material];
+            let material = this.materials[this.nodes[id].material];
     
     
-            if(this.node[id].texture == 'null')
+            if(this.nodes[id].texture == 'null')
             {
-                this.node[id].texture = texParent;
+                this.nodes[id].texture = texParent;
                 material.setTexture(texParent);
             }
     
-            else if(this.node[id].texture == 'clear')
+            else if(this.nodes[id].texture == 'clear')
             {
-                this.node[id].texture = null;
+                this.nodes[id].texture = null;
                 material.setTexture(null);
             }
             else 
             {
-                material.setTexture(this.node[id].texture);
+                material.setTexture(this.nodes[id].texture);
             }
     
-            //material.setTextureWrap("...","...");
+            material.setTextureWrap("REPEATE","REPEATE");
             material.apply();
         }
 
@@ -1023,7 +1058,7 @@ class MySceneGraph {
         {
             if (typeof x === 'string' || x instanceof String)
             {
-                this.processNode(x,this.nodes[id].material,this.node[id].texture);
+                this.processNode(x,this.nodes[id].material,this.nodes[id].texture);
             }
             else
             {
