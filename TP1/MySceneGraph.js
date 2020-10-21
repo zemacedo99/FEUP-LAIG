@@ -700,7 +700,7 @@ class MySceneGraph {
                     switch (grandgrandChildren[t].nodeName) {
                         case "translation":
                             let vec = this.parseCoordinates3D(grandgrandChildren[t], nodeID);
-                            matrix = mat4.translate(matrix, matrix,vec);
+                            matrix = mat4.translate(matrix, matrix, vec);
                             break;
 
                         case "scale":
