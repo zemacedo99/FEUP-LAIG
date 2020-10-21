@@ -4,7 +4,7 @@
 class XMLscene extends CGFscene {
     /**
      * @constructor
-     * @param {MyInterface} myinterface
+     * @param {MyInterface} myinterface 
      */
     constructor(myinterface) {
         super();
@@ -33,13 +33,13 @@ class XMLscene extends CGFscene {
         this.axis = new CGFaxis(this);
         this.setUpdatePeriod(100);
 
-        this.loadingProgressObject = new MyRectangle(this, -1, -.1, 1, .1);
-        this.loadingProgress = 0;
+        this.loadingProgressObject=new MyRectangle(this, -1, -.1, 1, .1);
+        this.loadingProgress=0;
 
-        this.defaultAppearance = new CGFappearance(this);
+        this.defaultAppearance=new CGFappearance(this);
 
         //this.sphere = new MySphere (this,5,10,10);
-
+        
     }
 
     /**
@@ -48,7 +48,6 @@ class XMLscene extends CGFscene {
     initCameras() {
         this.camera = new CGFcamera(0.4, 0.1, 500, vec3.fromValues(15, 15, 15), vec3.fromValues(0, 0, 0));
     }
-
     /**
      * Initializes the scene lights with the values read from the XML file.
      */
@@ -82,7 +81,7 @@ class XMLscene extends CGFscene {
         }
     }
 
-    /** Handler called when the graph is finally loaded.
+    /** Handler called when the graph is finally loaded. 
      * As loading is asynchronous, this may be called already after the application has started the run loop
      */
     onGraphLoaded() {
@@ -124,17 +123,19 @@ class XMLscene extends CGFscene {
         if (this.sceneInited) {
             // Draw axis
             this.axis.display();
-
+ 
             this.defaultAppearance.apply();
 
             // Displays the scene (MySceneGraph function).
             this.graph.displayScene();
-        } else {
+        }
+        else
+        {
             // Show some "loading" visuals
             this.defaultAppearance.apply();
 
-            this.rotate(-this.loadingProgress / 10.0, 0, 0, 1);
-
+            this.rotate(-this.loadingProgress/10.0,0,0,1);
+            
             this.loadingProgressObject.display();
             this.loadingProgress++;
         }
