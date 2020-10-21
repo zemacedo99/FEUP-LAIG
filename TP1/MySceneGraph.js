@@ -689,6 +689,7 @@ class MySceneGraph {
             var textureIndex = nodeNames.indexOf("texture");
             var descendantsIndex = nodeNames.indexOf("descendants");
 
+
             this.onXMLMinorError("To do: Parse nodes- Texture and Materials");
 
 
@@ -783,6 +784,7 @@ class MySceneGraph {
 
             // Descendants
 
+            let primitives = [];
             let descendants = [];
             let primitive;
             if (descendantsIndex != -1) {
@@ -790,7 +792,7 @@ class MySceneGraph {
                 grandgrandChildren = grandChildren[descendantsIndex].children;
 
                 for (var d = 0; d < grandgrandChildren.length; d++) {
-
+                    
                     switch (grandgrandChildren[d].nodeName) {
                         case "noderef":
 
@@ -803,52 +805,51 @@ class MySceneGraph {
                             break;
 
                         case "leaf":
-                            var primitiveType = this.reader.getString(grandgrandChildren[t], 'type');
+                            var primitiveType = this.reader.getString(grandgrandChildren[d], 'type');
                             switch (primitiveType) 
                             {
                                 case "rectangle":
-                                    var x1 = this.reader.getFloat(grandgrandChildren[t], 'x1');
-                                    var y1 = this.reader.getFloat(grandgrandChildren[t], 'y1');
-                                    var x2 = this.reader.getFloat(grandgrandChildren[t], 'x2');
-                                    var y2 = this.reader.getFloat(grandgrandChildren[t], 'y2');
-
+                                    var x1 = this.reader.getFloat(grandgrandChildren[d], 'x1');
+                                    var y1 = this.reader.getFloat(grandgrandChildren[d], 'y1');
+                                    var x2 = this.reader.getFloat(grandgrandChildren[d], 'x2');
+                                    var y2 = this.reader.getFloat(grandgrandChildren[d], 'y2');
                                     primitive = new MyRectangle(this.scene, x1, y1, x2, y2);
                                     break;
 
                                 case "triangle":
-                                    var x1 = this.reader.getFloat(grandgrandChildren[t], 'x1');
-                                    var y1 = this.reader.getFloat(grandgrandChildren[t], 'y1');
-                                    var x2 = this.reader.getFloat(grandgrandChildren[t], 'x2');
-                                    var y2 = this.reader.getFloat(grandgrandChildren[t], 'y2');
-                                    var x3 = this.reader.getFloat(grandgrandChildren[t], 'x3');
-                                    var y3 = this.reader.getFloat(grandgrandChildren[t], 'y3');
+                                    var x1 = this.reader.getFloat(grandgrandChildren[d], 'x1');
+                                    var y1 = this.reader.getFloat(grandgrandChildren[d], 'y1');
+                                    var x2 = this.reader.getFloat(grandgrandChildren[d], 'x2');
+                                    var y2 = this.reader.getFloat(grandgrandChildren[d], 'y2');
+                                    var x3 = this.reader.getFloat(grandgrandChildren[d], 'x3');
+                                    var y3 = this.reader.getFloat(grandgrandChildren[d], 'y3');
 
                                     primitive = new MyTriangle(this.scene, x1, y1, x2, y2, x3, y3);
                                     break;
 
                                 case "torus":
-                                    var inner = this.reader.getFloat(grandgrandChildren[t], 'inner');
-                                    var outer = this.reader.getFloat(grandgrandChildren[t], 'outer');
-                                    var slices = this.reader.getFloat(grandgrandChildren[t], 'slices');
-                                    var loops = this.reader.getFloat(grandgrandChildren[t], 'loops');
+                                    var inner = this.reader.getFloat(grandgrandChildren[d], 'inner');
+                                    var outer = this.reader.getFloat(grandgrandChildren[d], 'outer');
+                                    var slices = this.reader.getFloat(grandgrandChildren[d], 'slices');
+                                    var loops = this.reader.getFloat(grandgrandChildren[d], 'loops');
 
                                     primitive = new MyTorus(this.scene, inner, outer, slices, loops);
                                     break;
 
                                 case "sphere":
-                                    var radius = this.reader.getFloat(grandgrandChildren[t], 'radius');
-                                    var slices = this.reader.getFloat(grandgrandChildren[t], 'slices');
-                                    var stacks = this.reader.getFloat(grandgrandChildren[t], 'stacks');
+                                    var radius = this.reader.getFloat(grandgrandChildren[d], 'radius');
+                                    var slices = this.reader.getFloat(grandgrandChildren[d], 'slices');
+                                    var stacks = this.reader.getFloat(grandgrandChildren[d], 'stacks');
 
                                     primitive = new MySphere(this.scene, radius, slices, stacks);
                                     break;
 
                                 case "cylinder":
-                                    var height = this.reader.getFloat(grandgrandChildren[t], 'height');
-                                    var topRadius = this.reader.getFloat(grandgrandChildren[t], 'topRadius');
-                                    var bottomRadius = this.reader.getFloat(grandgrandChildren[t], 'bottomRadius');
-                                    var stacks = this.reader.getFloat(grandgrandChildren[t], 'stacks');
-                                    var slices = this.reader.getFloat(grandgrandChildren[t], 'slices');
+                                    var height = this.reader.getFloat(grandgrandChildren[d], 'height');
+                                    var topRadius = this.reader.getFloat(grandgrandChildren[d], 'topRadius');
+                                    var bottomRadius = this.reader.getFloat(grandgrandChildren[d], 'bottomRadius');
+                                    var stacks = this.reader.getFloat(grandgrandChildren[d], 'stacks');
+                                    var slices = this.reader.getFloat(grandgrandChildren[d], 'slices');
 
                                     primitive = new MyCylinder(this.scene, height, topRadius, bottomRadius, stacks, slices);
                                     break;
@@ -858,7 +859,8 @@ class MySceneGraph {
 
                             }
 
-                            descendants.push(primitive);
+                            
+                            primitives.push(primitive);
                             break;
 
                         default:
@@ -871,7 +873,7 @@ class MySceneGraph {
             }
 
 
-            this.nodes[nodeID] = new MyNode(nodeID, material, texture, matrix, descendants);
+            this.nodes[nodeID] = new MyNode(nodeID, material, texture, matrix, descendants, primitives);
         }
     }
 
@@ -1028,16 +1030,21 @@ class MySceneGraph {
 
         this.scene.multMatrix(this.nodes[id].matrix);
 
-        if(!(id == this.idRoot && this.nodes[id].material == 'null'))
+        if(!id == this.idRoot)
         {
             if(this.nodes[id].material == 'null')
             {
                 this.nodes[id].material = matParent;
+                console.log("matParent")
+                console.log(matParent);
             }
     
       
             let material = this.materials[this.nodes[id].material];
             //let texture = this.textures[this.nodes[id].texture];
+
+            console.log(id);
+            console.log(material);
 
            
             if(this.nodes[id].texture == 'null')
@@ -1067,19 +1074,24 @@ class MySceneGraph {
 
         for( var x= 0; x < this.nodes[id].descendants.length ;x++)
         { 
+            this.processNode(this.nodes[id].descendants[x],this.nodes[id].material,this.nodes[id].texture);
             //console.log(this.nodes[id].descendants[x]);
-            if (typeof this.nodes[id].descendants[x] === 'string' || this.nodes[id].descendants[x] instanceof String)
-            {
-                console.log(this.nodes[id].descendants[x]);
-                this.processNode(this.nodes[id].descendants[x],this.nodes[id].material,this.nodes[id].texture);
-            }
-            else
-            {
-                this.nodes[id].descendants[x].display();
-                console.log(this.nodes[id].descendants[x]);
-            }
+            // if (typeof this.nodes[id].descendants[x] === 'string' || this.nodes[id].descendants[x] instanceof String)
+            // {
+            //     console.log(this.nodes[id].descendants[x]);
+            //     this.processNode(this.nodes[id].descendants[x],this.nodes[id].material,this.nodes[id].texture);
+            // }
+            // else
+            // {
+            //     this.nodes[id].descendants[x].display();
+            //     console.log(this.nodes[id].descendants[x]);
+            // }
         }
 
+        for ( var x = 0; x < this.nodes[id].primitives.length;x++)
+        {
+            this.nodes[id].primitives[x].display();
+        }
 
         this.scene.popMatrix();
 
