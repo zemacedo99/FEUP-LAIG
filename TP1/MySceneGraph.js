@@ -248,12 +248,12 @@ class MySceneGraph {
 
         this.idRoot = id;
 
-        // Get axis length        
+        // Get axis length
         if (referenceIndex == -1)
             this.onXMLMinorError("no axis_length defined for scene; assuming 'length = 1'");
 
         var refNode = children[referenceIndex];
-        var axis_length = this.reader.getFloat(refNode, 'length');
+        var axis_length = this.getFloatAttr(refNode, 'length');
         if (axis_length == null)
             this.onXMLMinorError("no axis_length defined for scene; assuming 'length = 1'");
 
@@ -548,13 +548,14 @@ class MySceneGraph {
             if (this.textures[textureID] != null)
                 return "ID must be unique for each texture (conflict: ID = " + textureID + ")";
 
-            var textureURL = this.reader.getString(children[i], 'path');
+            var textureURL = this.getStringAttr(children[i], 'path');
             if (textureURL == null)
                 return "No path for texture with ID = " + textureID + ")";
 
             var texture = new CGFtexture(this.scene, textureURL);
             this.textures[textureID] = texture;
         }
+
 
         this.log("Parsed textures");
         return null;
@@ -597,7 +598,7 @@ class MySceneGraph {
                 switch (grandChildren[d].nodeName) {
                     case "shininess":
 
-                        var shininess = this.reader.getFloat(grandChildren[d], 'value');
+                        var shininess = this.getFloatAttr(grandChildren[d], 'value');
                         //nodeNames.push(grandChildren[d].nodeName);
                         break;
 
@@ -630,10 +631,10 @@ class MySceneGraph {
 
             var material = new CGFappearance(this.scene);
             material.setShininess(shininess);
-            material.setAmbient(ambient);
-            material.setDiffuse(diffuse);
-            material.setSpecular(specular);
-            material.setEmission(emissive);
+            material.setAmbient(...ambient);
+            material.setDiffuse(...diffuse);
+            material.setSpecular(...specular);
+            material.setEmission(...emissive);
 
 
             this.materials[materialID] = material;
@@ -689,29 +690,44 @@ class MySceneGraph {
 
 
             // Transformations
-            let matrix;
+            var matrix = mat4.create();
 
             if (transformationsIndex != -1) {
                 grandgrandChildren = grandChildren[transformationsIndex].children;
 
-                matrix = mat4.create();
-
                 for (var t = 0; t < grandgrandChildren.length; t++) {
                     switch (grandgrandChildren[t].nodeName) {
-
                         case "translation":
-                            matrix = mat4.create(matrix, matrix, this.parseCoordinates3D(grandgrandChildren[t], nodeID));
+                            let vec = this.parseCoordinates3D(grandgrandChildren[t], nodeID);
+                            matrix = mat4.translate(matrix, matrix, vec);
                             break;
 
                         case "scale":
-                            matrix = mat4.scale(matrix, matrix, this.parseCoordinates3D(grandgrandChildren[t], nodeID));
+                            matrix = mat4.scale(matrix, matrix, this.parseScale(grandgrandChildren[t], nodeID));
+
                             break;
 
 
                         case "rotation":
                             var axis = this.getStringAttr(grandgrandChildren[t], 'axis');
+                            var axis_vec;
+                            switch (axis) {
+                                case "x":
+                                    axis_vec = [1, 0, 0];
+                                    break;
+                                case "y":
+                                    axis_vec = [0, 1, 0];
+                                    break;
+                                case "z":
+                                    axis_vec = [0, 0, 1];
+                                    break;
+                                default:
+                                    axis_vec = [1, 0, 0];
+                                    break;
+
+                            }
                             var rad = this.getStringAttr(grandgrandChildren[t], 'angle') * Math.PI / 180;
-                            matrix = mat4.rotate(matrix, matrix, rad, axis);
+                            matrix = mat4.rotate(matrix, matrix, rad, axis_vec);
                             break;
 
                         default:
@@ -722,11 +738,13 @@ class MySceneGraph {
                 this.onXMLMinorError("No transformations");
             }
 
+
             // Material
 
             let material;
             if (materialIndex != -1) {
                 material = this.getStringAttr(grandChildren[materialIndex], 'id');
+
                 if (this.materials[material] == null) {
                     this.onXMLError("No material found");
                 }
@@ -746,7 +764,7 @@ class MySceneGraph {
                 grandgrandChildren = grandChildren[textureIndex].children;
 
                 /*
-                for (var t = 0; t < grandgrandChildren.length; t++) 
+                for (var t = 0; t < grandgrandChildren.length; t++)
                 {
                     grandgrandChildren[t].nodeName == "amplification"
                 }
@@ -759,7 +777,6 @@ class MySceneGraph {
 
             // Descendants
 
-            console.log(children[i]);
             let descendants = [];
             let primitive;
             if (descendantsIndex != -1) {
@@ -771,62 +788,61 @@ class MySceneGraph {
                     switch (grandgrandChildren[d].nodeName) {
                         case "noderef":
 
+
                             // Get id of the current descendent.
                             var descendant_nodeID = this.getStringAttr(grandgrandChildren[d], 'id');
                             if (descendant_nodeID == null)
                                 this.onXMLMinorError("no descendant id");
 
                             descendants.push(descendant_nodeID);
-                            console.log(descendant_nodeID);
                             break;
 
                         case "leaf":
-                            console.log(grandgrandChildren[d].nodeName);
-                            var primitiveType = this.getStringAttr(grandgrandChildren[t], 'type');
+                            var primitiveType = this.getS(grandgrandChildren[t], 'type');
                             switch (primitiveType) {
                                 case "rectangle":
-                                    var x1 = this.reader.getFloat(grandgrandChildren[t], 'x1');
-                                    var y1 = this.reader.getFloat(grandgrandChildren[t], 'y1');
-                                    var x2 = this.reader.getFloat(grandgrandChildren[t], 'x2');
-                                    var y2 = this.reader.getFloat(grandgrandChildren[t], 'y2');
+                                    var x1 = this.getFloatAttr(grandgrandChildren[t], 'x1');
+                                    var y1 = this.getFloatAttr(grandgrandChildren[t], 'y1');
+                                    var x2 = this.getFloatAttr(grandgrandChildren[t], 'x2');
+                                    var y2 = this.getFloatAttr(grandgrandChildren[t], 'y2');
 
                                     primitive = new MyRectangle(this.scene, x1, y1, x2, y2);
                                     break;
 
                                 case "triangle":
-                                    var x1 = this.reader.getFloat(grandgrandChildren[t], 'x1');
-                                    var y1 = this.reader.getFloat(grandgrandChildren[t], 'y1');
-                                    var x2 = this.reader.getFloat(grandgrandChildren[t], 'x2');
-                                    var y2 = this.reader.getFloat(grandgrandChildren[t], 'y2');
-                                    var x3 = this.reader.getFloat(grandgrandChildren[t], 'x3');
-                                    var y3 = this.reader.getFloat(grandgrandChildren[t], 'y3');
+                                    var x1 = this.getFloatAttr(grandgrandChildren[t], 'x1');
+                                    var y1 = this.getFloatAttr(grandgrandChildren[t], 'y1');
+                                    var x2 = this.getFloatAttr(grandgrandChildren[t], 'x2');
+                                    var y2 = this.getFloatAttr(grandgrandChildren[t], 'y2');
+                                    var x3 = this.getFloatAttr(grandgrandChildren[t], 'x3');
+                                    var y3 = this.getFloatAttr(grandgrandChildren[t], 'y3');
 
                                     primitive = new MyTriangle(this.scene, x1, y1, x2, y2, x3, y3);
                                     break;
 
                                 case "torus":
-                                    var inner = this.reader.getFloat(grandgrandChildren[t], 'inner');
-                                    var outer = this.reader.getFloat(grandgrandChildren[t], 'outer');
-                                    var slices = this.reader.getFloat(grandgrandChildren[t], 'slices');
-                                    var loops = this.reader.getFloat(grandgrandChildren[t], 'loops');
+                                    var inner = this.getFloatAttr(grandgrandChildren[t], 'inner');
+                                    var outer = this.getFloatAttr(grandgrandChildren[t], 'outer');
+                                    var slices = this.getFloatAttr(grandgrandChildren[t], 'slices');
+                                    var loops = this.getFloatAttr(grandgrandChildren[t], 'loops');
 
                                     primitive = new MyTorus(this.scene, inner, outer, slices, loops);
                                     break;
 
                                 case "sphere":
-                                    var radius = this.reader.getFloat(grandgrandChildren[t], 'radius');
-                                    var slices = this.reader.getFloat(grandgrandChildren[t], 'slices');
-                                    var stacks = this.reader.getFloat(grandgrandChildren[t], 'stacks');
+                                    var radius = this.getFloatAttr(grandgrandChildren[t], 'radius');
+                                    var slices = this.getFloatAttr(grandgrandChildren[t], 'slices');
+                                    var stacks = this.getFloatAttr(grandgrandChildren[t], 'stacks');
 
                                     primitive = new MySphere(this.scene, radius, slices, stacks);
                                     break;
 
                                 case "cylinder":
-                                    var height = this.reader.getFloat(grandgrandChildren[t], 'height');
-                                    var topRadius = this.reader.getFloat(grandgrandChildren[t], 'topRadius');
-                                    var bottomRadius = this.reader.getFloat(grandgrandChildren[t], 'bottomRadius');
-                                    var stacks = this.reader.getFloat(grandgrandChildren[t], 'stacks');
-                                    var slices = this.reader.getFloat(grandgrandChildren[t], 'slices');
+                                    var height = this.getFloatAttr(grandgrandChildren[t], 'height');
+                                    var topRadius = this.getFloatAttr(grandgrandChildren[t], 'topRadius');
+                                    var bottomRadius = this.getFloatAttr(grandgrandChildren[t], 'bottomRadius');
+                                    var stacks = this.getFloatAttr(grandgrandChildren[t], 'stacks');
+                                    var slices = this.getFloatAttr(grandgrandChildren[t], 'slices');
 
                                     primitive = new MyCylinder(this.scene, height, topRadius, bottomRadius, stacks, slices);
                                     break;
@@ -836,12 +852,10 @@ class MySceneGraph {
 
                             }
 
-                            //console.log("leaf found");
                             descendants.push(primitive);
                             break;
 
                         default:
-                            //console.log("switch default ");
                             this.onXMLMinorError("Warning, something wrong w/ descendants");
 
                     }
@@ -864,6 +878,36 @@ class MySceneGraph {
 
         return boolVal || 1;
     }
+
+
+    /**
+     * Parse the coordinates of the scale factor from a node with ID = id
+     * @param {block element} node
+     * @param {message to be displayed in case of error} messageError
+     */
+    parseScale(node, messageError = "Error on parse scale") {
+        var position = [];
+
+        // x
+        var x = this.getFloatAttr(node, 'sx');
+        if (!(x != null && !isNaN(x)))
+            return "unable to parse sx-coordinate of the " + messageError;
+
+        // y
+        var y = this.getFloatAttr(node, 'sy');
+        if (!(y != null && !isNaN(y)))
+            return "unable to parse sy-coordinate of the " + messageError;
+
+        // z
+        var z = this.getFloatAttr(node, 'sz');
+        if (!(z != null && !isNaN(z)))
+            return "unable to parse sz-coordinate of the " + messageError;
+
+        position.push(...[x, y, z]);
+
+        return position;
+    }
+
 
     /**
      * Parse the coordinates from a node with ID = id
@@ -909,7 +953,7 @@ class MySceneGraph {
 
 
         // w
-        var w = this.reader.getFloat(node, 'w');
+        var w = this.getFloatAttr(node, 'w');
         if (!(w != null && !isNaN(w)))
             return "unable to parse w-coordinate of the " + messageError;
 
@@ -927,22 +971,22 @@ class MySceneGraph {
         var color = [];
 
         // R
-        var r = this.reader.getFloat(node, 'r');
+        var r = this.getFloatAttr(node, 'r');
         if (!(r != null && !isNaN(r) && r >= 0 && r <= 1))
             return "unable to parse R component of the " + messageError;
 
         // G
-        var g = this.reader.getFloat(node, 'g');
+        var g = this.getFloatAttr(node, 'g');
         if (!(g != null && !isNaN(g) && g >= 0 && g <= 1))
             return "unable to parse G component of the " + messageError;
 
         // B
-        var b = this.reader.getFloat(node, 'b');
+        var b = this.getFloatAttr(node, 'b');
         if (!(b != null && !isNaN(b) && b >= 0 && b <= 1))
             return "unable to parse B component of the " + messageError;
 
         // A
-        var a = this.reader.getFloat(node, 'a');
+        var a = this.getFloatAttr(node, 'a');
         if (!(a != null && !isNaN(a) && a >= 0 && a <= 1))
             return "unable to parse A component of the " + messageError;
 
@@ -970,38 +1014,47 @@ class MySceneGraph {
     processNode(id, matParent, texParent) {
         // Apply materials and textures
 
+
         this.scene.pushMatrix();
 
         this.scene.multMatrix(this.nodes[id].matrix);
 
-        if (!(id == this.idRoot && this.node[id].material == 'null')) {
-            if (this.node[id].material == 'null') {
-                this.node[id].material = matParent;
+        if (!(id == this.idRoot && this.nodes[id].material == 'null')) {
+            if (this.nodes[id].material == 'null') {
+                this.nodes[id].material = matParent;
             }
 
-            let material = this.materials[this.node[id].material];
+
+            let material = this.materials[this.nodes[id].material];
+            //let texture = this.textures[this.nodes[id].texture];
 
 
-            if (this.node[id].texture == 'null') {
-                this.node[id].texture = texParent;
-                material.setTexture(texParent);
-            } else if (this.node[id].texture == 'clear') {
-                this.node[id].texture = null;
+            if (this.nodes[id].texture == 'null') {
+                if (texParent == 'null') {
+                    texParent = null;
+                }
+                this.nodes[id].texture = texParent;
+                material.setTexture(this.textures[this.nodes[id].texParent]);
+            } else if (this.nodes[id].texture == 'clear') {
+                this.nodes[id].texture = null;
                 material.setTexture(null);
             } else {
-                material.setTexture(this.node[id].texture);
+                material.setTexture(this.textures[this.nodes[id].texture]);
             }
 
-            //material.setTextureWrap("...","...");
+            material.setTextureWrap("REPEAT", "REPEAT");
             material.apply();
         }
 
 
-        for (var x in this.nodes[id].descendants) {
-            if (typeof x === 'string' || x instanceof String) {
-                this.processNode(x, this.nodes[id].material, this.node[id].texture);
+        for (var x = 0; x < this.nodes[id].descendants.length; x++) {
+            //console.log(this.nodes[id].descendants[x]);
+            if (typeof this.nodes[id].descendants[x] === 'string' || this.nodes[id].descendants[x] instanceof String) {
+                console.log(this.nodes[id].descendants[x]);
+                this.processNode(this.nodes[id].descendants[x], this.nodes[id].material, this.nodes[id].texture);
             } else {
-                x.display();
+                this.nodes[id].descendants[x].display();
+                console.log(this.nodes[id].descendants[x]);
             }
         }
 
