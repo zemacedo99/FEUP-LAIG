@@ -1,4 +1,5 @@
 <lsf>
+
     <initials>
         <reference length="3" />
         <!-- axis length; "0" means no axis displayed -->
@@ -6,6 +7,7 @@
         <!-- identifier of root node of the scene graph; this node -->
         <!-- must be defined in one of the following NODE declarations -->
     </initials>
+
     <views default="defaultCamera">
         <!-- at least one of the following type of cameras must be declared -->
         <perspective id="defaultCamera" near="0.1" far="500" angle="45">
@@ -63,7 +65,7 @@
             <emissive r="1.0" g="1.0" b="1.0" a="1.0" />
         </material>
 
-        <material id="null">
+        <material id="redMaterial">
             <shininess value="0.0" />
             <ambient r="1.0" g="0.0" b="0.0" a="1.0" />
             <diffuse r="1.0" g="0.0" b="0.0" a="1.0" />
@@ -72,7 +74,7 @@
         </material>
 
         <material id="greenMaterial">
-            <shininess value="0.0" />
+            <shininess value="1.0" />
             <ambient r="0.0" g="1.0" b="0.0" a="1.0" />
             <diffuse r="0.0" g="1.0" b="0.0" a="1.0" />
             <specular r="0.0" g="1.0" b="0.0" a="1.0" />
@@ -87,6 +89,14 @@
             <emissive r="0.0" g="0.0" b="0.0" a="1.0" />
         </material>
 
+        <material id="brownMaterial">
+            <shininess value="0.3" />
+            <ambient r="0.5" g="0.25" b="0.0" a="1.0" />
+            <diffuse r="0.5" g="0.25" b="0.0" a="1.0" />
+            <specular r="0.5" g="0.25" b="0.0" a="1.0" />
+            <emissive r="0.5" g="0.25" b="0.0" a="1.0" />
+        </material>
+
         <material id="blackMaterial">
             <shininess value="0.0" />
             <ambient r="0.0" g="0.0" b="0.0" a="1.0" />
@@ -96,7 +106,7 @@
         </material>
 
         <material id="whiteMaterial">
-            <shininess value="0.0" />
+            <shininess value="1.0" />
             <ambient r="1.0" g="1.0" b="1.0" a="1.0" />
             <diffuse r="1.0" g="1.0" b="1.0" a="1.0" />
             <specular r="1.0" g="1.0" b="1.0" a="1.0" />
@@ -111,7 +121,7 @@
             <!-- next two lines are mandatory -->
            <material id="demoMaterial" /><!-- this superimposes the material received from parent node id="null" maintains material from parent node -->
 
-            <texture id="null"><!-- declared texture superimposes the texture received from parent node id="null" maintains texture from parent node id="clear" clears texture declaration received from parent node -->
+            <texture id="clear"><!-- declared texture superimposes the texture received from parent node id="null" maintains texture from parent node id="clear" clears texture declaration received from parent node -->
                 <amplification afs="2.0" aft="2.0" /><!-- for primitives = dx/afs, dy/aft -->
             </texture>
 
@@ -152,7 +162,7 @@
                         <!-- may be repeated as necessary. It can refer an -->
                         <!-- identifier of another node, before or later defined in the file. -->
                         <!-- next lines define nodes of type leaf; may be repeated, in any order, as necessary -->
-                        <!-- <leaf type="rectangle" x1="0" y1="0" x2="20" y2="20" /> -->
+                        <leaf type="rectangle" x1="0" y1="0" x2="20" y2="20" />
                         <!-- 2D coordinates on the XY plane for left-top and right-bottom vertices. -->
                      </descendants>
         </node>
@@ -218,13 +228,14 @@
 
         <node id="towel">            
                    
-                    <<material id="null" />
+                    <material id="null" />
 
                     <texture id="orangeTowelTexture">
                         <amplification afs="2.0" aft="2.0" />
                     </texture>
 
                     <transformations>
+                        <translation x="0.0" y="0.0" z="0.01" />
                         <!-- <translation x="10" y="6.0" z="0.01" /> -->
                     </transformations>
 
@@ -237,14 +248,14 @@
 
         <node id="picnicBasket">            
                    
-                    <<material id="null" />
+                    <material id="null" />
 
                     <texture id="picnicBasketTexture">
                         <amplification afs="2.0" aft="2.0" />
                     </texture>
 
                     <transformations>
-                        <translation x="2" y="0.0" z="2.0" />
+                        <translation x="2" y="0.0" z="0.0" />
                     </transformations>
 
                     <descendants>
@@ -262,14 +273,16 @@
 
         <node id="frontSide">            
                    
-                    <<material id="null" />
+                    <material id="null" />
 
                     <texture id="null">
                         <amplification afs="2.0" aft="2.0" />
                     </texture>
 
                     <transformations>
-                        
+                        <translation x="2.0" y="0.0" z="0.0" />
+                        <rotation axis="y" angle="90" />
+                        <rotation axis="z" angle="90" />
                     </transformations>
 
                     <descendants>
@@ -279,14 +292,16 @@
 
         <node id="backSide">            
                    
-                    <<material id="null" />
+                    <material id="null" />
 
                     <texture id="null">
                         <amplification afs="2.0" aft="2.0" />
                     </texture>
 
                     <transformations>
-                        <translation x="0.0" y="0.0" z="2.0" />
+                        <rotation axis="y" angle="90" />
+                        <rotation axis="z" angle="90" />
+                        
                     </transformations>
 
                     <descendants>
@@ -296,62 +311,7 @@
 
         <node id="leftSide">            
                    
-                    <<material id="null" />
-
-                    <texture id="null">
-                        <amplification afs="2.0" aft="2.0" />
-                    </texture>
-
-                    <transformations>
-                        <translation x="0.0" y="0.0" z="2.0" />
-                        <rotation axis="y" angle="90" />
-                    </transformations>
-
-                    <descendants>
-                        <leaf type="rectangle" x1="0" y1="0" x2="2.0" y2="2.0" />
-                    </descendants>
-        </node>
-
-        <node id="rightSide">            
-                   
-                    <<material id="null" />
-
-                    <texture id="null">
-                        <amplification afs="2.0" aft="2.0" />
-                    </texture>
-
-                    <transformations>
-                        <translation x="2.0" y="0.0" z="2.0" />
-                        <rotation axis="y" angle="90" />
-                    </transformations>
-
-                    <descendants>
-                        <leaf type="rectangle" x1="0" y1="0" x2="2.0" y2="2.0" />
-                    </descendants>
-        </node>
-
-        <node id="bottom">            
-                   
-                    <<material id="null" />
-
-                    <texture id="null">
-                        <amplification afs="2.0" aft="2.0" />
-                    </texture>
-
-                    <transformations>
-                        <translation x="0.0" y="0.0" z="2.0" />
-                        <rotation axis="z" angle="-90" />
-                        <rotation axis="y" angle="90" />
-                    </transformations>
-
-                    <descendants>
-                        <leaf type="rectangle" x1="0" y1="0" x2="2.0" y2="2.0" />
-                    </descendants>
-        </node>
-
-        <node id="topRight">            
-                   
-                    <<material id="null" />
+                    <material id="null" />
 
                     <texture id="null">
                         <amplification afs="2.0" aft="2.0" />
@@ -363,49 +323,101 @@
                     </transformations>
 
                     <descendants>
-                         <leaf type="rectangle" x1="0" y1="0" x2="1.0" y2="1.0" />
+                        <leaf type="rectangle" x1="0" y1="0" x2="2.0" y2="1.0" />
                     </descendants>
         </node>
 
-        <node id="topLeft">            
+        <node id="rightSide">            
                    
-                    <<material id="null" />
+                    <material id="null" />
 
                     <texture id="null">
                         <amplification afs="2.0" aft="2.0" />
                     </texture>
 
                     <transformations>
-                        <translation x="0.0" y="1.0" z="1.0" />
-                        <rotation axis="x" angle="80" />
+                        <rotation axis="x" angle="90" />
                     </transformations>
 
                     <descendants>
-                         <leaf type="rectangle" x1="0" y1="0" x2="1.0" y2="1.0" />
+                        <leaf type="rectangle" x1="0" y1="0" x2="2.0" y2="1.0" />
+                    </descendants>
+        </node>
+
+        <node id="bottom">            
+                   
+                    <material id="null" />
+
+                    <texture id="null">
+                        <amplification afs="2.0" aft="2.0" />
+                    </texture>
+
+                    <transformations>
+                        <translation x="0.0" y="0.0" z="0.01" />
+                    </transformations>
+
+                    <descendants>
+                        <leaf type="rectangle" x1="0" y1="0" x2="2.0" y2="1.0" />
+                    </descendants>
+        </node>
+
+        <node id="topRight">            
+                   
+                    <material id="null" />
+
+                    <texture id="null">
+                        <amplification afs="2.0" aft="2.0" />
+                    </texture>
+
+                    <transformations>
+                        <translation x="0.0" y="0.0" z="1.0" />
+                    </transformations>
+
+                    <descendants>
+                        <leaf type="rectangle" x1="0" y1="0" x2="1.0" y2="1.0" />
+                    </descendants>
+        </node>
+
+        <node id="topLeft">            
+                   
+                    <material id="null" />
+
+                    <texture id="null">
+                        <amplification afs="2.0" aft="2.0" />
+                    </texture>
+
+                    <transformations>
+                        <translation x="1.0" y="0.0" z="1.0" />
+                        <rotation axis="y" angle="-25" />
+                    </transformations>
+
+                    <descendants>
+                        <leaf type="rectangle" x1="0" y1="0" x2="1.0" y2="1.0" />
                     </descendants>
         </node>
 
         <node id="holder">            
                    
-                    <material id="blackMaterial" />
+                    <material id="brownMaterial" />
 
                     <texture id="clear">
                         <amplification afs="2.0" aft="2.0" />
                     </texture>
 
                     <transformations>
-                        <translation x="0.0" y="1.0" z="1.0" />
-                        <rotation axis="y" angle="90" />
+                        <rotation axis="x" angle="90" />
+                        <scale sx="0.5" sy="0.5" sz="1.1" />
+                        <translation x="2.0" y="2.0" z="-0.95" />
                     </transformations>
 
                     <descendants>
-                        <leaf type="cylinder" height="1.0" topRadius="0.25" bottomRadius="0.25" stacks="10" slices="10"/>
+                        <leaf type="cylinder" height="1.0" topRadius="0.25" bottomRadius="0.25" stacks="16" slices="16"/>
                     </descendants>
         </node>
 
         <node id="cheese">            
                    
-                    <<material id="null" />
+                    <material id="null" />
 
                     <texture id="cheeseTexture">
                         <amplification afs="2.0" aft="2.0" />
@@ -514,7 +526,7 @@
 
         <node id="book">            
                    
-                    <material id="blueMaterial" />
+                    <material id="greenMaterial" />
 
                     <texture id="clear">
                         <amplification afs="2.0" aft="2.0" />
@@ -570,7 +582,7 @@
 
         <node id="bookLeftSide">            
                    
-                   <material id="null" />
+                   <material id="whiteMaterial" />
 
                     <texture id="null">
                         <amplification afs="2.0" aft="2.0" />
@@ -587,7 +599,7 @@
 
         <node id="bookRightSide">            
                    
-                   <material id="null" />
+                   <material id="whiteMaterial" />
 
                     <texture id="null">
                         <amplification afs="2.0" aft="2.0" />

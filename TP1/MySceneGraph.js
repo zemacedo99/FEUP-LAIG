@@ -686,10 +686,6 @@ class MySceneGraph {
             var textureIndex = nodeNames.indexOf("texture");
             var descendantsIndex = nodeNames.indexOf("descendants");
 
-
-            this.onXMLMinorError("To do: Parse nodes- Texture and Materials");
-
-
             // Transformations
             var matrix = mat4.create();
 
@@ -742,12 +738,11 @@ class MySceneGraph {
 
             // Material
 
-            let material;
+            let materialID;
             if (materialIndex != -1) {
-                material = this.reader.getString(grandChildren[materialIndex], 'id');
-
-                if (this.materials[material] == null) {
-                    this.onXMLError("No material found");
+                materialID = this.reader.getString(grandChildren[materialIndex], 'id');
+                if (materialID != "null" && this.materials[materialID] == null) {
+                    this.onXMLError("No material found on node: "+ nodeID);
                 }
             } else {
                 this.onXMLMinorError("No materials");
@@ -866,7 +861,8 @@ class MySceneGraph {
             }
 
 
-            this.nodes[nodeID] = new MyNode(nodeID, material, texture, matrix, descendants, primitives);
+            this.nodes[nodeID] = new MyNode(nodeID, materialID, texture, matrix, descendants, primitives);
+            console.log(this.nodes[nodeID]);
         }
     }
 
@@ -1013,7 +1009,11 @@ class MySceneGraph {
     }
 
     processNode(id, matParent, texParent) {
+        
         // Apply materials and textures
+
+
+        console.log(this.nodes[id]);
 
         this.scene.pushMatrix();
 
@@ -1023,31 +1023,29 @@ class MySceneGraph {
             this.nodes[id].material = this.nodes[id].material === 'null' ? matParent : this.nodes[id].material;
 
             let material = this.materials[this.nodes[id].material];
-            if (material != undefined) {
-                if (this.nodes[id].texture == 'null') {
-                    texParent = texParent == 'null' ? null : texParent;
+            if (material != undefined) 
+            {
+                if (this.nodes[id].texture == 'null') 
+                {
                     this.nodes[id].texture = texParent;
-                    material.setTexture(this.textures[this.nodes[id].texParent]);
                 } else if (this.nodes[id].texture == 'clear') {
                     this.nodes[id].texture = null;
-                    material.setTexture(null);
-                } else {
-                    material.setTexture(this.textures[this.nodes[id].texture]);
                 }
 
+                material.setTexture(this.textures[this.nodes[id].texture]);
                 material.setTextureWrap("REPEAT", "REPEAT");
                 material.apply();
             }
         }
 
+        for (var x = 0; x < this.nodes[id].primitives.length; x++) {
+            this.nodes[id].primitives[x].display();
+        }
 
         for (var x = 0; x < this.nodes[id].descendants.length; x++) {
             this.processNode(this.nodes[id].descendants[x], this.nodes[id].material, this.nodes[id].texture);
         }
 
-        for (var x = 0; x < this.nodes[id].primitives.length; x++) {
-            this.nodes[id].primitives[x].display();
-        }
 
         this.scene.popMatrix();
 
