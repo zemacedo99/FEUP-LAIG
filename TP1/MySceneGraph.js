@@ -1035,17 +1035,11 @@ class MySceneGraph {
             if(this.nodes[id].material == 'null')
             {
                 this.nodes[id].material = matParent;
-                console.log("matParent")
-                console.log(matParent);
             }
     
       
             let material = this.materials[this.nodes[id].material];
             //let texture = this.textures[this.nodes[id].texture];
-
-            console.log(id);
-            console.log(material);
-
            
             if(this.nodes[id].texture == 'null')
             {
@@ -1075,17 +1069,6 @@ class MySceneGraph {
         for( var x= 0; x < this.nodes[id].descendants.length ;x++)
         { 
             this.processNode(this.nodes[id].descendants[x],this.nodes[id].material,this.nodes[id].texture);
-            //console.log(this.nodes[id].descendants[x]);
-            // if (typeof this.nodes[id].descendants[x] === 'string' || this.nodes[id].descendants[x] instanceof String)
-            // {
-            //     console.log(this.nodes[id].descendants[x]);
-            //     this.processNode(this.nodes[id].descendants[x],this.nodes[id].material,this.nodes[id].texture);
-            // }
-            // else
-            // {
-            //     this.nodes[id].descendants[x].display();
-            //     console.log(this.nodes[id].descendants[x]);
-            // }
         }
 
         for ( var x = 0; x < this.nodes[id].primitives.length;x++)
