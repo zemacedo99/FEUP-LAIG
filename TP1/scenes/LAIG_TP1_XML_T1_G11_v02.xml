@@ -52,7 +52,8 @@
         <texture id="picnicBasketTexture" path="./scenes/images/picnicBasket.jpg" />
         <texture id="cheeseTexture" path="./scenes/images/cheese.jpg" />
         <texture id="pagTexture" path="./scenes/images/pag.jpg" />
-        <texture id="bookCoverTexture" path="./scenes/images/book_cover.jpg" />
+        <texture id="bookCoverTexture" path="./scenes/images/book_cover.jpg" />    
+        <texture id="landScapeTexture" path="./scenes/images/landScape.jpg" />
     </textures>
 
 
@@ -147,6 +148,7 @@
             <descendants>
                 <noderef id="sand" />
                 <noderef id="sky" />
+                <noderef id="landScape" />
             </descendants>
         </node>
 
@@ -188,6 +190,23 @@
                     <transformations>
                         <translation x="0" y="20.0" z="0.0" />   
                         <rotation axis="x" angle="90" />
+                    </transformations>
+
+                    <descendants>
+                        <leaf type="rectangle" x1="0" y1="0" x2="20" y2="20" />
+                    </descendants>
+        </node>
+
+                <node id="landScape">            
+                   
+                   <material id="null" />
+
+                    <texture id="landScapeTexture">
+                        <amplification afs="2.0" aft="2.0" />
+                    </texture>
+
+                    <transformations>
+
                     </transformations>
 
                     <descendants>
