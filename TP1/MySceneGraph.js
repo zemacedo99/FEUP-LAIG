@@ -1004,7 +1004,7 @@ class MySceneGraph {
     displayScene() {
 
         var backupCamera = this.scene.camera;
-        this.scene.camera = this.views['defaultCamera'];
+        this.scene.camera = this.defaultView;
 
         this.processNode(this.idRoot, this.nodes[this.idRoot].material, this.nodes[this.idRoot].texture);
     }
