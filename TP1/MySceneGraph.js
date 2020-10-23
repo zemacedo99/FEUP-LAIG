@@ -37,6 +37,8 @@ class MySceneGraph {
 
         // Save Elements
         this.views = [];
+        this.defaultView = null;
+
         // File reading 
         this.reader = new CGFXMLreader();
 
@@ -301,7 +303,8 @@ class MySceneGraph {
         if (this.views[defaultView] == null)
             return "Can't find default view";
 
-        this.views.push(defaultView);
+
+        this.defaultView = this.views[defaultView];
         this.log("Parsed Views");
         return null;
     }
@@ -862,7 +865,6 @@ class MySceneGraph {
 
 
             this.nodes[nodeID] = new MyNode(nodeID, materialID, texture, matrix, descendants, primitives);
-            console.log(this.nodes[nodeID]);
         }
     }
 
@@ -1001,9 +1003,8 @@ class MySceneGraph {
      */
     displayScene() {
 
-        //To do: Create display loop for transversing the scene graph, calling the root node's display function
-
-        //this.nodes[this.idRoot].display()
+        var backupCamera = this.scene.camera;
+        this.scene.camera = this.views['defaultCamera'];
 
         this.processNode(this.idRoot, this.nodes[this.idRoot].material, this.nodes[this.idRoot].texture);
     }
@@ -1011,9 +1012,6 @@ class MySceneGraph {
     processNode(id, matParent, texParent) {
         
         // Apply materials and textures
-
-
-        console.log(this.nodes[id]);
 
         this.scene.pushMatrix();
 
@@ -1045,7 +1043,6 @@ class MySceneGraph {
         for (var x = 0; x < this.nodes[id].descendants.length; x++) {
             this.processNode(this.nodes[id].descendants[x], this.nodes[id].material, this.nodes[id].texture);
         }
-
 
         this.scene.popMatrix();
 
