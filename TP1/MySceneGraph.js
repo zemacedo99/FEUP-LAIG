@@ -304,7 +304,7 @@ class MySceneGraph {
             return "Can't find default view";
 
 
-        this.defaultView = this.views[defaultView];
+        this.defaultView = defaultView;
         this.log("Parsed Views");
         return null;
     }
@@ -1002,10 +1002,6 @@ class MySceneGraph {
      * Displays the scene, processing each node, starting in the root node.
      */
     displayScene() {
-
-        var backupCamera = this.scene.camera;
-        this.scene.camera = this.defaultView;
-
         this.processNode(this.idRoot, this.nodes[this.idRoot].material, this.nodes[this.idRoot].texture);
     }
 
