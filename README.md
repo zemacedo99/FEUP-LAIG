@@ -13,8 +13,9 @@
 ### [TP1 - Scene Graph](TP1)
 
 - Parse | Build Scene & Interface:
-  - Controls and set current camera from a dropdown menu;
-  - Turn On and Off all lights created with XML;
+  - Controls and set current camera from a dropdown menu
+  - Turn On and Off all lights created with XML
+
 
 - Scene Graph | Reproduce a view with following elements:
   - Beach
