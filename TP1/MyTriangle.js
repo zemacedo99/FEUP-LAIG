@@ -19,7 +19,8 @@ class MyTriangle extends CGFobject {
             this.x3, this.y3, 0
         ]
 
-        this.indices = [2,1,0]
+        this.indices = [2,1,0,
+                        0,1,2 ]
 
         this.normals = [
 			0, 0, 1,

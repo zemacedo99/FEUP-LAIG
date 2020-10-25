@@ -37,6 +37,8 @@ class MySceneGraph {
 
         // Save Elements
         this.views = [];
+        this.defaultView = null;
+
         // File reading 
         this.reader = new CGFXMLreader();
 
@@ -270,29 +272,27 @@ class MySceneGraph {
      * @param {view block element} viewsNode
      */
     parseViews(viewsNode) {
-        var defaultView = this.reader.getString(viewsNode, 'default')
+        var defaultView = this.getStringAttr(viewsNode, 'default')
+      
         if (defaultView == null)
             return "Erro on parse view element: no default defined.";
 
         var children = viewsNode.children;
         var nodeNames = [];
 
-        for (var i = 0; i < children.length; i++)
-            nodeNames.push(children[i].nodeName);
-
-        var perspectiveIndex = nodeNames.indexOf("perspective");
-        var orthoIndex = nodeNames.indexOf("ortho");
-
-        if (perspectiveIndex === -1)
-            return "No perspective defined for scene.";
-        if (orthoIndex === -1)
-            return "No ortho defined for scene.";
-
-        var perspectiveNode = children[perspectiveIndex];
-        this.parsePerspectiveView(perspectiveNode);
-
-        var orthoNode = children[orthoIndex];
-        this.parseOrthoView(orthoNode);
+        for (var i = 0; i < children.length; i++){
+            switch (children[i].nodeName){
+                case 'perspective':
+                    this.parsePerspectiveView(children[i]);
+                    break;
+                case 'ortho':
+                    this.parseOrthoView(children[i]);
+                    break;
+                default:
+                    this.log("View must be in 'perspective' or 'ortho' tags")
+                    break;
+            }
+        }
 
         if (!this.existIndex(defaultView, this.views)) {
             this.onXMLMinorError("Default Id of Views do not exist");
@@ -302,7 +302,8 @@ class MySceneGraph {
         if (this.views[defaultView] == null)
             return "Can't find default view";
 
-        this.views.push(defaultView);
+
+        this.defaultView = defaultView;
         this.log("Parsed Views");
         return null;
     }
@@ -687,9 +688,6 @@ class MySceneGraph {
             var textureIndex = nodeNames.indexOf("texture");
             var descendantsIndex = nodeNames.indexOf("descendants");
 
-            this.onXMLMinorError("To do: Parse nodes- Texture and Materials");
-
-
             // Transformations
             var matrix = mat4.create();
 
@@ -705,6 +703,7 @@ class MySceneGraph {
 
                         case "scale":
                             matrix = mat4.scale(matrix, matrix, this.parseScale(grandgrandChildren[t], nodeID));
+
                             break;
 
 
@@ -741,12 +740,11 @@ class MySceneGraph {
 
             // Material
 
-            let material;
+            let materialID;
             if (materialIndex != -1) {
-                material = this.reader.getString(grandChildren[materialIndex], 'id');
-
-                if (this.materials[material] == null) {
-                    this.onXMLError("No material found");
+                materialID = this.reader.getString(grandChildren[materialIndex], 'id');
+                if (materialID != "null" && this.materials[materialID] == null) {
+                    this.onXMLError("No material found on node: "+ nodeID);
                 }
             } else {
                 this.onXMLMinorError("No materials");
@@ -777,6 +775,7 @@ class MySceneGraph {
 
             // Descendants
 
+            let primitives = [];
             let descendants = [];
             let primitive;
             if (descendantsIndex != -1) {
@@ -801,48 +800,47 @@ class MySceneGraph {
                             var primitiveType = this.reader.getString(grandgrandChildren[d], 'type');
                             switch (primitiveType) {
                                 case "rectangle":
-                                    var x1 = this.getFloatAttr(grandgrandChildren[d], 'x1');
-                                    var y1 = this.getFloatAttr(grandgrandChildren[d], 'y1');
-                                    var x2 = this.getFloatAttr(grandgrandChildren[d], 'x2');
-                                    var y2 = this.getFloatAttr(grandgrandChildren[d], 'y2');
-
+                                    var x1 = this.reader.getFloat(grandgrandChildren[d], 'x1');
+                                    var y1 = this.reader.getFloat(grandgrandChildren[d], 'y1');
+                                    var x2 = this.reader.getFloat(grandgrandChildren[d], 'x2');
+                                    var y2 = this.reader.getFloat(grandgrandChildren[d], 'y2');
                                     primitive = new MyRectangle(this.scene, x1, y1, x2, y2);
                                     break;
 
                                 case "triangle":
-                                    var x1 = this.getFloatAttr(grandgrandChildren[d], 'x1');
-                                    var y1 = this.getFloatAttr(grandgrandChildren[d], 'y1');
-                                    var x2 = this.getFloatAttr(grandgrandChildren[d], 'x2');
-                                    var y2 = this.getFloatAttr(grandgrandChildren[d], 'y2');
-                                    var x3 = this.getFloatAttr(grandgrandChildren[d], 'x3');
-                                    var y3 = this.getFloatAttr(grandgrandChildren[d], 'y3');
+                                    var x1 = this.reader.getFloat(grandgrandChildren[d], 'x1');
+                                    var y1 = this.reader.getFloat(grandgrandChildren[d], 'y1');
+                                    var x2 = this.reader.getFloat(grandgrandChildren[d], 'x2');
+                                    var y2 = this.reader.getFloat(grandgrandChildren[d], 'y2');
+                                    var x3 = this.reader.getFloat(grandgrandChildren[d], 'x3');
+                                    var y3 = this.reader.getFloat(grandgrandChildren[d], 'y3');
 
                                     primitive = new MyTriangle(this.scene, x1, y1, x2, y2, x3, y3);
                                     break;
 
                                 case "torus":
-                                    var inner = this.getFloatAttr(grandgrandChildren[d], 'inner');
-                                    var outer = this.getFloatAttr(grandgrandChildren[d], 'outer');
-                                    var slices = this.getFloatAttr(grandgrandChildren[d], 'slices');
-                                    var loops = this.getFloatAttr(grandgrandChildren[d], 'loops');
+                                    var inner = this.reader.getFloat(grandgrandChildren[d], 'inner');
+                                    var outer = this.reader.getFloat(grandgrandChildren[d], 'outer');
+                                    var slices = this.reader.getFloat(grandgrandChildren[d], 'slices');
+                                    var loops = this.reader.getFloat(grandgrandChildren[d], 'loops');
 
                                     primitive = new MyTorus(this.scene, inner, outer, slices, loops);
                                     break;
 
                                 case "sphere":
-                                    var radius = this.getFloatAttr(grandgrandChildren[d], 'radius');
-                                    var slices = this.getFloatAttr(grandgrandChildren[d], 'slices');
-                                    var stacks = this.getFloatAttr(grandgrandChildren[d], 'stacks');
+                                    var radius = this.reader.getFloat(grandgrandChildren[d], 'radius');
+                                    var slices = this.reader.getFloat(grandgrandChildren[d], 'slices');
+                                    var stacks = this.reader.getFloat(grandgrandChildren[d], 'stacks');
 
                                     primitive = new MySphere(this.scene, radius, slices, stacks);
                                     break;
 
                                 case "cylinder":
-                                    var height = this.getFloatAttr(grandgrandChildren[d], 'height');
-                                    var topRadius = this.getFloatAttr(grandgrandChildren[d], 'topRadius');
-                                    var bottomRadius = this.getFloatAttr(grandgrandChildren[d], 'bottomRadius');
-                                    var stacks = this.getFloatAttr(grandgrandChildren[d], 'stacks');
-                                    var slices = this.getFloatAttr(grandgrandChildren[d], 'slices');
+                                    var height = this.reader.getFloat(grandgrandChildren[d], 'height');
+                                    var topRadius = this.reader.getFloat(grandgrandChildren[d], 'topRadius');
+                                    var bottomRadius = this.reader.getFloat(grandgrandChildren[d], 'bottomRadius');
+                                    var stacks = this.reader.getFloat(grandgrandChildren[d], 'stacks');
+                                    var slices = this.reader.getFloat(grandgrandChildren[d], 'slices');
 
                                     primitive = new MyCylinder(this.scene, height, topRadius, bottomRadius, stacks, slices);
                                     break;
@@ -851,7 +849,9 @@ class MySceneGraph {
                                     this.onXMLMinorError("Warning, invalid primitive");
 
                             }
-                            descendants.push(primitive);
+
+
+                            primitives.push(primitive);
                             break;
 
                         default:
@@ -864,7 +864,7 @@ class MySceneGraph {
             }
 
 
-            this.nodes[nodeID] = new MyNode(nodeID, material, texture, matrix, descendants);
+            this.nodes[nodeID] = new MyNode(nodeID, materialID, texture, matrix, descendants, primitives);
         }
     }
 
@@ -873,9 +873,8 @@ class MySceneGraph {
         var boolVal = true;
         boolVal = this.reader.getBoolean(node, name);
         if (!(boolVal != null && !isNaN(boolVal) && (boolVal == true || boolVal == false)))
-            this.onXMLMinorError("unable to parse value component " + messageError + "; assuming 'value = 1'");
-
-        return boolVal || 1;
+            this.onXMLMinorError("unable to parse value component " + messageError + "; assuming 'value = 0'");
+        return boolVal || false;
     }
 
     /**
@@ -999,62 +998,43 @@ class MySceneGraph {
      * Displays the scene, processing each node, starting in the root node.
      */
     displayScene() {
-
-        //To do: Create display loop for transversing the scene graph, calling the root node's display function
-
-        //this.nodes[this.idRoot].display()
-
         this.processNode(this.idRoot, this.nodes[this.idRoot].material, this.nodes[this.idRoot].texture);
     }
 
     processNode(id, matParent, texParent) {
+        
         // Apply materials and textures
-
-        console.log(this.nodes[id]);
 
         this.scene.pushMatrix();
 
         this.scene.multMatrix(this.nodes[id].matrix);
 
-        if (!(id == this.idRoot && this.nodes[id].material == 'null')) {
-            if (this.nodes[id].material == 'null') {
-                this.nodes[id].material = matParent;
-            }
-
+        if (id !== this.idRoot) {
+            this.nodes[id].material = this.nodes[id].material === 'null' ? matParent : this.nodes[id].material;
 
             let material = this.materials[this.nodes[id].material];
-            //let texture = this.textures[this.nodes[id].texture];
-
-
-            if (this.nodes[id].texture == 'null') {
-                if (texParent == 'null') {
-                    texParent = null;
+            if (material != undefined) 
+            {
+                if (this.nodes[id].texture == 'null') 
+                {
+                    this.nodes[id].texture = texParent;
+                } else if (this.nodes[id].texture == 'clear') {
+                    this.nodes[id].texture = null;
                 }
-                this.nodes[id].texture = texParent;
-                material.setTexture(this.textures[this.nodes[id].texParent]);
-            } else if (this.nodes[id].texture == 'clear') {
-                this.nodes[id].texture = null;
-                material.setTexture(null);
-            } else {
+
                 material.setTexture(this.textures[this.nodes[id].texture]);
+                material.setTextureWrap("REPEAT", "REPEAT");
+                material.apply();
             }
+        }
 
-            material.setTextureWrap("REPEAT", "REPEAT");
-
-            material.apply();
+        for (var x = 0; x < this.nodes[id].primitives.length; x++) {
+            this.nodes[id].primitives[x].display();
         }
 
         for (var x = 0; x < this.nodes[id].descendants.length; x++) {
-            //console.log(this.nodes[id].descendants[x]);
-            if (typeof this.nodes[id].descendants[x] === 'string' || this.nodes[id].descendants[x] instanceof String) {
-                console.log(this.nodes[id].descendants[x]);
-                this.processNode(this.nodes[id].descendants[x], this.nodes[id].material, this.nodes[id].texture);
-            } else {
-                console.log(this.nodes[id].descendants[x]);
-                this.nodes[id].descendants[x].display();
-            }
+            this.processNode(this.nodes[id].descendants[x], this.nodes[id].material, this.nodes[id].texture);
         }
-
 
         this.scene.popMatrix();
 
