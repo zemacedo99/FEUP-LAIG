@@ -10,6 +10,7 @@ class XMLscene extends CGFscene {
         super();
 
         this.interface = myinterface;
+        this.lightsValues = []
     }
 
     /**
@@ -88,6 +89,7 @@ class XMLscene extends CGFscene {
                 i++;
             }
         }
+        console.log(this.lights)
     }
 
     /** Handler called when the graph is finally loaded.
@@ -103,9 +105,12 @@ class XMLscene extends CGFscene {
         this.interface.setActiveCamera(this.camera);
         this.interface.createSelectView(this.graph.views)
 
+
+
         this.setGlobalAmbientLight(...this.graph.ambient);
 
         this.initLights();
+        this.interface.lightsGroup(this.graph.lights)
 
         this.sceneInited = true;
 
@@ -133,7 +138,18 @@ class XMLscene extends CGFscene {
         for (var i = 0; i < this.lights.length; i++) {
             this.lights[i].setVisible(true);
             this.lights[i].enable();
+            this.lights[i].update();
         }
+        var cont = 0;
+        for (const [key, value] of Object.entries(this.lightsValues)) {
+            if(value === false ){
+                console.log(key)
+                this.lights[cont].disable();
+                this.lights[cont].update();
+            }
+            cont++;
+        }
+
 
         if (this.sceneInited) {
             // Draw axis
