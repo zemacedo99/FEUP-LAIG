@@ -272,6 +272,7 @@ class MySceneGraph {
      */
     parseViews(viewsNode) {
         var defaultView = this.getStringAttr(viewsNode, 'default')
+        console.log(defaultView)
         if (defaultView == null)
             return "Erro on parse view element: no default defined.";
 
