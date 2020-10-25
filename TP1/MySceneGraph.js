@@ -279,22 +279,19 @@ class MySceneGraph {
         var children = viewsNode.children;
         var nodeNames = [];
 
-        for (var i = 0; i < children.length; i++)
-            nodeNames.push(children[i].nodeName);
-
-        var perspectiveIndex = nodeNames.indexOf("perspective");
-        var orthoIndex = nodeNames.indexOf("ortho");
-
-        if (perspectiveIndex === -1)
-            return "No perspective defined for scene.";
-        if (orthoIndex === -1)
-            return "No ortho defined for scene.";
-
-        var perspectiveNode = children[perspectiveIndex];
-        this.parsePerspectiveView(perspectiveNode);
-
-        var orthoNode = children[orthoIndex];
-        this.parseOrthoView(orthoNode);
+        for (var i = 0; i < children.length; i++){
+            switch (children[i].nodeName){
+                case 'perspective':
+                    this.parsePerspectiveView(children[i]);
+                    break;
+                case 'ortho':
+                    this.parseOrthoView(children[i]);
+                    break;
+                default:
+                    this.log("View must be in 'perspective' or 'ortho' tags")
+                    break;
+            }
+        }
 
         if (!this.existIndex(defaultView, this.views)) {
             this.onXMLMinorError("Default Id of Views do not exist");
