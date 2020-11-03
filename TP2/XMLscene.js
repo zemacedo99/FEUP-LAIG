@@ -41,6 +41,8 @@ class XMLscene extends CGFscene {
         this.defaultAppearance = new CGFappearance(this);
 
         //this.sphere = new MySphere (this,5,10,10);
+        // this.rectangle = new MyRectangle(this, 0, 0, 1, 1);
+        // this.shader = new CGFshader(this.gl, "./shaders/spritesheet.vert", "./shaders/spritesheet.frag");
 
     }
 
@@ -150,6 +152,8 @@ class XMLscene extends CGFscene {
             cont++;
         }
 
+    
+       
 
         if (this.sceneInited) {
             // Draw axis
@@ -159,6 +163,9 @@ class XMLscene extends CGFscene {
 
             // Displays the scene (MySceneGraph function).
             this.graph.displayScene();
+            // this.graph.textures["bookCoverTexture"].bind();
+            // this.rectangle.display();
+    
         } else {
             // Show some "loading" visuals
             this.defaultAppearance.apply();

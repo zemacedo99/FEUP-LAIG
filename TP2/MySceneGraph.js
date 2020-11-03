@@ -597,8 +597,49 @@ class MySceneGraph {
      */
     parseSpriteSheets(spritesheetsNode) {
 
-        
-        this.log("To DO: Parse spritesheets");
+            //For each spritesheet in spritesheets block, check ID, file URL, size of the columns  and lines
+            var children = spritesheetsNode.children;
+
+            this.spritesheets = [];
+
+            // Any number of spritesheets.
+            for (var i = 0; i < children.length; i++) {
+
+                if (children[i].nodeName != "spritesheet") {
+                    this.onXMLMinorError("unknown tag <" + children[i].nodeName + ">");
+                    continue;
+                }
+
+                // Get id of the current spritesheet
+                var spritesheetID = this.reader.getString(children[i], 'id');
+                if (spritesheetID == null)
+                    return "no ID defined for spritesheet";
+
+                // Checks for repeated IDs.
+                if (this.spritesheets[spritesheetID] != null)
+                    return "ID must be unique for each spritesheet (conflict: ID = " + spritesheetID + ")";
+
+                let spritesheetURL = this.reader.getString(children[i], 'path');
+                if (spritesheetURL == null)
+                    return "No path for spritesheet with ID = " + spritesheetID + ")";
+
+                let sizeM = this.reader.getInteger(children[i], 'sizeM');
+                if (sizeM == null)
+                    return "No columns size for spritesheet with ID = " + spritesheetID + ")";
+    
+                let sizeN = this.reader.getInteger(children[i], 'sizeN');
+                if (sizeN == null)
+                    return "No lines size for spritesheet with ID = " + spritesheetID + ")";
+    
+
+                let spritesheetTexture = new CGFtexture(this.scene, spritesheetURL);
+                let spritesheet = new MySpritesheet(this.scene,spritesheetTexture,sizeM,sizeN);
+
+                this.spritesheets[spritesheetID] = spritesheet;
+        }
+
+
+        this.log("Parsed spritesheets");
         return null;
     }
 
@@ -928,6 +969,21 @@ class MySceneGraph {
                                     var slices = this.reader.getFloat(grandgrandChildren[d], 'slices');
 
                                     primitive = new MyCylinder(this.scene, height, topRadius, bottomRadius, stacks, slices);
+                                    break;
+
+                                case "spritetext":
+                                    var text = this.reader.getString(grandgrandChildren[d],'text');
+
+                                    primitive = new MySpriteText(this.scene,text);
+                                    break;
+
+                                case "spriteanim":
+                                    var ssid = this.reader.getString(grandgrandChildren[d],'ssid');
+                                    var startCell = this.reader.getString(grandgrandChildren[d],'startCell');
+                                    var endCell = this.reader.getString(grandgrandChildren[d],'endCell');
+                                    var duration = this.reader.getString(grandgrandChildren[d],'duration');
+
+                                    primitive = new MySpriteAnimation(this.scene,ssid,startCell,endCell,duration);
                                     break;
 
                                 default:

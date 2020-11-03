@@ -63,8 +63,8 @@
 
             <!-- Semelhante à declaração de textura, -->
             <!-- mas inclui a definição do nº de colunas e linhas -->
-            <spritesheet id="demoSpriteSheet" path="./scenes/images/spriteSheet/chick_24x24_0.jpg" sizeM="24" sizeN="24" />
-            <spritesheet id="redFrogSpriteSheet" path="./scenes/images/spriteSheet/red_frog.jpg" sizeM="24" sizeN="24" />
+            <spritesheet id="demoSpriteSheetText" path="./scenes/images/spriteSheet/Berlinfont.png" sizeM="16" sizeN="16" />
+            <spritesheet id="redFrogSpriteSheetAnim" path="./scenes/images/spriteSheet/red_frog.png" sizeM="4" sizeN="2" />
 
     </spritesheets>
 
@@ -300,6 +300,14 @@
 
                     <descendants>
                         <leaf type="rectangle" x1="0" y1="0" x2="20" y2="20" />
+
+                        <!-- Nova primitiva: texto baseado em spritesheet -->
+                        <leaf type="spritetext" text="LAIG" />
+                        <!-- Nova primitiva: animação baseada em spritesheet -->
+                        <!-- identifica a spritesheet a usar, a célula inicial e final da animação, e a duração -->
+                        <leaf type="spriteanim" ssid="redFrogSpriteSheetAnim" startCell="0" endCell="8" duration="8" />
+
+
                     </descendants>
         </node>
 
