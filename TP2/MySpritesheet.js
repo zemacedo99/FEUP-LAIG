@@ -10,11 +10,18 @@ class MySpritesheet extends CGFobject  {
 
     activateCellMN(m, n){
         this.shader.setUniformsValues({sizeM : this.sizeM,
-                                       sizeN: this.sizeN,
+                                       sizeN : this.sizeN,
                                        m: m,
                                        n: n});
 
+
                                        
+        this.texture.bind();
         this.scene.setActiveShader(this.shader);
+
+    }
+
+    activateCellP(p){
+        
     }
 }
