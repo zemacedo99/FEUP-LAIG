@@ -1,5 +1,5 @@
 class KeyframeAnimation extends Animation {
-    constructor(){
-        
+    constructor(keyframes){
+        this.keyframes = keyframes;
     }
 }

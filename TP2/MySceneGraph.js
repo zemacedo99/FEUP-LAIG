@@ -6,8 +6,10 @@ var VIEWS_INDEX = 1;
 var ILLUMINATION_INDEX = 2;
 var LIGHTS_INDEX = 3;
 var TEXTURES_INDEX = 4;
-var MATERIALS_INDEX = 5;
-var NODES_INDEX = 6;
+var SPRITESHEETS_INDEX = 5;
+var MATERIALS_INDEX = 6;
+var ANIMATIONS_INDEX = 7;
+var NODES_INDEX = 8;
 
 /**
  * MySceneGraph class, representing the scene graph.
@@ -188,6 +190,7 @@ class MySceneGraph {
             if ((error = this.parseLights(nodes[index])) != null)
                 return error;
         }
+
         // <textures>
         if ((index = nodeNames.indexOf("textures")) == -1)
             return "tag <textures> missing";
@@ -200,6 +203,18 @@ class MySceneGraph {
                 return error;
         }
 
+        // <spritesheets>
+        if ((index = nodeNames.indexOf("spritesheets")) == -1)
+            return "tag <spritesheets> missing";
+        else {
+            if (index != SPRITESHEETS_INDEX)
+                this.onXMLMinorError("tag <spritesheets> out of order");
+
+            //Parse spritesheets block
+            if ((error = this.parseSpriteSheets(nodes[index])) != null)
+                return error;
+        }
+
         // <materials>
         if ((index = nodeNames.indexOf("materials")) == -1)
             return "tag <materials> missing";
@@ -209,6 +224,18 @@ class MySceneGraph {
 
             //Parse materials block
             if ((error = this.parseMaterials(nodes[index])) != null)
+                return error;
+        }
+
+        // <animations>
+        if ((index = nodeNames.indexOf("animations")) == -1)
+            return "tag <animations> missing";
+        else {
+            if (index != ANIMATIONS_INDEX)
+                this.onXMLMinorError("tag <animations> out of order");
+
+            //Parse animations block
+            if ((error = this.parseAnimations(nodes[index])) != null)
                 return error;
         }
 
@@ -563,6 +590,19 @@ class MySceneGraph {
         return null;
     }
 
+
+    /**
+     * Parses the <spritesheets> block.
+     * @param {spritesheets block element} spritesheetsNode
+     */
+    parseSpriteSheets(spritesheetsNode) {
+
+        
+        this.log("To DO: Parse spritesheets");
+        return null;
+    }
+
+
     /**
      * Parses the <materials> node.
      * @param {materials block element} materialsNode
@@ -645,6 +685,51 @@ class MySceneGraph {
         this.log("Parsed materials");
         return null;
     }
+
+    /**
+     * Parses the <animations> block.
+     * @param {animations block element} animationsNode
+     */
+    parseAnimations(animationsNode) {
+
+        //For each animation in animations block, check ID and file URL
+        var children = animationsNode.children;
+
+        this.animations = [];
+
+        // Any number of animations.
+        for (var i = 0; i < children.length; i++) {
+
+            if (children[i].nodeName != "animation") {
+                this.onXMLMinorError("unknown tag <" + children[i].nodeName + ">");
+                continue;
+            }
+
+            // Get id of the current animation
+            var animationID = this.reader.getString(children[i], 'id');
+            if (animationID == null)
+                return "no ID defined for animation";
+
+            // Checks for repeated IDs.
+            if (this.animations[animationID] != null)
+                return "ID must be unique for each animation (conflict: ID = " + animationID + ")";
+
+            // var textureURL = this.reader.getString(children[i], 'path');
+            // if (textureURL == null)
+            //     return "No path for texture with ID = " + textureID + ")";
+
+            let animation = new Animation(this.scene,);
+            this.animations[animationID] = animation;
+
+            this.log("Ask teacher about Animation constructor parameters")
+        }
+
+
+        // this.log("Parsed animations");
+        return null;
+    }
+
+
 
     /**
      * Parses the <nodes> block.

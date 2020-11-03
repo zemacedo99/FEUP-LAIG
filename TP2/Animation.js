@@ -7,13 +7,12 @@ class Animation {
         
 	}
     
-    update(deltaTime) {
-		this.currentTime += deltaTime;
-
+  update(deltaTime) {
+    this.timeStart += deltaTime;
 		return 0;
-    }
+  }
     
-    apply() {
-        return 0;
-    }
+  apply() {
+    return 0;
+  }
 }

@@ -1,8 +1,10 @@
 class Keyframe {
-    constructor(instant,xTransf, yTransf, zTransf){
+    constructor(instant,translation,rotationX, rotationY, rotationZ,scale){
         this.instant = instant;
-        this.xTransf = xTransf;
-        this.yTransf = yTransf;
-        this.zTransf = zTransf;
+        this.translation = translation;
+        this.rotationX = rotationX;
+        this.rotationY = rotationY;
+        this.rotationZ = rotationZ;
+        this.scale = scale;
     }
 }
