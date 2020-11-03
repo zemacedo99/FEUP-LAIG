@@ -1,7 +1,8 @@
 class Keyframe {
-    constructor(instant,tranformation){
+    constructor(instant,xTransf, yTransf, zTransf){
         this.instant = instant;
-        this.tranformation = tranformation;
-
+        this.xTransf = xTransf;
+        this.yTransf = yTransf;
+        this.zTransf = zTransf;
     }
 }
