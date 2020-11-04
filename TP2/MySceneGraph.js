@@ -742,8 +742,12 @@ class MySceneGraph {
 
         //For each animation in animations block, check ID and file URL
         var children = animationsNode.children;
+        var grandChildren = [];
+        var grandgrandChildren = [];
 
         this.animations = [];
+        this.keyframes = [];
+
 
         // Any number of animations.
         for (var i = 0; i < children.length; i++) {
@@ -766,10 +770,74 @@ class MySceneGraph {
             // if (textureURL == null)
             //     return "No path for texture with ID = " + textureID + ")";
 
-            let animation = new Animation(this.scene,);
+
+            let animation = new KeyframeAnimation(this.scene,animationID);
             this.animations[animationID] = animation;
 
-            this.log("Ask teacher about Animation constructor parameters")
+
+            grandChildren = children[i].children;
+            grandgrandChildren = grandChildren[i].children;
+
+            for (var d = 0; d < grandChildren.length; d++) {
+                
+                let keyframeInstant = this.reader.getFloat(grandChildren[d], 'instant');
+                
+                let translation;
+                let rotX;
+                let rotY;
+                let rotZ;
+                let scale = [1,1,1];
+
+                switch (grandgrandChildren[d].nodeName) {
+                    case "translation":
+                        translation = this.parseCoordinates3D(grandgrandChildren[d], grandgrandChildren[d].nodeName);
+                        break;
+
+                    case "rotation":
+                        var rad = this.reader.getString(grandgrandChildren[d], 'angle') * Math.PI / 180;
+                        var axis = this.reader.getString(grandgrandChildren[d], 'axis');
+                        var axis_vec;
+                        switch (axis) {
+                            case "x":
+                                axis_vec = [1, 0, 0];
+                                rotX = rad;
+                                break;
+                            case "y":
+                                axis_vec = [0, 1, 0];
+                                rotY = rad;
+                                break;
+                            case "z":
+                                axis_vec = [0, 0, 1];
+                                rotZ = rad; 
+                                break;
+                            default:
+                                axis_vec = [1, 0, 0];
+                                break;
+
+                        }
+                        break;
+
+                        
+                    case "scale":
+                        scale = this.parseScale(grandgrandChildren[d], nodeID);
+
+                        break;
+
+                    default:
+                        this.onXMLMinorError("transformations not recognized " + grandgrandChildren[d].nodeName);
+                }
+
+                
+
+
+                let keyframe = new Keyframe(keyframeInstant,translation,rotX,rotY,rotZ,scale);
+                this.keyframes[keyframeInstant] = keyframe;
+                // or maybe is bether creat a fuction addKeyframe that push the keyframe to the vector on keyframe  ex: animationthis.animation.addKeyframe(keyframe);
+            }
+
+
+
+            this.log("Ask teacher about Animation constructor parameters");
         }
 
 

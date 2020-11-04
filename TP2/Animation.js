@@ -1,18 +1,17 @@
-class Animation {
-	constructor(timeStart,timeEnd,transformationStart,transformationEnd) {
-        this.timeStart = timeStart;
-        this.timeEnd = timeEnd;
-        this.transformationStart = transformationStart;
-        this.transformationEnd = transformationEnd;
-        
+class Animation{
+	constructor(scene,animationId,timeStart) {
+        this.scene = scene;
+        this.animationId = animationId; 
+
+        this.timeStart = 0;
+        this.timeEnd = 0;
+        this.transformationStart = 0;
+        this.transformationEnd = 0;
 	}
     
   update(deltaTime) {
-    this.timeStart += deltaTime;
-		return 0;
   }
     
   apply() {
-    return 0;
   }
 }

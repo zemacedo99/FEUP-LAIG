@@ -2,9 +2,7 @@ class Keyframe {
     constructor(instant,translation,rotationX, rotationY, rotationZ,scale){
         this.instant = instant;
         this.translation = translation;
-        this.rotationX = rotationX;
-        this.rotationY = rotationY;
-        this.rotationZ = rotationZ;
-        this.scale = scale;
+        this.rotation = vec3.fromValues(rotationX,rotationY,rotationZ);
+        this.scale = scale;          
     }
 }
