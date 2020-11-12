@@ -746,8 +746,6 @@ class MySceneGraph {
         var grandgrandChildren = [];
 
         this.animations = [];
-        this.keyframes = [];
-
 
         // Any number of animations.
         for (var i = 0; i < children.length; i++) {
@@ -765,10 +763,6 @@ class MySceneGraph {
             // Checks for repeated IDs.
             if (this.animations[animationID] != null)
                 return "ID must be unique for each animation (conflict: ID = " + animationID + ")";
-
-            // var textureURL = this.reader.getString(children[i], 'path');
-            // if (textureURL == null)
-            //     return "No path for texture with ID = " + textureID + ")";
 
 
             let animation = new KeyframeAnimation(this.scene,animationID);
@@ -788,60 +782,57 @@ class MySceneGraph {
                 let rotZ;
                 let scale = [1,1,1];
 
-                switch (grandgrandChildren[d].nodeName) {
-                    case "translation":
-                        translation = this.parseCoordinates3D(grandgrandChildren[d], grandgrandChildren[d].nodeName);
-                        break;
+                for(let i = 0; i < grandgrandChildren.length; i++)
+                {
+                    switch (grandgrandChildren[i].nodeName) {
+                        case "translation":
+                            translation = this.parseCoordinates3D(grandgrandChildren[i], grandgrandChildren[i].nodeName);
+                            break;
 
-                    case "rotation":
-                        var rad = this.reader.getString(grandgrandChildren[d], 'angle') * Math.PI / 180;
-                        var axis = this.reader.getString(grandgrandChildren[d], 'axis');
-                        var axis_vec;
-                        switch (axis) {
-                            case "x":
-                                axis_vec = [1, 0, 0];
-                                rotX = rad;
-                                break;
-                            case "y":
-                                axis_vec = [0, 1, 0];
-                                rotY = rad;
-                                break;
-                            case "z":
-                                axis_vec = [0, 0, 1];
-                                rotZ = rad; 
-                                break;
-                            default:
-                                axis_vec = [1, 0, 0];
-                                break;
+                        case "rotation":
+                            var rad = this.reader.getString(grandgrandChildren[i], 'angle') * Math.PI / 180;
+                            var axis = this.reader.getString(grandgrandChildren[i], 'axis');
+                            var axis_vec;
+                            switch (axis) {
+                                case "x":
+                                    axis_vec = [1, 0, 0];
+                                    rotX = rad;
+                                    break;
+                                case "y":
+                                    axis_vec = [0, 1, 0];
+                                    rotY = rad;
+                                    break;
+                                case "z":
+                                    axis_vec = [0, 0, 1];
+                                    rotZ = rad; 
+                                    break;
+                                default:
+                                    axis_vec = [1, 0, 0];
+                                    break;
 
-                        }
-                        break;
+                            }
+                            break;
 
-                        
-                    case "scale":
-                        scale = this.parseScale(grandgrandChildren[d], nodeID);
+                            
+                        case "scale":
+                            scale = this.parseScale(grandgrandChildren[i], grandgrandChildren[i].nodeName);
+                            break;
 
-                        break;
+                        default:
+                            this.onXMLMinorError("transformations not recognized " + grandgrandChildren[i].nodeName);
+                    }
 
-                    default:
-                        this.onXMLMinorError("transformations not recognized " + grandgrandChildren[d].nodeName);
                 }
-
-                
 
 
                 let keyframe = new Keyframe(keyframeInstant,translation,rotX,rotY,rotZ,scale);
-                this.keyframes[keyframeInstant] = keyframe;
-                // or maybe is bether creat a fuction addKeyframe that push the keyframe to the vector on keyframe  ex: animationthis.animation.addKeyframe(keyframe);
+                this.animations[animationID].addKeyframe(keyframe);
             }
 
-
-
-            this.log("Ask teacher about Animation constructor parameters");
         }
 
 
-        // this.log("Parsed animations");
+        this.log("Parsed animations");
         return null;
     }
 
@@ -888,6 +879,7 @@ class MySceneGraph {
             var materialIndex = nodeNames.indexOf("material");
             var textureIndex = nodeNames.indexOf("texture");
             var descendantsIndex = nodeNames.indexOf("descendants");
+            var animationIndex = nodeNames.indexOf("animationref");
 
             // Transformations
             var matrix = mat4.create();
@@ -972,6 +964,22 @@ class MySceneGraph {
             } else {
                 this.onXMLMinorError("No textures");
             }
+
+
+            // Animation
+            let animationID;
+      
+            if (animationIndex != -1) {
+                animationID = this.reader.getString(grandChildren[animationIndex], 'id');
+                if (animationID != "null" && this.animations[animationID] == null) {
+                    this.onXMLError("No animation found on node "+ nodeID);
+                }
+                else 
+                {
+                    // animationID = "none";
+                }
+            } 
+            
 
 
             // Descendants
@@ -1080,7 +1088,7 @@ class MySceneGraph {
             }
 
 
-            this.nodes[nodeID] = new MyNode(nodeID, materialID, texture, matrix, descendants, primitives);
+            this.nodes[nodeID] = new MyNode(nodeID, materialID, texture, matrix, descendants, primitives,animationID);
         }
     }
 
@@ -1224,6 +1232,14 @@ class MySceneGraph {
         this.scene.pushMatrix();
 
         this.scene.multMatrix(this.nodes[id].matrix);
+
+        if(this.nodes[id].animation)
+        {
+            this.animations[this.nodes[id].animation].apply();
+            // while(this.animations[this.nodes[id].animation].active)
+            // {
+            // }
+        }
 
         if (id !== this.idRoot) {
             this.nodes[id].material = this.nodes[id].material === 'null' ? matParent : this.nodes[id].material;
