@@ -53,10 +53,12 @@ class KeyframeAnimation extends Animation {
         }
 
         //calculate current values for each transformation
-        
+        let previousKeyframe
+        let nextKeyframe;
         for(let i = 0; i < this.keyframes.length; i++)
         {
-            let previousKeyframe,nextKeyframe;
+            // console.log("current time: "+ currentTime)
+            // console.log("keyframe[i] instant: " + this.keyframes[i].instant)
             if(this.keyframes[i].instant == this.currentTime )
             {
                 this.translation = this.keyframes[i].translation;
@@ -65,20 +67,27 @@ class KeyframeAnimation extends Animation {
             }
             else if(this.keyframes[i].instant < this.elapsedTime)
             {
+                // console.log(this.keyframes[i])
                 previousKeyframe = this.keyframes[i];
+                // console.log(previousKeyframe)
             }
             else if(this.keyframes[i].instant > this.elapsedTime)
             {
+                // console.log("elapsed time: "+ this.elapsedTime)
+                // console.log(this.keyframes[i])  
                 nextKeyframe = this.keyframes[i];
+                // console.log(this.nextKeyframe)
             }
         }
 
-        //Interpolation Amount
-        let t  = (this.elapsedTime - previousKeyframe.instant) / (nextKeyframe.instant-previousKeyframe.instant);
 
-        vec3.lerp(this.translation,this.previousKeyframe.translation, this.nextKeyframe.translation,t);
-        vec3.lerp(this.rotation,this.previousKeyframe.rotation, this.nextKeyframe.rotation,t);
-        vec3.lerp(this.scale,this.previousKeyframe.scale, this.nextKeyframe.scale,t);
+        console.log("bug on calculate previous and next keyframes")
+        //Interpolation Amount
+        // let t  = (this.elapsedTime - previousKeyframe.instant) / (nextKeyframe.instant-previousKeyframe.instant);
+
+        // vec3.lerp(this.translation,this.previousKeyframe.translation, this.nextKeyframe.translation,t);
+        // vec3.lerp(this.rotation,this.previousKeyframe.rotation, this.nextKeyframe.rotation,t);
+        // vec3.lerp(this.scale,this.previousKeyframe.scale, this.nextKeyframe.scale,t);
     }
 
     apply()

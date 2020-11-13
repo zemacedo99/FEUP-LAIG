@@ -34,6 +34,7 @@ class XMLscene extends CGFscene {
 
         this.axis = new CGFaxis(this);
         this.setUpdatePeriod(100);
+        this.initialTime = 0;
 
         this.loadingProgressObject = new MyRectangle(this, -1, -.1, 1, .1);
         this.loadingProgress = 0;
@@ -59,6 +60,40 @@ class XMLscene extends CGFscene {
         this.camera = this.graph.views[id]
         this.interface.setActiveCamera(this.camera);
     }
+
+    // called periodically (as per setUpdatePeriod(50-50000ms) in init())
+    update(t)
+    {
+        let time = t/1000; // time in seconds
+
+        if(this.initialTime == 0)
+        {
+            this.initialTime = time;
+        }
+
+       let deltaTime = time - this.initialTime; // deltaTime is the time since the start
+       
+        // updates animations
+        if(this.sceneInited)
+        {
+            if(this.graph.animations == undefined) return;
+            //update keyframeanimations
+            for(let animation in this.graph.animations)
+            { 
+                this.graph.animations[animation].update(deltaTime); 
+            }
+
+            
+            // if(this.graph.spriteanimations == undefined) return;
+            // //update spriteanimations
+            // for(let i = 0; i < this.graph.spriteanimations.length; i++)
+            // { 
+            //     this.graph.spriteanimations[i].update(deltaTime);
+            // }
+        }
+
+    }
+
 
     /**
      * Initializes the scene lights with the values read from the XML file.

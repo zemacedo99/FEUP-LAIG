@@ -1236,9 +1236,6 @@ class MySceneGraph {
         if(this.nodes[id].animation)
         {
             this.animations[this.nodes[id].animation].apply();
-            // while(this.animations[this.nodes[id].animation].active)
-            // {
-            // }
         }
 
         if (id !== this.idRoot) {
