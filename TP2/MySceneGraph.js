@@ -741,22 +741,21 @@ class MySceneGraph {
     parseAnimations(animationsNode) {
 
         //For each animation in animations block, check ID and file URL
-        var children = animationsNode.children;
-        var grandChildren = [];
-        var grandgrandChildren = [];
+        let children = animationsNode.children;
+        let grandChildren = [];
+        let grandgrandChildren = [];
 
         this.animations = [];
 
         // Any number of animations.
-        for (var i = 0; i < children.length; i++) {
-
+        for (let i = 0; i < children.length; i++) {
             if (children[i].nodeName != "animation") {
                 this.onXMLMinorError("unknown tag <" + children[i].nodeName + ">");
                 continue;
             }
 
             // Get id of the current animation
-            var animationID = this.reader.getString(children[i], 'id');
+            let animationID = this.reader.getString(children[i], 'id');
             if (animationID == null)
                 return "no ID defined for animation";
 
@@ -768,12 +767,11 @@ class MySceneGraph {
             let animation = new KeyframeAnimation(this.scene,animationID);
             this.animations[animationID] = animation;
 
-
             grandChildren = children[i].children;
-            grandgrandChildren = grandChildren[i].children;
+            
+            for (let d = 0; d < grandChildren.length; d++) {
 
-            for (var d = 0; d < grandChildren.length; d++) {
-                
+                grandgrandChildren = grandChildren[d].children;
                 let keyframeInstant = this.reader.getFloat(grandChildren[d], 'instant');
                 
                 let translation;
@@ -782,32 +780,29 @@ class MySceneGraph {
                 let rotZ;
                 let scale = [1,1,1];
 
-                for(let i = 0; i < grandgrandChildren.length; i++)
+                for(let j = 0; j < grandgrandChildren.length; j++)
                 {
-                    switch (grandgrandChildren[i].nodeName) {
+                    switch (grandgrandChildren[j].nodeName) {
                         case "translation":
-                            translation = this.parseCoordinates3D(grandgrandChildren[i], grandgrandChildren[i].nodeName);
+                            translation = this.parseCoordinates3D(grandgrandChildren[j], grandgrandChildren[j].nodeName);
                             break;
 
                         case "rotation":
-                            var rad = this.reader.getString(grandgrandChildren[i], 'angle') * Math.PI / 180;
-                            var axis = this.reader.getString(grandgrandChildren[i], 'axis');
-                            var axis_vec;
+                            let rad = this.reader.getFloat(grandgrandChildren[j], 'angle') * Math.PI / 180;
+                            let axis = this.reader.getString(grandgrandChildren[j], 'axis');
+
+
                             switch (axis) {
                                 case "x":
-                                    axis_vec = [1, 0, 0];
                                     rotX = rad;
                                     break;
                                 case "y":
-                                    axis_vec = [0, 1, 0];
                                     rotY = rad;
                                     break;
                                 case "z":
-                                    axis_vec = [0, 0, 1];
                                     rotZ = rad; 
                                     break;
                                 default:
-                                    axis_vec = [1, 0, 0];
                                     break;
 
                             }
@@ -815,11 +810,11 @@ class MySceneGraph {
 
                             
                         case "scale":
-                            scale = this.parseScale(grandgrandChildren[i], grandgrandChildren[i].nodeName);
+                            scale = this.parseScale(grandgrandChildren[j], grandgrandChildren[j].nodeName);
                             break;
 
                         default:
-                            this.onXMLMinorError("transformations not recognized " + grandgrandChildren[i].nodeName);
+                            this.onXMLMinorError("transformations not recognized " + grandgrandChildren[j].nodeName);
                     }
 
                 }

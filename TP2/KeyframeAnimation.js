@@ -50,11 +50,12 @@ class KeyframeAnimation extends Animation {
         if(this.elapsedTime >= this.endTime)
         {
             this.active = false;
+            return;
         }
 
         //calculate current values for each transformation
         let previousKeyframe = this.keyframes[0];
-        let nextKeyframe = this.keyframes[1];
+        let nextKeyframe = this.keyframes[0];
 
     
         for(let i = 0; i < this.keyframes.length; i++)
@@ -78,12 +79,16 @@ class KeyframeAnimation extends Animation {
                 // console.log("elapsed time: "+ this.elapsedTime)
                 // console.log(this.keyframes[i])  
                 nextKeyframe = this.keyframes[i];
+                break;
             }
         }
         
-        // console.log("bug on calculate previous and next keyframes")
+        // console.log("elapsed time: "+ this.elapsedTime)
+        // console.log("previous: ")
         // console.log(previousKeyframe.instant)
+        // console.log("next: ")
         // console.log(nextKeyframe.instant)
+
         //Interpolation Amount
         let t  = (this.elapsedTime - previousKeyframe.instant) / ( nextKeyframe.instant - previousKeyframe.instant);
         
