@@ -22,7 +22,7 @@ class KeyframeAnimation extends Animation {
                 return x.instant - y.instant
             }
         );
-        
+
         this.inicialTime = this.keyframes[0].instant;
         this.endTime = this.keyframes[this.keyframes.length-1].instant;
     }
@@ -43,7 +43,7 @@ class KeyframeAnimation extends Animation {
         else
         {
             //calculate animation's elapsedTime
-            this.elapsedTime = (currentTime-this.inicialTime) / 1000 ;  //ms
+            this.elapsedTime = currentTime-this.inicialTime ;
         }
 
 
@@ -53,41 +53,43 @@ class KeyframeAnimation extends Animation {
         }
 
         //calculate current values for each transformation
-        let previousKeyframe
-        let nextKeyframe;
+        let previousKeyframe = this.keyframes[0];
+        let nextKeyframe = this.keyframes[1];
+
+    
         for(let i = 0; i < this.keyframes.length; i++)
         {
             // console.log("current time: "+ currentTime)
             // console.log("keyframe[i] instant: " + this.keyframes[i].instant)
-            if(this.keyframes[i].instant == this.currentTime )
+            if(this.keyframes[i].instant == this.elapsedTime)
             {
                 this.translation = this.keyframes[i].translation;
                 this.rotation = this.keyframes[i].rotation;
                 this.scale = this.keyframes[i].scale;
+                return;
             }
             else if(this.keyframes[i].instant < this.elapsedTime)
             {
-                // console.log(this.keyframes[i])
                 previousKeyframe = this.keyframes[i];
-                // console.log(previousKeyframe)
+                // console.log(previousKeyframe.instant)
             }
             else if(this.keyframes[i].instant > this.elapsedTime)
             {
                 // console.log("elapsed time: "+ this.elapsedTime)
                 // console.log(this.keyframes[i])  
                 nextKeyframe = this.keyframes[i];
-                // console.log(this.nextKeyframe)
             }
         }
-
-
-        console.log("bug on calculate previous and next keyframes")
+        
+        // console.log("bug on calculate previous and next keyframes")
+        // console.log(previousKeyframe.instant)
+        // console.log(nextKeyframe.instant)
         //Interpolation Amount
-        // let t  = (this.elapsedTime - previousKeyframe.instant) / (nextKeyframe.instant-previousKeyframe.instant);
-
-        // vec3.lerp(this.translation,this.previousKeyframe.translation, this.nextKeyframe.translation,t);
-        // vec3.lerp(this.rotation,this.previousKeyframe.rotation, this.nextKeyframe.rotation,t);
-        // vec3.lerp(this.scale,this.previousKeyframe.scale, this.nextKeyframe.scale,t);
+        let t  = (this.elapsedTime - previousKeyframe.instant) / ( nextKeyframe.instant - previousKeyframe.instant);
+        
+        vec3.lerp(this.translation, previousKeyframe.translation, nextKeyframe.translation,t);
+        vec3.lerp(this.rotation, previousKeyframe.rotation, nextKeyframe.rotation,t);
+        vec3.lerp(this.scale, previousKeyframe.scale, nextKeyframe.scale,t);
     }
 
     apply()

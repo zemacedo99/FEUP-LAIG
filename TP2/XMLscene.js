@@ -76,7 +76,7 @@ class XMLscene extends CGFscene {
         // updates animations
         if(this.sceneInited)
         {
-            if(this.graph.animations == undefined) return;
+            if(!this.graph.animations) return;
             //update keyframeanimations
             for(let animation in this.graph.animations)
             { 
