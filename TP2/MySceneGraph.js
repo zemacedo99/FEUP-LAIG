@@ -1070,7 +1070,50 @@ class MySceneGraph {
                                     var npartsV = this.reader.getFloat(grandgrandChildren[d],'npartsV');
 
                                     primitive = new MyPlane(this.scene,npartsU,npartsV);
-                                    console.log(primitive)
+                                    break;
+                                
+                                case "patch":
+                                    var npointsU = this.reader.getFloat(grandgrandChildren[d],'npointsU');
+                                    var npointsV = this.reader.getFloat(grandgrandChildren[d],'npointsV');
+                                    var npartsU = this.reader.getFloat(grandgrandChildren[d],'npartsU');
+                                    var npartsV = this.reader.getFloat(grandgrandChildren[d],'npartsV');
+
+                                    let controlpoints = [];
+                                    let grandgrandgrandChildren = grandgrandChildren[d].children;
+
+                                    for(var z = 0; z < grandgrandgrandChildren.length; z++)
+                                    {
+                                        let point = this.parseCoordinatesXXYYZZ(grandgrandgrandChildren[z], grandgrandChildren[d].nodeName);
+                                        point.push(1);
+                                        controlpoints.push(point);
+                                    }
+
+                                    let controlvertexes = this.processControlPoints(controlpoints,npointsU,npointsV);
+
+                                    console.log(npartsU)
+                                    console.log(npartsV)
+                                    console.log(npointsU)
+                                    console.log(npointsV)
+                                    console.log(controlvertexes)
+                                    console.log([	// U = 0
+                                        [ // V = 0..1;
+                                             [ -1.5, -1.5, 0.0, 1 ],
+                                             [ -1.5,  1.5, 0.0, 1 ]
+                                            
+                                        ],
+                                        // U = 1
+                                        [ // V = 0..1
+                                             [ 0, -1.5, 3.0, 1 ],
+                                             [ 0,  1.5, 3.0, 1 ]							 
+                                        ],
+                                        // U = 2
+                                        [ // V = 0..1							 
+                                            [ 1.5, -1.5, 0.0, 1 ],
+                                            [ 1.5,  1.5, 0.0, 1 ]
+                                        ]
+                                    ])
+
+                                    primitive = new MyPatch(this.scene,npartsU,npartsV,npointsU,npointsV,controlvertexes);
                                     break;
 
                                 default:
@@ -1096,6 +1139,34 @@ class MySceneGraph {
         }
     }
 
+    processControlPoints(controlpoints,npointsU,npointsV)
+    {
+        let ncontrolvertexes = npointsU * npointsV;
+        let count  = 0;
+        let controlvertexes = [];
+        let U = [];
+
+        for(let u = 0; u < npointsU; u++)
+        {
+            let V = []
+            for(let v = 0; v<npointsV; v++)
+            {
+                V.push(controlpoints[count]);
+                count++;
+                if( count == ncontrolvertexes)
+                {
+                    break;
+                }    
+            }
+            
+            controlvertexes.push(V);
+
+            
+        }
+
+
+        return controlvertexes;
+    }
 
     parseBoolean(node, name, messageError) {
         var boolVal = true;
@@ -1103,6 +1174,34 @@ class MySceneGraph {
         if (!(boolVal != null && !isNaN(boolVal) && (boolVal == true || boolVal == false)))
             this.onXMLMinorError("unable to parse value component " + messageError + "; assuming 'value = 0'");
         return boolVal || false;
+    }
+
+    /**
+     * Parse the coordinates from a node with ID = id
+     * @param {block element} node
+     * @param {message to be displayed in case of error} messageError
+     */
+    parseCoordinatesXXYYZZ(node, messageError = "Error on parse Coords xx,yy,zz") {
+        var position = [];
+
+        // xx
+        var x = this.getFloatAttr(node, 'xx');
+        if (!(x != null && !isNaN(x)))
+            return "unable to parse xx-coordinate of the " + messageError;
+
+        // yy
+        var y = this.getFloatAttr(node, 'yy');
+        if (!(y != null && !isNaN(y)))
+            return "unable to parse yy-coordinate of the " + messageError;
+
+        // zz
+        var z = this.getFloatAttr(node, 'zz');
+        if (!(z != null && !isNaN(z)))
+            return "unable to parse zz-coordinate of the " + messageError;
+
+        position.push(...[x, y, z]);
+
+        return position;
     }
 
     /**
