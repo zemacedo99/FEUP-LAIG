@@ -644,6 +644,7 @@ class MySceneGraph {
         // Checks for repeated defaultSpriteSheet.
         if (this.spritesheets["defaultSpriteSheet"] != null)
             return "ID must be unique for each spritesheet (conflict: ID = " + "defaultSpriteSheet" + ")" + "pls dont use this name";
+
         this.spritesheets["defaultSpriteSheet"] = spritesheet;
 
         this.log("Parsed spritesheets");
@@ -1062,6 +1063,14 @@ class MySceneGraph {
                                     var duration = this.reader.getString(grandgrandChildren[d],'duration');
 
                                     primitive = new MySpriteAnimation(this.scene,ssid,startCell,endCell,duration);
+                                    break;
+
+                                case "plane":
+                                    var npartsU = this.reader.getFloat(grandgrandChildren[d],'npartsU');
+                                    var npartsV = this.reader.getFloat(grandgrandChildren[d],'npartsV');
+
+                                    primitive = new MyPlane(this.scene,npartsU,npartsV);
+                                    console.log(primitive)
                                     break;
 
                                 default:
