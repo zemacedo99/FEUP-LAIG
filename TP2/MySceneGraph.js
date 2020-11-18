@@ -638,15 +638,7 @@ class MySceneGraph {
                 this.spritesheets[spritesheetID] = spritesheet;
         }
 
-        let spritesheetTexture = new CGFtexture(this.scene, "./scenes/images/spriteSheet/Berlinfont.png");
-        let spritesheet = new MySpritesheet(this.scene,spritesheetTexture,16,16);
-
-        // Checks for repeated defaultSpriteSheet.
-        if (this.spritesheets["defaultSpriteSheet"] != null)
-            return "ID must be unique for each spritesheet (conflict: ID = " + "defaultSpriteSheet" + ")" + "pls dont use this name";
-
-        this.spritesheets["defaultSpriteSheet"] = spritesheet;
-
+      
         this.log("Parsed spritesheets");
         return null;
     }
@@ -1053,7 +1045,7 @@ class MySceneGraph {
                                 case "spritetext":
                                     var text = this.reader.getString(grandgrandChildren[d],'text');
 
-                                    primitive = new MySpriteText(this.scene,text,this.spritesheets["defaultSpriteSheet"]);
+                                    primitive = new MySpriteText(this.scene,text);
                                     break;
 
                                 case "spriteanim":

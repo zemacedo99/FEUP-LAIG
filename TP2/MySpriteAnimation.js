@@ -7,14 +7,16 @@ class MySpriteAnimation extends CGFobject  {
         this.duration = duration;
 
         this.retangle = new MyRectangle(scene,0,0,1,1);
-
     }
 
     update(){
         return null;
     }
 
-    display(){
+    display()
+    {
+        // TODO: procurar na lista spritesheets por a que tem o ssid correspondente e fazer bind
+
         this.retangle.display();
     }
 }

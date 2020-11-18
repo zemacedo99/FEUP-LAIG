@@ -8,20 +8,26 @@ class MySpritesheet extends CGFobject  {
         this.shader = new CGFshader(this.scene.gl, "./shaders/spritesheet.vert", "./shaders/spritesheet.frag");
     }
 
-    activateCellMN(m, n){
-        this.shader.setUniformsValues({sizeM : this.sizeM,
-                                       sizeN : this.sizeN,
-                                       m: m,
-                                       n: n});
-
-
-                                       
+    activateShader()
+    {
+        this.scene.setActiveShaderSimple(this.shader);
         this.texture.bind();
-        this.scene.setActiveShader(this.shader);
 
     }
 
-    activateCellP(p){
-        
+    activateCellMN(m, n)
+    {
+        this.shader.setUniformsValues({sizeM : this.sizeM,
+                                       sizeN : this.sizeN,
+                                       m: m / this.sizeM,
+                                       n: n / this.sizeN});
+    }
+
+    activateCellP(p)
+    {
+        let m = p % this.sizeM;               /* m (column) is the rest of the division of the p for the number of columns*/
+        let n = Math.floor( p / this.sizeN ); /* n (row) is the division of the p for the number of columns, rounded down */
+    
+        this.activateCellMN(m,n);
     }
 }
