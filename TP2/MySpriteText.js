@@ -1,6 +1,6 @@
-class MySpriteText extends CGFobject  {
+class MySpriteText {
     constructor(scene, text){
-        super(scene);
+        this.scene = scene;
         this.text = text;
         let spritesheetTexture = new CGFtexture(this.scene, "./scenes/images/spriteSheet/Berlinfont.png");
         this.spritesheet = new MySpritesheet(this.scene,spritesheetTexture,16,16);

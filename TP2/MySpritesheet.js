@@ -1,6 +1,6 @@
-class MySpritesheet extends CGFobject  {
+class MySpritesheet {
     constructor(scene, texture, sizeM, sizeN){
-        super(scene);
+        this.scene = scene;
         this.texture = texture;
         this.sizeM = sizeM;
         this.sizeN = sizeN;
@@ -30,4 +30,7 @@ class MySpritesheet extends CGFobject  {
     
         this.activateCellMN(m,n);
     }
+
+
+      
 }

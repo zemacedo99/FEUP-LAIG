@@ -84,11 +84,11 @@ class XMLscene extends CGFscene {
             }
 
             
-            if(!this.graph.spritesheets) return;
+            if(!this.graph.spriteanimations) return;
             //update spritesheets
-            for(let i = 0; i < this.graph.spritesheets.length; i++)
+            for(let spriteanimation in this.graph.spriteanimations)
             { 
-                this.graph.spritesheets[i].update(deltaTime);
+                this.graph.spriteanimations[spriteanimation].update(deltaTime);
             }
         }
 

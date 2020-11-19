@@ -32,6 +32,7 @@ class MySceneGraph {
 
         this.idRoot = null; // The id of the root element.
 
+        this.spriteanimations = [];
         this.axisCoords = [];
         this.axisCoords['x'] = [1, 0, 0];
         this.axisCoords['y'] = [0, 1, 0];
@@ -603,7 +604,8 @@ class MySceneGraph {
             this.spritesheets = [];
 
             // Any number of spritesheets.
-            for (var i = 0; i < children.length; i++) {
+            for (var i = 0; i < children.length; i++) 
+            {
 
                 if (children[i].nodeName != "spritesheet") {
                     this.onXMLMinorError("unknown tag <" + children[i].nodeName + ">");
@@ -636,9 +638,7 @@ class MySceneGraph {
                 let spritesheet = new MySpritesheet(this.scene,spritesheetTexture,sizeM,sizeN);
 
                 this.spritesheets[spritesheetID] = spritesheet;
-        }
-
-      
+            }
         this.log("Parsed spritesheets");
         return null;
     }
@@ -722,7 +722,6 @@ class MySceneGraph {
 
             this.materials[materialID] = material;
         }
-
         this.log("Parsed materials");
         return null;
     }
@@ -1050,11 +1049,12 @@ class MySceneGraph {
 
                                 case "spriteanim":
                                     var ssid = this.reader.getString(grandgrandChildren[d],'ssid');
-                                    var startCell = this.reader.getString(grandgrandChildren[d],'startCell');
-                                    var endCell = this.reader.getString(grandgrandChildren[d],'endCell');
-                                    var duration = this.reader.getString(grandgrandChildren[d],'duration');
+                                    var startCell = this.reader.getFloat(grandgrandChildren[d],'startCell');
+                                    var endCell = this.reader.getFloat(grandgrandChildren[d],'endCell');
+                                    var duration = this.reader.getFloat(grandgrandChildren[d],'duration');
 
                                     primitive = new MySpriteAnimation(this.scene,ssid,startCell,endCell,duration);
+                                    this.spriteanimations.push(primitive);
                                     break;
 
                                 case "plane":

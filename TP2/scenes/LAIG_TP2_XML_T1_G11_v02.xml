@@ -302,11 +302,13 @@
                         <leaf type="rectangle" x1="0" y1="0" x2="20" y2="20" />
 
                         <!-- Nova primitiva: texto baseado em spritesheet -->
-                        <leaf type="spritetext" text="LAIG" />
+
+                        <!-- <leaf type="spritetext" text="LAIG" /> -->
+
                         <!-- Nova primitiva: animação baseada em spritesheet -->
                         <!-- identifica a spritesheet a usar, a célula inicial e final da animação, e a duração -->
 
-                        <!-- <leaf type="spriteanim" ssid="redFrogSpriteSheetAnim" startCell="0" endCell="8" duration="8" /> -->
+                        <leaf type="spriteanim" ssid="redFrogSpriteSheetAnim" startCell="0" endCell="8" duration="4" />
 
                         <!-- Nova primitiva: plano, gerado por NURBS -->
                         <!-- ex: <plane npartsU=“5” npartsU=“8” /-->
