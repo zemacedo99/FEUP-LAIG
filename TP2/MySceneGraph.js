@@ -1075,7 +1075,7 @@ class MySceneGraph {
 
                                     for(var z = 0; z < grandgrandgrandChildren.length; z++)
                                     {
-                                        let point = this.parseCoordinatesXXYYZZ(grandgrandgrandChildren[z], grandgrandChildren[d].nodeName);
+                                        let point = this.parseCoordinates3D(grandgrandgrandChildren[z], grandgrandChildren[d].nodeName);
                                         point.push(1);
                                         controlpoints.push(point);
                                     }
@@ -1084,6 +1084,18 @@ class MySceneGraph {
 
                                     primitive = new MyPatch(this.scene,npartsU,npartsV,npointsU,npointsV,controlvertexes);
                                     break;
+                                
+                                
+                                    case "defbarrel":
+                                        let defbase = this.reader.getFloat(grandgrandChildren[d],'base');
+                                        let defmiddle = this.reader.getFloat(grandgrandChildren[d],'middle');
+                                        let defheight = this.reader.getFloat(grandgrandChildren[d],'height');
+                                        let defslices = this.reader.getFloat(grandgrandChildren[d],'slices');
+                                        let defstacks = this.reader.getFloat(grandgrandChildren[d],'stacks');
+
+                                        primitive = new MyDefbarrel(this.scene,defbase,defmiddle,defheight,defslices,defstacks);
+                                    break;
+    
 
                                 default:
                                     this.onXMLMinorError("Warning, invalid primitive");
