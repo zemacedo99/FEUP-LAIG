@@ -13,7 +13,6 @@ class MySpriteAnimation extends Animation  {
         this.frameIndex;
         this.frameTime;
 
-        this.active = true;
         this.inicialTime = 0;
         this.elapsedTime;
         this.p;
@@ -22,50 +21,20 @@ class MySpriteAnimation extends Animation  {
     update(currentTime) 
     {
         super.update(currentTime);
-        //check if the animation is active
-        if(!this.active)
-        {
-            return;
-        }
+        this.lastTime = currentTime;
 
-        if( this.inicialTime == 0)
-        {
-            this.inicialTime = currentTime;
-        }
-        else
-        {
-            //calculate animation's elapsedTime
-            this.elapsedTime = currentTime-this.inicialTime ;
-        }
-
-        if(this.elapsedTime >= this.duration)
-        {
-            this.active = false;
-            return;
-        }
-
-        
-        
-        this.frameTime = this.duration / (this.endCell - this.startCell) // duration / n of frames to display
-        this.frameIndex = Math.floor(currentTime % this.duration)        // index of the current frame 
+        this.frameInstant = this.lastTime % this.duration                    // index of the current frame 
+        this.frameTime = this.duration / (this.endCell - this.startCell + 1) // duration / n of frames to display
 
 
-        if(this.frameTime < 1)
-        {
-            this.p = Math.floor(this.frameIndex);           // position of the frame
-        }
-        else
-        {
-            this.p = Math.floor(this.frameIndex / this.frameTime);           // position of the frame
-        }
-        
+        this.p = Math.floor(this.frameInstant / this.frameTime);             // position of the frame
 
-        console.log(this.p)
         if(this.startTime != 0)
         {
             this.p = this.p + this.startCell;
         }
     }
+    
     display()
     {
         this.spritesheet.activateShader();
