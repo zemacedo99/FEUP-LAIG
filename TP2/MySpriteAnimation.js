@@ -33,6 +33,7 @@ class MySpriteAnimation extends Animation  {
         {
             this.p = this.p + this.startCell;
         }
+        console.log(this.p)
     }
 
     display()

@@ -54,13 +54,23 @@ initBuffers()
             }
 		}
 
-        for(var stack = 0; stack<=this.stacks; stack++)
+        for(var slice=0; slice<=this.slices; slice++)
         {
-            for(var slice=0; slice<=this.slices; slice++)
+            for(var stack = 0; stack<=this.stacks; stack++)
             {
-				this.texCoords.push(1-slice/this.slices, 1-stack/this.stacks);
-			}
-		}
+   
+                this.texCoords.push(1-slice/this.slices,1-stack/this.stacks);
+
+            }
+        }
+
+        // for(var stack = 0; stack<=this.stacks; stack++)
+        // {
+        //     for(var slice=0; slice<=this.slices; slice++)
+        //     {
+		// 		this.texCoords.push(1-stack/this.stacks , 1-slice/this.slices);
+		// 	}
+		// }
 		
         this.primitiveType = this.scene.gl.TRIANGLES;
         this.initGLBuffers();

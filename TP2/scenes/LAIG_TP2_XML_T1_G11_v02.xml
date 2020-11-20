@@ -54,6 +54,7 @@
         <texture id="pagTexture" path="./scenes/images/pag.jpg" />
         <texture id="bookCoverTexture" path="./scenes/images/book_cover.jpg" />    
         <texture id="landScapeTexture" path="./scenes/images/landScape.jpg" />
+        <texture id="aircraftBodyTexture" path="./scenes/images/aircraftBody.png" />
     </textures>
 
     <!-- spritesheets -->
@@ -65,6 +66,8 @@
             <!-- mas inclui a definição do nº de colunas e linhas -->
             <spritesheet id="berlinfontSpriteSheetText" path="./scenes/images/spriteSheet/Berlinfont.png" sizeM="16" sizeN="16" />
             <spritesheet id="redFrogSpriteSheetAnim" path="./scenes/images/spriteSheet/red_frog.png" sizeM="4" sizeN="2" />
+            <spritesheet id="greenFrogSpriteSheetAnim" path="./scenes/images/spriteSheet/green_frog.png" sizeM="4" sizeN="2" />
+            <spritesheet id="propellerSpriteSheetAnim" path="./scenes/images/spriteSheet/propellerSprite.png" sizeM="4" sizeN="2" />
 
     </spritesheets>
 
@@ -89,11 +92,11 @@
         </material>
 
         <material id="greenMaterial">
-            <shininess value="1.0" />
-            <ambient r="0.0" g="1.0" b="0.0" a="1.0" />
-            <diffuse r="0.0" g="1.0" b="0.0" a="1.0" />
-            <specular r="0.0" g="1.0" b="0.0" a="1.0" />
-            <emissive r="0.0" g="0.0" b="0.0" a="1.0" />
+            <shininess value="0.0" />
+            <ambient r="0.0" g="0.1" b="0.0" a="0.5" />
+            <diffuse r="0.0" g="0.1" b="0.0" a="0.5" />
+            <specular r="0.0" g="0.1" b="0.0" a="0.5" />
+            <emissive r="0.0" g="0.1" b="0.0" a="0.5" />
         </material>
 
         <material id="blueMaterial">
@@ -238,6 +241,7 @@
                 <noderef id="sand" />
                 <noderef id="sky" />
                 <noderef id="landScape" />
+                <noderef id="aircraft" />
             </descendants>
         </node>
 
@@ -367,6 +371,80 @@
                         <leaf type="defbarrel" base="0.0" middle="1.0" height="2.0" slices="16" stacks="16" /> 
                        
 
+                    </descendants>
+        </node>
+
+        <node id="aircraft">            
+                   
+                   <material id="null" />
+
+                    <texture id="null">
+                        <amplification afs="2.0" aft="2.0" />
+                    </texture>
+
+                    <transformations>
+                        <translation x="10" y="15.0" z="7.0" />   
+                    </transformations>
+
+                    <descendants>
+                        <noderef id="aircraftBody" />
+                    </descendants>
+        </node>
+
+        <node id="aircraftBody">            
+                   
+                   <material id="null" />
+
+                    <texture id="aircraftBodyTexture">
+                        <amplification afs="2.0" aft="2.0" />
+                    </texture>
+
+                    <transformations>
+                        <rotation axis="y" angle="90" />
+                    </transformations>
+
+                    <descendants>
+                        <leaf type="cylinder" height="5.0" topRadius="0.5" bottomRadius="0.3" stacks="16" slices="16"/>
+                        <noderef id="propeller" />
+                        <noderef id="wheels" />
+                    </descendants>
+        </node>
+
+        <node id="propeller">            
+                   
+                   <material id="blackMaterial" />
+
+                    <texture id="clear">
+                        <amplification afs="2.0" aft="2.0" />
+                    </texture>
+
+                    <transformations>
+                        <translation x="0.0" y="0.0" z="5.0" /> 
+                        <scale sx="2.0" sy="2.0" sz="2.0" />
+                    </transformations>
+
+                    <descendants>
+                        <leaf type="cylinder" height="0.15" topRadius="0.04" bottomRadius="0.04" stacks="16" slices="16"/>
+                        <noderef id="propellerWings" />
+                    </descendants>
+        </node>
+
+        <node id="propellerWings">            
+                   
+                   <material id="null" />
+
+                    <texture id="clear">
+                        <amplification afs="2.0" aft="2.0" />
+                    </texture>
+
+                    <transformations>
+                        <translation x="-0.5" y="-0.555" z="0.151" /> 
+                    </transformations>
+
+                    <descendants>
+                        <!-- <leaf type="spriteanim" ssid="redFrogSpriteSheetAnim" startCell="0" endCell="8" duration="16" />  -->
+                        <!-- <leaf type="spriteanim" ssid="greenFrogSpriteSheetAnim" startCell="0" endCell="8" duration="16" />  -->
+                        <leaf type="spriteanim" ssid="propellerSpriteSheetAnim" startCell="0" endCell="3" duration="0.3" /> 
                     </descendants>
         </node>
 
