@@ -34,15 +34,20 @@ class MySpriteAnimation extends Animation  {
             this.p = this.p + this.startCell;
         }
     }
-    
+
     display()
     {
+        this.scene.gl.enable(this.scene.gl.BLEND); // enables blending
+        this.scene.gl.blendFunc(this.scene.gl.SRC_ALPHA, this.scene.gl.ONE_MINUS_SRC_ALPHA);// defines the blending function
+
         this.spritesheet.activateShader();
         this.scene.pushMatrix();
-            this.spritesheet.activateCellP(this.p);
-            this.retangle.display();
+        this.spritesheet.activateCellP(this.p);
+        this.retangle.display();
         this.scene.popMatrix();
-
+        
         this.scene.setActiveShaderSimple(this.scene.defaultShader); 
+        
+        this.scene.gl.disable(this.scene.gl.BLEND);        // disables blending
     }
 }

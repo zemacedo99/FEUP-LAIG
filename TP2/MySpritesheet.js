@@ -10,6 +10,7 @@ class MySpritesheet {
 
     activateShader()
     {
+        
         this.scene.setActiveShaderSimple(this.shader);
         this.texture.bind();
 
