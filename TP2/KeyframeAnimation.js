@@ -29,23 +29,14 @@ class KeyframeAnimation extends Animation {
 
     update(currentTime){
         super.update(currentTime);
+        if(currentTime === 0) this.active = true;
 
         //check if the animation is active
-        if(!this.active)
-        {
-            return;
-        }
+        if(!this.active) return;
 
-        if( this.inicialTime == 0)
-        {
-            this.inicialTime = currentTime;
-        }
-        else
-        {
-            //calculate animation's elapsedTime
-            this.elapsedTime = currentTime-this.inicialTime ;
-        }
-
+        // cicle
+        if( this.inicialTime == 0) this.inicialTime = currentTime;
+        else this.elapsedTime = currentTime-this.inicialTime ;
 
         if(this.elapsedTime >= this.endTime)
         {

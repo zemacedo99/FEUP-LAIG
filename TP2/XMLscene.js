@@ -54,7 +54,7 @@ class XMLscene extends CGFscene {
         this.camera = new CGFcamera(0.4, 0.1, 500, vec3.fromValues(15, 15, 15), vec3.fromValues(0, 0, 0));
     }
 
-    updateCamera(id){
+    updateCamera(id) {
         // console.log('UPDATE CAMERA: ');
         // console.log(this.graph.views[id])
         this.camera = this.graph.views[id]
@@ -62,32 +62,33 @@ class XMLscene extends CGFscene {
     }
 
     // called periodically (as per setUpdatePeriod(50-50000ms) in init())
-    update(t)
-    {
-        let time = t/1000; // time in seconds
+    update(t) {
+        let time = t / 1000; // time in seconds
 
-        if(this.initialTime == 0)
-        {
+        if (this.initialTime == 0) {
             this.initialTime = time;
         }
 
-       let deltaTime = time - this.initialTime; // deltaTime is the time since the start
-       
+        let deltaTime = time - this.initialTime; // deltaTime is the time since the start
+        if (this.loopAnimations !== "Never") {
+            if( deltaTime >= parseInt(this.loopAnimations) ){ // each cicle
+                deltaTime = 0;
+                this.initialTime = time;
+            }
+        }
+        
         // updates animations
-        if(this.sceneInited)
-        {
-            if(!this.graph.animations) return;
+        if (this.sceneInited) {
+            if (!this.graph.animations) return;
             //update keyframeanimations
-            for(let animation in this.graph.animations)
-            { 
-                this.graph.animations[animation].update(deltaTime); 
+            for (let animation in this.graph.animations) {
+                this.graph.animations[animation].update(deltaTime);
             }
 
-            
-            if(!this.graph.spriteanimations) return;
+
+            if (!this.graph.spriteanimations) return;
             //update spritesheets
-            for(let spriteanimation in this.graph.spriteanimations)
-            { 
+            for (let spriteanimation in this.graph.spriteanimations) {
                 this.graph.spriteanimations[spriteanimation].update(deltaTime);
             }
         }
@@ -141,7 +142,8 @@ class XMLscene extends CGFscene {
         this.camera = this.graph.views[this.graph.defaultView];
         this.interface.setActiveCamera(this.camera);
         this.interface.createSelectView(this.graph.views)
-
+        this.loopAnimations = "Never";
+        this.interface.loopAnimations(this.graph.nodes, this.graph.animations);
 
 
         this.setGlobalAmbientLight(...this.graph.ambient);
@@ -179,7 +181,7 @@ class XMLscene extends CGFscene {
         }
         var cont = 0;
         for (const [key, value] of Object.entries(this.lightsValues)) {
-            if(value === false ){
+            if (value === false) {
                 //console.log(key)
                 this.lights[cont].disable();
                 this.lights[cont].update();
@@ -187,8 +189,6 @@ class XMLscene extends CGFscene {
             cont++;
         }
 
-    
-       
 
         if (this.sceneInited) {
             // Draw axis
@@ -200,7 +200,7 @@ class XMLscene extends CGFscene {
             this.graph.displayScene();
             // this.graph.textures["bookCoverTexture"].bind();
             // this.rectangle.display();
-    
+
         } else {
             // Show some "loading" visuals
             this.defaultAppearance.apply();

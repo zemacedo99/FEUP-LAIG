@@ -62,6 +62,11 @@ class MyInterface extends CGFinterface {
             .onChange(val => this.scene.updateCamera(val));
     }
 
+    loopAnimations() {
+        this.gui.add(this.scene, 'loopAnimations', ["5s", "10s", "15s", "Never"])
+            .name('Loop Animations');
+    }
+
 
     viewsGroup(views) {
         var viewValues = [];
