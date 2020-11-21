@@ -266,6 +266,52 @@
 
         </animation>
 
+        <animation id="ballAnimation" >
+
+
+            <keyframe instant="0.0">
+                <translation x="0.0" y="0.0" z="0.0" />
+                <rotation axis="x" angle="0" />
+                <rotation axis="y" angle="0" />
+                <rotation axis="z" angle="0" />
+                <scale sx="1.0" sy="1.0" sz="1.0" />
+            </keyframe>
+
+            <keyframe instant="1.0">
+                <translation x="0.0" y="-10.0" z="0.0" />
+                <rotation axis="x" angle="0" />
+                <rotation axis="y" angle="0" />
+                <rotation axis="z" angle="0" />
+                <scale sx="1.0" sy="1.0" sz="1.0" />
+            </keyframe>
+
+     
+            <keyframe instant="2.0">
+                <translation x="0" y="-10.0" z="-5.0" />
+                <rotation axis="x" angle="-30" />
+                <rotation axis="y" angle="0" />
+                <rotation axis="z" angle="0" />
+                <scale sx="1" sy="1" sz="1" />
+            </keyframe>
+     
+            <keyframe instant="4.0">
+                <translation x="0" y="-10.0" z="-10.0" />
+                <rotation axis="x" angle="-60" />
+                <rotation axis="y" angle="0" />
+                <rotation axis="z" angle="0" />
+                <scale sx="0.8" sy="0.8" sz="0.8" />
+            </keyframe>
+
+            <keyframe instant="10.0">
+                <translation x="0" y="-10.0" z="-30.0" />
+                <rotation axis="x" angle="-140" />
+                <rotation axis="y" angle="0" />
+                <rotation axis="z" angle="0" />
+                <scale sx="0.4" sy="0.4" sz="0.4" />
+            </keyframe>
+
+        </animation>
+
     </animations>
 
 
@@ -356,7 +402,9 @@
 
                     <descendants>
                         <noderef id="boat" />
+                        <noderef id="text" />
                         <leaf type="rectangle" x1="0" y1="0" x2="20" y2="20" />
+                        
 
                         <!-- Nova primitiva: texto baseado em spritesheet -->
 
@@ -1117,6 +1165,23 @@
                 </descendants>
         </node>
 
+        <node id="text">            
+                
+                <material id="null" />
+
+                <texture id="boatTexture">
+                    <amplification afs="2.0" aft="2.0" />
+                </texture>
+
+                <transformations>   
+                    <translation x="0" y="0" z="0.01" />>
+                </transformations>
+
+                <descendants>
+                    <leaf type="spritetext" text="Hello World" />
+                </descendants>
+        </node>
+
         <node id="soccerBall">            
                    
                    <material id="null" />
@@ -1146,10 +1211,12 @@
 
             <!-- geom. transf. are optional and may be repeated, in any order, as necessary: -->
             <transformations>
-                <translation x="6" y="10.0" z="0.65" />
+                <translation x="6" y="10.0" z="3" />
                 <scale sx="0.25" sy="0.25" sz="0.25" />
                 <rotation axis="x" angle="90" />
             </transformations>
+
+            <animationref id="ballAnimation" />
 
             <!-- declaring descendants, at least one node or one leaf must be present
              descendants may be mixed, nodes and leafs -->
