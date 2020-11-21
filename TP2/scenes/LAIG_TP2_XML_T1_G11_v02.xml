@@ -269,7 +269,7 @@
         <animation id="ballAnimation" >
 
 
-            <keyframe instant="0.0">
+            <keyframe instant="0.0"> <!-- Partida -->
                 <translation x="0.0" y="0.0" z="0.0" />
                 <rotation axis="x" angle="0" />
                 <rotation axis="y" angle="0" />
@@ -277,7 +277,21 @@
                 <scale sx="1.0" sy="1.0" sz="1.0" />
             </keyframe>
 
-            <keyframe instant="1.0">
+            <keyframe instant="1.8"> <!-- Pre Solo Aux (inicio salto) -->
+                <translation x="0.0" y="-10.0" z="0.0" />
+                <rotation axis="x" angle="0" />
+                <rotation axis="y" angle="0" />
+                <rotation axis="z" angle="0" />
+                <scale sx="1.0" sy="1.0" sz="1.0" />
+            </keyframe>
+            <keyframe instant="2"> <!-- Solo (inicio salto) -->
+                <translation x="0.0" y="-10.0" z="0.0" />
+                <rotation axis="x" angle="0" />
+                <rotation axis="y" angle="0" />
+                <rotation axis="z" angle="0" />
+                <scale sx="1.0" sy="0.6" sz="1.0" />
+            </keyframe>
+            <keyframe instant="2.1"> <!-- Pos Solo Aux (inicio salto) -->
                 <translation x="0.0" y="-10.0" z="0.0" />
                 <rotation axis="x" angle="0" />
                 <rotation axis="y" angle="0" />
@@ -285,29 +299,57 @@
                 <scale sx="1.0" sy="1.0" sz="1.0" />
             </keyframe>
 
+            <keyframe instant="2.8"> <!-- Pre Topo (salto) -->
+                <translation x="0.0" y="-5.8" z="-2.0" />
+                <rotation axis="x" angle="-20" />
+                <rotation axis="y" angle="0" />
+                <rotation axis="z" angle="0" />
+                <scale sx="1.0" sy="1.0" sz="1.0" />
+            </keyframe>
+            <keyframe instant="2.9"> <!-- Pre Topo (salto) -->
+                <translation x="0.0" y="-6.0" z="-2.0" />
+                <rotation axis="x" angle="-20" />
+                <rotation axis="y" angle="0" />
+                <rotation axis="z" angle="0" />
+                <scale sx="1.0" sy="1.0" sz="1.0" />
+            </keyframe>
+            <keyframe instant="3.0"> <!-- Topo (salto) -->
+                <translation x="0.0" y="-6.0" z="-2.0" />
+                <rotation axis="x" angle="-20" />
+                <rotation axis="y" angle="0" />
+                <rotation axis="z" angle="0" />
+                <scale sx="1.0" sy="1.0" sz="1.0" />
+            </keyframe>
+            <keyframe instant="3.1"> <!-- Pos Topo (salto) -->
+                <translation x="0.0" y="-6.0" z="-2.5" />
+                <rotation axis="x" angle="-20" />
+                <rotation axis="y" angle="0" />
+                <rotation axis="z" angle="0" />
+                <scale sx="1.0" sy="1.0" sz="1.0" />
+            </keyframe>
+
+            <keyframe instant="4.0"> <!-- Solo (fim salto) -->
+                <translation x="0.0" y="-10.0" z="-5.0" />
+                <rotation axis="x" angle="-40" />
+                <rotation axis="y" angle="0" />
+                <rotation axis="z" angle="0" />
+                <scale sx="1.0" sy="0.8" sz="1.0" />
+            </keyframe>
      
-            <keyframe instant="2.0">
-                <translation x="0" y="-10.0" z="-5.0" />
+            <keyframe instant="6.0"> <!-- Rolamento -->
+                <translation x="0" y="-10.0" z="-8.0" />
                 <rotation axis="x" angle="-30" />
                 <rotation axis="y" angle="0" />
                 <rotation axis="z" angle="0" />
                 <scale sx="1" sy="1" sz="1" />
             </keyframe>
      
-            <keyframe instant="4.0">
+            <keyframe instant="8.0"> <!-- Fim -->
                 <translation x="0" y="-10.0" z="-10.0" />
                 <rotation axis="x" angle="-60" />
                 <rotation axis="y" angle="0" />
                 <rotation axis="z" angle="0" />
                 <scale sx="0.8" sy="0.8" sz="0.8" />
-            </keyframe>
-
-            <keyframe instant="10.0">
-                <translation x="0" y="-10.0" z="-30.0" />
-                <rotation axis="x" angle="-140" />
-                <rotation axis="y" angle="0" />
-                <rotation axis="z" angle="0" />
-                <scale sx="0.4" sy="0.4" sz="0.4" />
             </keyframe>
 
         </animation>
