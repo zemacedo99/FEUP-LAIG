@@ -10,11 +10,19 @@
 ----
 ## Project information
 
-- (items describing main strong points)
-- Scene
-  - (Brief description of the created scene)
-  - (relative link to the scene)
+- Parse | Build Scene & Interface:
+  - Controls and set current camera from a dropdown menu
+  - Turn On and Off all lights created with XML
+
+
+- Scene Graph | Reproduce a view with following elements:
+  - Beach
+  - Towel extended
+  - Book, a beach ball
+  - Circular float
+  - Picnic basket with a cheese inside
+
 ----
 ## Issues/Problems
 
-- (items describing unimplemented features, bugs, problems, etc.)
+- unimplemented features: texture amplification

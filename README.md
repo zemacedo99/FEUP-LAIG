@@ -17,17 +17,20 @@
   - Turn On and Off all lights created with XML
 
 
-- Scene Graph | Reproduce a view with following elements:
-  - Beach
-  - Towel extended
-  - Book, a beach ball
-  - Circular float
-  - Picnic basket with a cheese inside
-
 -----
 
-### [TP2 - ...](TP2)
-- (items briefly describing main strong points)
+### [TP2 - Computer Graphics techniques](TP2)
+
+- - Parse | Build Scene:
+  - Parse the new xml elements
+  - Extend the complexity of the scene
+
+- Keyframes Animations
+
+- Sprite Sheets
+
+- Surfaces
+ -  use of NURBS
 
 ----
 
