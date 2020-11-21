@@ -1323,22 +1323,19 @@ class MySceneGraph {
             this.animations[this.nodes[id].animation].apply();
         }
 
+        let materialAux = this.nodes[id].material === 'null' ? matParent : this.nodes[id].material;
+        let textureAux  = this.nodes[id].texture  === 'null' ? texParent : this.nodes[id].texture;
         if (id !== this.idRoot) {
-            this.nodes[id].material = this.nodes[id].material === 'null' ? matParent : this.nodes[id].material;
 
-            let material = this.materials[this.nodes[id].material];
-            if (material != undefined) 
+            if (this.materials[materialAux] != undefined)
             {
-                if (this.nodes[id].texture == 'null') 
-                {
-                    this.nodes[id].texture = texParent;
-                } else if (this.nodes[id].texture == 'clear') {
-                    this.nodes[id].texture = null;
+                if (textureAux == 'clear') {
+                    textureAux = null;
                 }
 
-                material.setTexture(this.textures[this.nodes[id].texture]);
-                material.setTextureWrap("REPEAT", "REPEAT");
-                material.apply();
+                this.materials[materialAux].setTexture(this.textures[textureAux]);
+                this.materials[materialAux].setTextureWrap("REPEAT", "REPEAT");
+                this.materials[materialAux].apply();
             }
         }
 
@@ -1347,7 +1344,7 @@ class MySceneGraph {
         }
 
         for (var x = 0; x < this.nodes[id].descendants.length; x++) {
-            this.processNode(this.nodes[id].descendants[x], this.nodes[id].material, this.nodes[id].texture);
+            this.processNode(this.nodes[id].descendants[x], materialAux, textureAux);
         }
 
         this.scene.popMatrix();
