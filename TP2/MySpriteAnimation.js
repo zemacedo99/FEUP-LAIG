@@ -39,7 +39,6 @@ class MySpriteAnimation extends Animation  {
 
         this.spritesheet.activateShader();
         // this.scene.pushMatrix();
-        console.log(this.p)
         this.spritesheet.activateCellP(this.p);
         this.retangle.display();
         // this.scene.popMatrix();

@@ -56,6 +56,9 @@
         <texture id="landScapeTexture" path="./scenes/images/landScape.jpg" />
         <texture id="aircraftBodyTexture" path="./scenes/images/aircraftBody.png" />
         <texture id="windowTexture" path="./scenes/images/window.png" />
+        <texture id="soccerBallTexture" path="./scenes/images/futebol.jpg" />
+        <texture id="boatTexture" path="./scenes/images/boat.png" />
+        <texture id="roopTexture" path="./scenes/images/roop.png" />
     </textures>
 
     <!-- spritesheets -->
@@ -67,7 +70,7 @@
             <!-- mas inclui a definição do nº de colunas e linhas -->
             <spritesheet id="testSpriteSheetText" path="./scenes/images/spriteSheet/test.png" sizeM="4" sizeN="4" />
             <spritesheet id="berlinfontSpriteSheetText" path="./scenes/images/spriteSheet/Berlinfont.png" sizeM="16" sizeN="16" />
-            <spritesheet id="redFrogSpriteSheetAnim" path="./scenes/images/spriteSheet/red_frog.png" sizeM="4" sizeN="2" />
+            <spritesheet id="redFrogSpriteSheetAnim" path="./scenes/images/spriteSheet/red_frog.png" sizeM="2" sizeN="4" />
             <spritesheet id="greenFrogSpriteSheetAnim" path="./scenes/images/spriteSheet/green_frog.png" sizeM="4" sizeN="2" />
             <spritesheet id="propellerSpriteSheetAnim" path="./scenes/images/spriteSheet/propellerSprite.png" sizeM="4" sizeN="2" />
 
@@ -217,6 +220,52 @@
 
         </animation>
 
+        <animation id="aircraftMovementAnimation" >
+
+
+            <keyframe instant="0.0">
+                <translation x="0.0" y="0.0" z="0.0" />
+                <rotation axis="x" angle="0" />
+                <rotation axis="y" angle="0" />
+                <rotation axis="z" angle="0" />
+                <scale sx="1.0" sy="1.0" sz="1.0" />
+            </keyframe>
+            
+            <keyframe instant="5.0">
+                <translation x="5.0" y="0.0" z="0.0" />
+                <rotation axis="x" angle="0" />
+                <rotation axis="y" angle="0" />
+                <rotation axis="z" angle="0" />
+                <scale sx="1.0" sy="1.0" sz="1.0" />
+            </keyframe>
+            
+            <keyframe instant="10.0">
+                <translation x="10.0" y="0.0" z="0.0" />
+                <rotation axis="x" angle="0" />
+                <rotation axis="y" angle="-10" />
+                <rotation axis="z" angle="0" />
+                <scale sx="1.0" sy="1.0" sz="1.0" />
+            </keyframe>
+
+            <keyframe instant="15.0">
+                <translation x="15.0" y="0.0" z="0.0" />
+                <rotation axis="x" angle="0" />
+                <rotation axis="y" angle="0" />
+                <rotation axis="z" angle="0" />
+                <scale sx="1.0" sy="1.0" sz="1.0" />
+            </keyframe>
+
+            <keyframe instant="20.0">
+                <translation x="20.0" y="0.0" z="0.0" />
+                <rotation axis="x" angle="0" />
+                <rotation axis="y" angle="0" />
+                <rotation axis="z" angle="0" />
+                <scale sx="1.0" sy="1.0" sz="1.0" />
+            </keyframe>
+
+
+        </animation>
+
     </animations>
 
 
@@ -265,6 +314,7 @@
                         <noderef id="ball" />
                         <noderef id="buoy" />
                         <noderef id="towel" />
+                        <noderef id="soccerBall" />
                         <!-- "ss" is the identifier of a node or of leaf; -->
                         <!-- may be repeated as necessary. It can refer an -->
                         <!-- identifier of another node, before or later defined in the file. -->
@@ -305,6 +355,7 @@
                     </transformations>
 
                     <descendants>
+                        <noderef id="boat" />
                         <leaf type="rectangle" x1="0" y1="0" x2="20" y2="20" />
 
                         <!-- Nova primitiva: texto baseado em spritesheet -->
@@ -385,12 +436,107 @@
                     </texture>
 
                     <transformations>
-                        <translation x="10" y="15.0" z="7.0" />   
+                        <scale sx="0.75" sy="0.75" sz="0.75" />
+                        <translation x="0" y="20.0" z="7.0" />   
                     </transformations>
+
+                    <animationref id="aircraftMovementAnimation" />
 
                     <descendants>
                         <noderef id="aircraftBody" />
+                        <noderef id="flag" />
                     </descendants>
+        </node>
+
+        <node id="flag">            
+                   
+                   <material id="null" />
+
+                    <texture id="clear">
+                        <amplification afs="2.0" aft="2.0" />
+                    </texture>
+
+                    <transformations>
+                        <!-- <rotation axis="y" angle="90" /> -->
+                    </transformations>
+
+                    <descendants>
+                        <noderef id="flagSupport1" />
+                        <noderef id="flagSupport2" />
+                        <noderef id="flagFabric" />
+                    </descendants>
+        </node>
+
+        
+        <node id="flagSupport1">            
+                
+                <material id="null" />
+
+                <texture id="roopTexture">
+                    <amplification afs="2.0" aft="2.0" />
+                </texture>
+
+                <transformations>   
+                    <translation x="-1" y="0.2" z="0" />
+                    <rotation axis="y" angle="90" /> 
+                </transformations>
+
+                <descendants>
+                    <leaf type="cylinder" height="1" topRadius="0.05" bottomRadius="0.05" stacks="16" slices="16"/>
+                </descendants>
+        </node>
+
+        <node id="flagSupport2">            
+                
+                <material id="null" />
+
+                <texture id="roopTexture">
+                    <amplification afs="2.0" aft="2.0" />
+                </texture>
+
+                <transformations>   
+                    <translation x="-1" y="-0.2" z="0" />
+                    <rotation axis="y" angle="90" /> 
+                </transformations>
+
+                <descendants>
+                    <leaf type="cylinder" height="1" topRadius="0.05" bottomRadius="0.05" stacks="16" slices="16"/>
+                </descendants>
+        </node>
+
+        <node id="flagFabric">            
+                
+                <material id="null" />
+
+                <texture id="aircraftBodyTexture">
+                    <amplification afs="2.0" aft="2.0" />
+                </texture>
+
+                <transformations>   
+                    <scale sx="0.5" sy="0.5" sz="0.5" />
+                    <translation x="-5" y="0.0" z="0" />
+                    <rotation axis="x" angle="90" /> 
+                </transformations>
+
+                <descendants>
+                    <leaf type="patch" npointsU="5" npointsV="2" npartsU="20" npartsV="20">
+                        <controlpoint x="-1.0" y="0.0" z="1.0" />
+                        <controlpoint x="-1.0" y="0.0" z="-1.0" />
+
+                        <controlpoint x="0.0" y="1.0" z="1.0" />
+                        <controlpoint x="0.0" y="1.0" z="-1.0" />
+
+                        <controlpoint x="1.0" y="0.0" z="1.0" />
+                        <controlpoint x="1.0" y="0.0" z="-1.0" />
+
+                        <controlpoint x="2.0" y="-1.0" z="1.0" />
+                        <controlpoint x="2.0" y="-1.0" z="-1.0" />
+
+                        <controlpoint x="3.0" y="0.0" z="1.0" />
+                        <controlpoint x="3.0" y="0.0" z="-1.0" />
+
+                    </leaf>
+                </descendants>
         </node>
 
         <node id="aircraftBody">            
@@ -466,8 +612,7 @@
 
                     <descendants>
                         <!-- <leaf type="spriteanim" ssid="testSpriteSheetText" startCell="0" endCell="15" duration="15" />  -->
-                        <!-- <leaf type="spritetext" text="Laig" /> -->
-                        <!-- <leaf type="spriteanim" ssid="greenFrogSpriteSheetAnim" startCell="0" endCell="8" duration="16" />  -->
+                        <!-- <leaf type="spriteanim" ssid="redFrogSpriteSheetAnim" startCell="0" endCell="8" duration="16" />  -->
                         <leaf type="spriteanim" ssid="propellerSpriteSheetAnim" startCell="0" endCell="3" duration="0.3" /> 
                     </descendants>
         </node>
@@ -634,16 +779,6 @@
 
             <descendants>
                     <leaf type="patch" npointsU="2" npointsV="2" npartsU="20" npartsV="20">
-
-                        <!-- <controlpoint x="-1.0" y="0.0" z="1.0" />
-                        <controlpoint x="-1.0" y="0.0" z="-1.0" />
-
-                        <controlpoint x="0.0" y="1.0" z="1.0" />
-                        <controlpoint x="0.0" y="1.0" z="-1.0" />
-
-                        <controlpoint x="1.0" y="0.0" z="1.0" />
-                        <controlpoint x="1.0" y="0.0" z="-1.0" /> -->
-
                         <controlpoint x="0.0" y="0.0" z="0.0" />
                         <controlpoint x="0.0" y="1.5" z="0.0" />
 
@@ -735,15 +870,16 @@
                 </texture>
 
                 <transformations>   
-                    <scale sx="0.5" sy="0.5" sz="0.5" />
-                    <translation x="-0.5" y="0.5" z="8.0" />
+                    <scale sx="0.75" sy="0.65" sz="0.65" />
+                    <translation x="-0.5" y="0.3" z="4.5" />
                 </transformations>
 
                 <descendants>
                     <noderef id="frontWindow" />
                     <noderef id="backWindow" />
-                    <!-- <noderef id="leftWindow" /> -->
+                    <noderef id="leftWindow" />
                     <noderef id="rightWindow" />
+                    <noderef id="wings" />
                 </descendants>
         </node>
 
@@ -805,7 +941,200 @@
             </descendants>
         </node>
 
+        <node id="leftWindow">            
+            
+            <material id="null" />
 
+            <texture id="windowTexture">
+                <amplification afs="2.0" aft="2.0" />
+            </texture>
+
+            <transformations>  
+                <translation x="1.0" y="0.0" z="0.0" />
+                <rotation axis="y" angle="270" /> 
+            </transformations>
+
+            <descendants>
+                    <leaf type="patch" npointsU="2" npointsV="2" npartsU="20" npartsV="20">
+                        <controlpoint x="2.0" y="0" z="0.0" />
+                        <controlpoint x="1.5" y="0.87" z="0.0" />
+                        <controlpoint x="0.0" y="0.0" z="0.0" />
+                        <controlpoint x="0.5" y="0.87" z="0.0" />
+                    </leaf>
+            </descendants>
+        </node>
+
+
+        <node id="wings">            
+                
+                <material id="null" />
+
+                <texture id="null">
+                    <amplification afs="2.0" aft="2.0" />
+                </texture>
+
+                <transformations>   
+                    <scale sx="1" sy="1" sz="1" />
+                    <translation x="0" y="0" z="0" />
+                </transformations>
+
+                <descendants>
+                    <noderef id="topWing" />
+                    <noderef id="bottomWing" />
+                    <noderef id="support1" />
+                    <noderef id="support2" />
+                    <noderef id="support3" />
+                    <noderef id="support4" />
+                </descendants>
+        </node>
+
+        <node id="topWing">            
+                
+                <material id="redMaterial" />
+
+                <texture id="clear">
+                    <amplification afs="2.0" aft="2.0" />
+                </texture>
+
+                <transformations>   
+                    <scale sx="1" sy="1" sz="1" />
+                    <translation x="-2.5" y="0.87" z="0.0" />
+                    <rotation axis="x" angle="90" /> 
+                </transformations>
+
+                <descendants>
+                    <leaf type="rectangle" x1="0" y1="0" x2="6" y2="2.0" />
+                </descendants>
+        </node>
+
+        <node id="bottomWing">            
+                
+                <material id="greenMaterial" />
+
+                <texture id="clear">
+                    <amplification afs="2.0" aft="2.0" />
+                </texture>
+
+                <transformations>   
+                    <scale sx="1" sy="1" sz="1" />
+                    <translation x="-2.5" y="-1.0" z="0.0" />
+                    <rotation axis="x" angle="90" /> 
+                </transformations>
+
+                <descendants>
+                    <leaf type="rectangle" x1="0" y1="0" x2="6" y2="2.0" />
+                </descendants>
+        </node>
+
+        <node id="support1">            
+                
+                <material id="greenMaterial" />
+
+                <texture id="clear">
+                    <amplification afs="2.0" aft="2.0" />
+                </texture>
+
+                <transformations>   
+                    <translation x="-2.4" y="0.86" z="1.925" />
+                    <rotation axis="x" angle="90" /> 
+                </transformations>
+
+                <descendants>
+                    <leaf type="cylinder" height="1.86" topRadius="0.075" bottomRadius="0.075" stacks="16" slices="16"/>
+                </descendants>
+        </node>
+
+        <node id="support2">            
+                
+                <material id="greenMaterial" />
+
+                <texture id="clear">
+                    <amplification afs="2.0" aft="2.0" />
+                </texture>
+
+                <transformations>   
+                    <translation x="3.4" y="0.86" z="1.925" />
+                    <rotation axis="x" angle="90" /> 
+                </transformations>
+
+                <descendants>
+                    <leaf type="cylinder" height="1.86" topRadius="0.075" bottomRadius="0.075" stacks="16" slices="16"/>
+                </descendants>
+        </node>
+
+        <node id="support3">            
+                
+                <material id="redMaterial" />
+
+                <texture id="clear">
+                    <amplification afs="2.0" aft="2.0" />
+                </texture>
+
+                <transformations>   
+                    <translation x="-2.4" y="0.86" z="0.075" />
+                    <rotation axis="x" angle="90" /> 
+                </transformations>
+
+                <descendants>
+                    <leaf type="cylinder" height="1.86" topRadius="0.075" bottomRadius="0.075" stacks="16" slices="16"/>
+                </descendants>
+        </node>
+
+        <node id="support4">            
+                
+                <material id="redMaterial" />
+
+                <texture id="clear">
+                    <amplification afs="2.0" aft="2.0" />
+                </texture>
+
+                <transformations>   
+                    <translation x="3.4" y="0.86" z="0.075" />
+                    <rotation axis="x" angle="90" /> 
+                </transformations>
+
+                <descendants>
+                    <leaf type="cylinder" height="1.86" topRadius="0.075" bottomRadius="0.075" stacks="16" slices="16"/>
+                </descendants>
+        </node>
+
+        <node id="boat">            
+                
+                <material id="null" />
+
+                <texture id="boatTexture">
+                    <amplification afs="2.0" aft="2.0" />
+                </texture>
+
+                <transformations>   
+                    <scale sx="3" sy="3" sz="3" />
+                    <translation x="2" y="1.4" z="0.01" />
+                    <rotation axis="x" angle="90" />
+                </transformations>
+
+                <descendants>
+                    <leaf type="plane" npartsU="5" npartsV="8" />
+                </descendants>
+        </node>
+
+        <node id="soccerBall">            
+                   
+                   <material id="null" />
+
+                    <texture id="soccerBallTexture">
+                        <amplification afs="2.0" aft="2.0" />
+                    </texture>
+
+                    <transformations>
+                        <scale sx="0.5" sy="0.5" sz="0.5" />
+                        <translation x="10" y="15.0" z="0.0" />   
+                        <rotation axis="x" angle="70" />
+                    </transformations>
+
+                    <descendants>
+                        <leaf type="defbarrel" base="0.0" middle="1" height="3" slices="6" stacks="16" />
+                    </descendants>
+        </node>
 
         <node id="ball">            <!-- defines one intermediate node; may be repeated as necessary -->
             <!-- next two lines are mandatory -->

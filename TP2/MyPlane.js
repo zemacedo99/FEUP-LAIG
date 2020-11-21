@@ -31,7 +31,12 @@ class MyPlane extends CGFobject {
 
 	display() 
 	{
+		this.scene.gl.enable(this.scene.gl.BLEND); // enables blending
+        this.scene.gl.blendFunc(this.scene.gl.SRC_ALPHA, this.scene.gl.ONE_MINUS_SRC_ALPHA);// defines the blending function
+
 		this.obj.display();
+
+		this.scene.gl.disable(this.scene.gl.BLEND); 
 	};
 
 }
