@@ -1,85 +1,59 @@
-class MyDefbarrel extends CGFobject {
+class MyDefbarrel {
 	constructor(scene,base,middle,height, slices,stacks) {
-        super(scene);
+        this.scene = scene;
         this.base = base;
         this.middle = middle;
 		this.height = height;
         this.slices = slices;
         this.stacks = stacks;
         
-        this.r = base;
-        this.R = middle;
 
-        this.h = (4/3)*this.r;
-        this.H = (4/3)*(this.R-this.r);
-        this.L = height;
+        this.h = (4/3)*this.base;
+        this.H = (4/3)*(this.middle-this.base);
 
         this.controlvertexes = 
         [
-            [   //P4
-                [this.r,0,0,1],  //Q1
-                [this.r + this.H,0,this.H/Math.tan(30*DEGREE_TO_RAD),1], //Q2
-                [this.r + this.H,0,this.L-this.H/Math.tan(30*DEGREE_TO_RAD),1], //Q3
-                [this.r,0,this.L,1] //Q4
+            [ //P4
+                [this.base, 0, 0, 1],//Q1
+                [this.base + this.H, 0, this.height/3, 1],//Q2
+                [this.base + this.H, 0, 2*this.height/3, 1],//Q3
+                [this.base, 0, this.height, 1],//Q4
+
             ],
-            [   //P3
-                [this.r,this.h,0,1],
-                [this.r + this.H, this.h, this.H/Math.tan(30*DEGREE_TO_RAD),1],
-                [this.r + this.H, this.h, this.L - this.H/Math.tan(30*DEGREE_TO_RAD),1],
-                [this.r, this.h, this.L, 1]
+            [ //P3
+                [this.base, this.h, 0, 1],
+                [this.base + this.H, (4/3)*(this.base + this.H),  this.height/3,1],
+                [this.base + this.H, (4/3)*(this.base + this.H), 2 * this.height/3,1],
+                [this.base, this.h, this.height, 1],
             ],
-            [   //P2
-                [-this.r,this.h,0,1],
-                [-this.r - this.H, this.h , this.H/Math.tan(30*DEGREE_TO_RAD),1],
-                [-this.r - this.H, this.h , this.L - this.H/Math.tan(30*DEGREE_TO_RAD),1],
-                [-this.r, this.h, this.L, 1]
+            [ //P2
+                [-this.base, this.h, 0, 1],
+                [-this.base - this.H, (4/3)*(this.base + this.H), this.height/3, 1],
+                [-this.base - this.H, (4/3)*(this.base + this.H),2 *  this.height/3, 1],
+                [-this.base, this.h, this.height, 1],
+
             ],
-            [   //P1
-                [-this.r,0,0,1],
-                [-this.r - this.H,0,this.H/Math.tan(30*DEGREE_TO_RAD),1],
-                [-this.r - this.H,0,this.L - this.H/Math.tan(30*DEGREE_TO_RAD),1],
-                [-this.r,0,this.L,1]
-            ]
-        ]
+            [ //P1
+                [-this.base, 0, 0, 1],//Q1
+                [-this.base - this.H, 0,  this.height/3, 1],//Q2
+                [-this.base - this.H, 0, 2*  this.height/3 , 1],//Q3
+                [-this.base, 0, this.height, 1],//Q4
 
-        // console.log([
-        //     [   //P4
-        //         [this.r,0,0,1],  //Q1
-        //         [this.r + this.H,0,this.H/Math.tan(30*DEGREE_TO_RAD),1], //Q2
-        //         [this.r + this.H,0,this.L-this.H/Math.tan(30*DEGREE_TO_RAD),1], //Q3
-        //         [this.r,0,this.L,1] //Q4
-        //     ],
-        //     [   //P3
-        //         [this.r,this.h,0,1],
-        //         [this.r + this.H, this.h, this.H/Math.tan(30*DEGREE_TO_RAD),1],
-        //         [this.r + this.H, this.h, this.L - this.H/Math.tan(30*DEGREE_TO_RAD),1],
-        //         [this.r , this.h, this.L, 1]
-        //     ],
-        //     [   //P2
-        //         [-this.r,this.h,0,1],
-        //         [-this.r - this.H, this.h , this.H/Math.tan(30*DEGREE_TO_RAD),1],
-        //         [-this.r - this.H, this.h , this.L - this.H/Math.tan(30*DEGREE_TO_RAD),1],
-        //         [-this.r, this.h, this.L, 1]
-        //     ],
-        //     [   //P1
-        //         [-this.r,0,0,1],
-        //         [-this.r - this.H,0,this.H/Math.tan(30*DEGREE_TO_RAD),1],
-        //         [-this.r - this.H,0,this.L - this.H/Math.tan(30*DEGREE_TO_RAD),1],
-        //         [-this.r,0,this.L,1]
-        //     ]
-        // ])
+            ],
+        ];
 
-        // this.half = new MyPatch(scene,4,4,this.slices,this.stacks,this.controlvertexes);
-
-        // this.barrel = new MyPatch(scene,4,4,slices,stacks,this.controlpoints)
-        // this.halfLeft = new MyPatch(scene,4,4,this.slices,this.stacks,this.controlpoints)
-
+        this.barrel = new MyPatch(this.scene,4,4,this.slices,this.stacks,this.controlvertexes);
 	}
 
 
 	display() 
 	{
-		// this.halfRight.display();
+        this.barrel.display();
+
+        this.scene.pushMatrix();
+            this.scene.rotate(Math.PI, 0.0, 0.0, 1.0);
+            this.barrel.display();
+        this.scene.popMatrix();
     };
     
     

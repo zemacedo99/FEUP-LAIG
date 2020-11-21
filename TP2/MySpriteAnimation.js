@@ -11,29 +11,25 @@ class MySpriteAnimation extends Animation  {
 
         this.spritesheet = this.scene.graph.spritesheets[ssid];
         this.frameIndex;
-        this.frameTime;
+        this.frameTime = this.duration / (this.endCell - this.startCell + 1) // duration / n of frames to display
 
-        this.inicialTime = 0;
         this.elapsedTime;
         this.p;
     }
 
     update(currentTime) 
     {
-        super.update(currentTime);
-        this.lastTime = currentTime;
+        // super.update(currentTime);
 
-        this.frameInstant = this.lastTime % this.duration                    // index of the current frame 
-        this.frameTime = this.duration / (this.endCell - this.startCell + 1) // duration / n of frames to display
-
-
+        this.frameInstant = currentTime % this.duration                    // index of the current frame 
+    
         this.p = Math.floor(this.frameInstant / this.frameTime);             // position of the frame
 
-        if(this.startTime != 0)
+        if(this.startCell != 0)
         {
             this.p = this.p + this.startCell;
         }
-        console.log(this.p)
+        
     }
 
     display()
@@ -42,13 +38,17 @@ class MySpriteAnimation extends Animation  {
         this.scene.gl.blendFunc(this.scene.gl.SRC_ALPHA, this.scene.gl.ONE_MINUS_SRC_ALPHA);// defines the blending function
 
         this.spritesheet.activateShader();
-        this.scene.pushMatrix();
+        // this.scene.pushMatrix();
+        console.log(this.p)
         this.spritesheet.activateCellP(this.p);
         this.retangle.display();
-        this.scene.popMatrix();
+        // this.scene.popMatrix();
         
         this.scene.setActiveShaderSimple(this.scene.defaultShader); 
         
         this.scene.gl.disable(this.scene.gl.BLEND);        // disables blending
+
+
+   
     }
 }

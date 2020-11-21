@@ -993,7 +993,7 @@ class MySceneGraph {
                             break;
 
                         case "leaf":
-                            var primitiveType = this.reader.getString(grandgrandChildren[d], 'type');
+                            let primitiveType = this.reader.getString(grandgrandChildren[d], 'type');
                             switch (primitiveType) {
                                 case "rectangle":
                                     var x1 = this.reader.getFloat(grandgrandChildren[d], 'x1');
@@ -1082,18 +1082,19 @@ class MySceneGraph {
 
                                     let controlvertexes = this.processControlPoints(controlpoints,npointsU,npointsV);
 
-                                    primitive = new MyPatch(this.scene,npartsU,npartsV,npointsU,npointsV,controlvertexes);
+                                    primitive = new MyPatch(this.scene,npointsU,npointsV,npartsU,npartsV,controlvertexes);
                                     break;
                                 
                                 
-                                    case "defbarrel":
-                                        let defbase = this.reader.getFloat(grandgrandChildren[d],'base');
-                                        let defmiddle = this.reader.getFloat(grandgrandChildren[d],'middle');
-                                        let defheight = this.reader.getFloat(grandgrandChildren[d],'height');
-                                        let defslices = this.reader.getFloat(grandgrandChildren[d],'slices');
-                                        let defstacks = this.reader.getFloat(grandgrandChildren[d],'stacks');
+                                case "defbarrel":
+                                    let defbase = this.reader.getFloat(grandgrandChildren[d],'base');
+                                    let defmiddle = this.reader.getFloat(grandgrandChildren[d],'middle');
+                                    let defheight = this.reader.getFloat(grandgrandChildren[d],'height');
+                                    let defslices = this.reader.getFloat(grandgrandChildren[d],'slices');
+                                    let defstacks = this.reader.getFloat(grandgrandChildren[d],'stacks');
 
-                                        primitive = new MyDefbarrel(this.scene,defbase,defmiddle,defheight,defslices,defstacks);
+                                    
+                                    primitive = new MyDefbarrel(this.scene,defbase,defmiddle,defheight,defslices,defstacks);
                                     break;
     
 

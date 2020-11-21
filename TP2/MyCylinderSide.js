@@ -52,17 +52,28 @@ initBuffers()
                 this.indices.push(i4, i3, i1);
                 this.indices.push(i1, i2, i4);
             }
-		}
+        }
+        
 
-        for(var slice=0; slice<=this.slices; slice++)
+        for(var slice=this.slices; slice>=0; slice--)
         {
-            for(var stack = 0; stack<=this.stacks; stack++)
+            for(var stack = this.stacks ; stack >=0; stack--)
             {
    
                 this.texCoords.push(1-slice/this.slices,1-stack/this.stacks);
 
             }
         }
+
+        // for(var slice=0; slice<=this.slices; slice++)
+        // {
+        //     for(var stack = 0; stack<=this.stacks; stack++)
+        //     {
+   
+        //         this.texCoords.push(1-slice/this.slices,1-stack/this.stacks);
+
+        //     }
+        // }
 
         // for(var stack = 0; stack<=this.stacks; stack++)
         // {

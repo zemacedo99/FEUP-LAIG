@@ -55,6 +55,7 @@
         <texture id="bookCoverTexture" path="./scenes/images/book_cover.jpg" />    
         <texture id="landScapeTexture" path="./scenes/images/landScape.jpg" />
         <texture id="aircraftBodyTexture" path="./scenes/images/aircraftBody.png" />
+        <texture id="windowTexture" path="./scenes/images/window.png" />
     </textures>
 
     <!-- spritesheets -->
@@ -64,6 +65,7 @@
 
             <!-- Semelhante à declaração de textura, -->
             <!-- mas inclui a definição do nº de colunas e linhas -->
+            <spritesheet id="testSpriteSheetText" path="./scenes/images/spriteSheet/test.png" sizeM="4" sizeN="4" />
             <spritesheet id="berlinfontSpriteSheetText" path="./scenes/images/spriteSheet/Berlinfont.png" sizeM="16" sizeN="16" />
             <spritesheet id="redFrogSpriteSheetAnim" path="./scenes/images/spriteSheet/red_frog.png" sizeM="4" sizeN="2" />
             <spritesheet id="greenFrogSpriteSheetAnim" path="./scenes/images/spriteSheet/green_frog.png" sizeM="4" sizeN="2" />
@@ -84,7 +86,7 @@
         </material>
 
         <material id="redMaterial">
-            <shininess value="0.5" />
+            <shininess value="0.0" />
             <ambient r="1.0" g="0.0" b="0.0" a="1.0" />
             <diffuse r="1.0" g="0.0" b="0.0" a="1.0" />
             <specular r="1.0" g="0.0" b="0.0" a="1.0" />
@@ -343,7 +345,7 @@
                        
 
                  
-                        <leaf type="patch" npointsU="3" npointsV="4" npartsU="20" npartsV="20">
+                        <!-- <leaf type="patch" npointsU="3" npointsV="4" npartsU="20" npartsV="20">
                             <controlpoint x="-2.0" y="-2.0" z="2.0"/>
                             <controlpoint x="-2.0" y="-1.0" z="2.0"/>
                             <controlpoint x="-2.0" y="1.0" z="2.0"/>
@@ -359,7 +361,7 @@
                             <controlpoint x="2.0" y="1.0" z="2.0"/>
                             <controlpoint x="2.0" y="2.0" z="2.0"/>
 
-                        </leaf>
+                        </leaf> -->
     
 
                         <!-- — Nova primitiva: forma de barril baseado em NURBS -->
@@ -368,7 +370,7 @@
                         <!-- middle representa o raio no centro do objeto -->
 
                         
-                        <leaf type="defbarrel" base="0.0" middle="1.0" height="2.0" slices="16" stacks="16" /> 
+                        <!-- <leaf type="defbarrel" base="0.5" middle="1" height="2" slices="16" stacks="16" /> -->
                        
 
                     </descendants>
@@ -404,9 +406,30 @@
                     </transformations>
 
                     <descendants>
-                        <leaf type="cylinder" height="5.0" topRadius="0.5" bottomRadius="0.3" stacks="16" slices="16"/>
+                        <leaf type="cylinder" height="6.0" topRadius="0.5" bottomRadius="0.3" stacks="16" slices="16"/>
+                        <noderef id="backS" />
                         <noderef id="propeller" />
                         <noderef id="wheels" />
+                        <noderef id="stabilizers" />
+                        <noderef id="cockpit" />
+                    </descendants>
+        </node>
+
+
+        <node id="backS">            
+                   
+                   <material id="null" />
+
+                    <texture id="null">
+                        <amplification afs="2.0" aft="2.0" />
+                    </texture>
+
+                    <transformations>
+                        <rotation axis="y" angle="90" />
+                    </transformations>
+
+                    <descendants>
+                        <leaf type="sphere" radius="0.3" slices="16" stacks="16"/>
                     </descendants>
         </node>
 
@@ -419,12 +442,12 @@
                     </texture>
 
                     <transformations>
-                        <translation x="0.0" y="0.0" z="5.0" /> 
-                        <scale sx="2.0" sy="2.0" sz="2.0" />
+                        <translation x="0.0" y="0.0" z="6.0" /> 
+                        <scale sx="4.0" sy="4.0" sz="4.0" />
                     </transformations>
 
                     <descendants>
-                        <leaf type="cylinder" height="0.15" topRadius="0.04" bottomRadius="0.04" stacks="16" slices="16"/>
+                        <leaf type="cylinder" height="0.05" topRadius="0.04" bottomRadius="0.04" stacks="16" slices="16"/>
                         <noderef id="propellerWings" />
                     </descendants>
         </node>
@@ -438,15 +461,351 @@
                     </texture>
 
                     <transformations>
-                        <translation x="-0.5" y="-0.555" z="0.151" /> 
+                        <translation x="-0.5" y="-0.555" z="0.051" /> 
                     </transformations>
 
                     <descendants>
-                        <!-- <leaf type="spriteanim" ssid="redFrogSpriteSheetAnim" startCell="0" endCell="8" duration="16" />  -->
+                        <!-- <leaf type="spriteanim" ssid="testSpriteSheetText" startCell="0" endCell="15" duration="15" />  -->
+                        <!-- <leaf type="spritetext" text="Laig" /> -->
                         <!-- <leaf type="spriteanim" ssid="greenFrogSpriteSheetAnim" startCell="0" endCell="8" duration="16" />  -->
                         <leaf type="spriteanim" ssid="propellerSpriteSheetAnim" startCell="0" endCell="3" duration="0.3" /> 
                     </descendants>
         </node>
+
+        <node id="wheels">            
+            
+            <material id="null" />
+
+            <texture id="clear">
+                <amplification afs="2.0" aft="2.0" />
+            </texture>
+
+            <transformations>
+                <scale sx="0.5" sy="0.5" sz="0.5" />
+                <rotation axis="y" angle="90" />
+            </transformations>
+
+            <descendants>
+                <noderef id="wheel1" />
+                <noderef id="wheel2" />
+                <noderef id="wheel3" />
+            </descendants>
+        </node>
+
+        <node id="wheel1">            
+            
+            <material id="blackMaterial" />
+
+            <texture id="clear">
+                <amplification afs="2.0" aft="2.0" />
+            </texture>
+
+            <transformations>
+                <translation x="-1.5" y="-1.25" z="0.0" />
+            </transformations>
+
+            <descendants>
+                <noderef id="wheel" />
+            </descendants>
+        </node>
+
+        <node id="wheel2">            
+            
+            <material id="blackMaterial" />
+
+            <texture id="clear">
+                <amplification afs="2.0" aft="2.0" />
+            </texture>
+
+            <transformations>
+                <translation x="-9.5" y="-1.5" z="+0.5" />
+            </transformations>
+
+            <descendants>
+                <noderef id="wheel" />
+            </descendants>
+        </node>
+
+
+        <node id="wheel3">            
+            
+            <material id="blackMaterial" />
+
+            <texture id="clear">
+                <amplification afs="2.0" aft="2.0" />
+            </texture>
+
+            <transformations>
+                <translation x="-9.5" y="-1.5" z="-0.75" />
+            </transformations>
+
+            <descendants>
+                <noderef id="wheel" />
+            </descendants>
+        </node>
+
+
+        <node id="wheel">            
+            
+            <material id="blackMaterial" />
+
+            <texture id="clear">
+                <amplification afs="2.0" aft="2.0" />
+            </texture>
+
+            <transformations>
+               
+            </transformations>
+
+            <descendants>
+                <noderef id="wheelCable" />
+                <noderef id="wheelCenter" />
+                <leaf type="cylinder" height="0.25" topRadius="0.5" bottomRadius="0.5" stacks="16" slices="16"/>
+            </descendants>
+        </node>
+
+        <node id="wheelCenter">            
+            
+            <material id="greenMaterial" />
+
+            <texture id="clear">
+                <amplification afs="2.0" aft="2.0" />
+            </texture>
+
+            <transformations>   
+               <translation x="0.0" y="0.0" z="-0.01" />
+            </transformations>
+
+            <descendants>
+                <leaf type="cylinder" height="0.27" topRadius="0.2" bottomRadius="0.2" stacks="16" slices="16"/>
+            </descendants>
+        </node>
+
+        <node id="wheelCable">            
+            
+            <material id="greenMaterial" />
+
+            <texture id="clear">
+                <amplification afs="2.0" aft="2.0" />
+            </texture>
+
+            <transformations>   
+               <translation x="0.0" y="1.5" z="0.125" />
+               <rotation axis="x" angle="90" />
+            </transformations>
+
+            <descendants>
+                <leaf type="cylinder" height="1.5" topRadius="0.075" bottomRadius="0.075" stacks="16" slices="16"/>
+            </descendants>
+        </node>
+
+        <node id="stabilizers">            
+            
+            <material id="null" />
+
+            <texture id="null">
+                <amplification afs="2.0" aft="2.0" />
+            </texture>
+
+            <transformations>   
+               <translation x="0.0" y="0.0" z="0.0" />
+               <scale sx="0.5" sy="0.5" sz="0.5" />
+            </transformations>
+
+            <descendants>
+                <noderef id="verticalStabilizer1" />
+                <noderef id="verticalStabilizer2" />
+                <noderef id="horizontalStabilizer1" />
+                <noderef id="horizontalStabilizer2" />
+            </descendants>
+        </node>
+
+        <node id="verticalStabilizer1">            
+            
+            <material id="redMaterial" />
+
+            <texture id="clear">
+                <amplification afs="2.0" aft="2.0" />
+            </texture>
+
+            <transformations>      
+                <rotation axis="y" angle="270" />
+            </transformations>
+
+            <descendants>
+                    <leaf type="patch" npointsU="2" npointsV="2" npartsU="20" npartsV="20">
+
+                        <!-- <controlpoint x="-1.0" y="0.0" z="1.0" />
+                        <controlpoint x="-1.0" y="0.0" z="-1.0" />
+
+                        <controlpoint x="0.0" y="1.0" z="1.0" />
+                        <controlpoint x="0.0" y="1.0" z="-1.0" />
+
+                        <controlpoint x="1.0" y="0.0" z="1.0" />
+                        <controlpoint x="1.0" y="0.0" z="-1.0" /> -->
+
+                        <controlpoint x="0.0" y="0.0" z="0.0" />
+                        <controlpoint x="0.0" y="1.5" z="0.0" />
+
+                        <controlpoint x="1.0" y="0.0" z="0.0" />
+                        <controlpoint x="1.0" y="1.0" z="0.0" />
+                    </leaf>
+            </descendants>
+        </node>
+
+        <node id="verticalStabilizer2">            
+            
+            <material id="redMaterial" />
+
+            <texture id="clear">
+                <amplification afs="2.0" aft="2.0" />
+            </texture>
+
+            <transformations>   
+                <rotation axis="y" angle="270" />   
+            </transformations>
+
+            <descendants>
+                    <leaf type="patch" npointsU="2" npointsV="2" npartsU="20" npartsV="20">
+
+                        <controlpoint x="1.0" y="0.0" z="0.0" />
+                        <controlpoint x="1.0" y="1.0" z="0.0" />
+                        <controlpoint x="0.0" y="0.0" z="0.0" />
+                        <controlpoint x="0.0" y="1.5" z="0.0" />
+                    </leaf>
+            </descendants>
+        </node>
+
+        <node id="horizontalStabilizer1">            
+            
+            <material id="greenMaterial" />
+
+            <texture id="clear">
+                <amplification afs="2.0" aft="2.0" />
+            </texture>
+
+            <transformations>   
+                <translation x="0.0" y="0.0" z="0.5" />
+                <rotation axis="y" angle="270" />
+            </transformations>
+
+            <descendants>
+                    <leaf type="patch" npointsU="2" npointsV="2" npartsU="20" npartsV="20">
+                        <controlpoint x="-0.5" y="0.0" z="1.5" />
+                        <controlpoint x="-0.5" y="0.0" z="-1.5" />
+
+                        <controlpoint x="0.5" y="0.0" z="1.0" />
+                        <controlpoint x="0.5" y="0.0" z="-1.0" />
+                    </leaf>
+            </descendants>
+        </node>
+
+        <node id="horizontalStabilizer2">            
+            
+            <material id="greenMaterial" />
+
+            <texture id="clear">
+                <amplification afs="2.0" aft="2.0" />
+            </texture>
+
+            <transformations>   
+                <translation x="0.0" y="0.0" z="0.5" />
+                <rotation axis="y" angle="90" />
+                <rotation axis="z" angle="180" />
+            </transformations>
+
+            <descendants>
+                    <leaf type="patch" npointsU="2" npointsV="2" npartsU="20" npartsV="20">
+                        <controlpoint x="-0.5" y="0.0" z="1.5" />
+                        <controlpoint x="-0.5" y="0.0" z="-1.5" />
+
+                        <controlpoint x="0.5" y="0.0" z="1.0" />
+                        <controlpoint x="0.5" y="0.0" z="-1.0" />
+                    </leaf>
+            </descendants>
+        </node>
+
+
+        <node id="cockpit">            
+                
+                <material id="null" />
+
+                <texture id="null">
+                    <amplification afs="2.0" aft="2.0" />
+                </texture>
+
+                <transformations>   
+                    <scale sx="0.5" sy="0.5" sz="0.5" />
+                    <translation x="-0.5" y="0.5" z="8.0" />
+                </transformations>
+
+                <descendants>
+                    <noderef id="frontWindow" />
+                    <noderef id="backWindow" />
+                    <!-- <noderef id="leftWindow" /> -->
+                    <noderef id="rightWindow" />
+                </descendants>
+        </node>
+
+        <node id="frontWindow">            
+                   
+                    <material id="null" />
+
+                    <texture id="windowTexture">
+                        <amplification afs="2.0" aft="2.0" />
+                    </texture>
+
+                    <transformations>
+                        <translation x="0.0" y="0.0" z="2.0" />
+                        <rotation axis="x" angle="-30" />
+                    </transformations>
+
+                    <descendants>
+                        <leaf type="rectangle" x1="0" y1="0" x2="1.0" y2="1.0" />
+                    </descendants>
+        </node>
+
+        <node id="backWindow">            
+                   
+                    <material id="null" />
+
+                    <texture id="windowTexture">
+                        <amplification afs="2.0" aft="2.0" />
+                    </texture>
+
+                    <transformations>
+                        <rotation axis="x" angle="30" />
+                    </transformations>
+
+                    <descendants>
+                        <leaf type="rectangle" x1="0" y1="0" x2="1.0" y2="1.0" />
+                    </descendants>
+        </node>
+
+        <node id="rightWindow">            
+            
+            <material id="null" />
+
+            <texture id="windowTexture">
+                <amplification afs="2.0" aft="2.0" />
+            </texture>
+
+            <transformations>  
+                <rotation axis="y" angle="270" /> 
+            </transformations>
+
+            <descendants>
+                    <leaf type="patch" npointsU="2" npointsV="2" npartsU="20" npartsV="20">
+                        <controlpoint x="0.0" y="0.0" z="0.0" />
+                        <controlpoint x="0.5" y="0.87" z="0.0" />
+
+                        <controlpoint x="2.0" y="0" z="0.0" />
+                        <controlpoint x="1.5" y="0.87" z="0.0" />
+                    </leaf>
+            </descendants>
+        </node>
+
+
 
         <node id="ball">            <!-- defines one intermediate node; may be repeated as necessary -->
             <!-- next two lines are mandatory -->
