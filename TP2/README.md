@@ -5,6 +5,7 @@
 | Name               | Number    | E-Mail               |
 | -------------------| --------- | -------------------- |
 | José Macedo        | 201705226 | up201705226@fe.up.pt |
+| Guilherme Calassi        | 201800157 | up201800157@fe.up.pt |
 
 ----
 ## Project information
