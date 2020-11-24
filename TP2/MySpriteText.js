@@ -29,8 +29,8 @@ class MySpriteText {
         for(let letter of this.text)
         {
             this.spritesheet.activateCellP(this.caracterIndex[letter]);
-            this.scene.translate(1,0,0);
             this.retangle.display();
+            this.scene.translate(1,0,0);
         }
         this.scene.popMatrix();
 

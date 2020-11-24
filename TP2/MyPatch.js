@@ -9,7 +9,6 @@ class MyPatch {
 
 		let nurbsSurface = new CGFnurbsSurface(this.npointsU-1, this.npointsV-1, this.controlpoints);
 		this.obj = new CGFnurbsObject(this.scene, this.npartsU, this.npartsV, nurbsSurface );
-	
 	}
 
 
