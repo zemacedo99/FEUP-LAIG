@@ -28,20 +28,24 @@ class MySceneGraph {
         this.scene = scene;
         scene.graph = this;
 
-        this.nodes = [];
-
+        
         this.idRoot = null; // The id of the root element.
-
-        this.spriteanimations = [];
+        
         this.axisCoords = [];
         this.axisCoords['x'] = [1, 0, 0];
         this.axisCoords['y'] = [0, 1, 0];
         this.axisCoords['z'] = [0, 0, 1];
-
+        
         // Save Elements
         this.views = [];
         this.defaultView = null;
+        this.nodes = [];
+        this.spriteanimations = [];
 
+        this.mainBoard = new MyMainBoard(this.scene);
+        this.auxBoard = new MyAuxBoard(this.scene);
+        
+        this.auxBoard.display();
         // File reading 
         this.reader = new CGFXMLreader();
 
