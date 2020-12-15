@@ -22,7 +22,8 @@ class KeyframeAnimation extends Animation {
                 return x.instant - y.instant
             }
         );
-
+        
+        // instantes iguais cuidado
         this.inicialTime = this.keyframes[0].instant;
         this.endTime = this.keyframes[this.keyframes.length-1].instant;
     }
