@@ -4,6 +4,5 @@ class MyMainBoard {
         this.scene = scene;
         this.pieces = [];
         this.tiles = [];
-
     }
 }

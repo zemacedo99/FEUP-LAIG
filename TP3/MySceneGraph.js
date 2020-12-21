@@ -45,7 +45,7 @@ class MySceneGraph {
         this.mainBoard = new MyMainBoard(this.scene);
         this.auxBoard = new MyAuxBoard(this.scene);
         
-        this.auxBoard.display();
+
         // File reading 
         this.reader = new CGFXMLreader();
 
@@ -1311,7 +1311,8 @@ class MySceneGraph {
      * Displays the scene, processing each node, starting in the root node.
      */
     displayScene() {
-        this.processNode(this.idRoot, this.nodes[this.idRoot].material, this.nodes[this.idRoot].texture);
+        this.auxBoard.display();
+        //this.processNode(this.idRoot, this.nodes[this.idRoot].material, this.nodes[this.idRoot].texture);
     }
 
     processNode(id, matParent, texParent) {
