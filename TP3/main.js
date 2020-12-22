@@ -39,7 +39,7 @@ function getUrlVars() {
 }
 
 //Include additional files here
-serialInclude(['../lib/CGF.js', 'XMLscene.js', 'MySceneGraph.js', 'MyInterface.js', 'primitives/MyRectangle.js', 'MyNode.js', 'primitives/MyCylinder.js', 'primitives/MySphere.js', 'primitives/MyTorus.js', 'primitives/MyTriangle.js', 'primitives/MyCircle.js', 'primitives/MyCylinderSide.js','Animation.js','Keyframe.js','KeyframeAnimation.js','MySpritesheet.js','MySpriteText.js','MySpriteAnimation.js','primitives/MyPlane.js','primitives/MyPatch.js','primitives/MyDefbarrel.js','MyMainBoard.js','MyAuxBoard.js','MyPiece.js','MyTile.js',
+serialInclude(['../lib/CGF.js', 'XMLscene.js', 'MySceneGraph.js', 'MyInterface.js', 'primitives/MyRectangle.js', 'MyNode.js', 'primitives/MyCylinder.js', 'primitives/MySphere.js', 'primitives/MyTorus.js', 'primitives/MyTriangle.js', 'primitives/MyCircle.js', 'primitives/MyCylinderSide.js','Animation.js','Keyframe.js','KeyframeAnimation.js','MySpritesheet.js','MySpriteText.js','MySpriteAnimation.js','primitives/MyPlane.js','primitives/MyPatch.js','primitives/MyDefbarrel.js','MyMainBoard.js','MyAuxBoard.js','MyPiece.js','MyTile.js','primitives/MyHexagon.js',
 
     main = function () {
         // Standard application, scene and interface setup
