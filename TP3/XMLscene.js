@@ -78,6 +78,8 @@ class XMLscene extends CGFscene {
                 this.initialTime = time;
             }
         }
+
+        this.gameOrchestrator.update(t);
         
         // updates animations
         if (this.sceneInited) {

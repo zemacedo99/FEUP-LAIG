@@ -15,6 +15,18 @@ class MyTile {
         this._piece = value;
     }
 
+    update(time){
+    }
+
+    createAnimation(oldTile, nextTile){
+        let time = new Date();
+        let t_start = time.getMilliseconds();
+        if(oldTile instanceof MyTile && nextTile instanceof MyTile){
+            while(time.getMilliseconds() - t_start < 2000){ // primeiros 2s
+            }
+        }
+    }
+
     display() {
         this.scene.gl.enable(this.scene.gl.BLEND); // enables blending
         this.scene.gl.blendFunc(this.scene.gl.SRC_ALPHA, this.scene.gl.ONE_MINUS_SRC_ALPHA);// defines the blending function

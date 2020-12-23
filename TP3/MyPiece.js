@@ -5,7 +5,6 @@ class MyPiece {
         this.scene = scene;
         this.color = color;
         this.player = owership;
-
         this.piece = new MyCylinder(scene,0.25,0.25,0.25,16,16);
         this.picked = false;
     }

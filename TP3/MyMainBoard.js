@@ -9,6 +9,11 @@ class MyMainBoard {
         this.fillBoard();
     }
 
+    update(time){
+        for (let tile of this.tiles)
+            tile.update(time);
+    }
+
     fillBoard() {
 
         for (let c = 0; c < 5; c++) {
