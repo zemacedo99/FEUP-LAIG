@@ -44,9 +44,12 @@ class MyMainBoard {
     }
 
     display() {
+        this.scene.pushMatrix();
+        this.scene.translate(-4, 1.5*6, 0);
         for (let i = 0; i < this.tiles.length; i++) {
             this.tiles[i].display();
         }
+        this.scene.popMatrix();
     }
 
 }
