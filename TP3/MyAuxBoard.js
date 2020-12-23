@@ -11,22 +11,25 @@ class MyAuxBoard {
     constructor(scene) 
     {
         this.scene = scene;
-        this.pieces = [];
-        this.npieces = this.pieces.length;
         this.tiles = [];
-        
         this.texture = new CGFtexture(this.scene, "./scenes/images/demoTexture.png");
-        this.board = new MyRectangle(scene,0,0,50,50);
+        this.fillBoard();
     }
 
     fillBoard()
     {
-        
+        for (let i = 0 ; i < 7 ; i++) // 7 linhas
+            for (let j = 0 ; j < 6 ; j++) // 6 colunas
+                if(i%2) // linha impar
+                    this.tiles.push(new MyTile(this.scene, [j*2 - 1, i*1.5, 0]))
+                else
+                    this.tiles.push(new MyTile(this.scene, [j*2, i*1.5, 0]))
     }
 
     display()
     {
-        this.texture.bind();
-        this.board.display();
+        for (let i = 0; i < this.tiles.length; i++){
+            this.tiles[i].display();
+        }
     }
 }
