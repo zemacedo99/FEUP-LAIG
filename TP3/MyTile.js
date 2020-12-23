@@ -4,7 +4,8 @@ class MyTile{
         this.scene = scene;
         this.id = id;
         this.position = position;
-        this._piece = new MyPiece(scene,this.id , "", "");
+        // this._piece = new MyPiece(scene,this.id , "", "");
+        this._piece = null;
 
         this.form = new MyHexagon(scene);
 
@@ -12,11 +13,11 @@ class MyTile{
         this.picked = false;
     }
 
-    get piece() {
+    getPiece() {
         return this._piece;
     }
 
-    set piece(value) {
+    setPiece(value) {
         this._piece = value;
     }
 
@@ -47,7 +48,7 @@ class MyTile{
             }
             this.texture.bind();
             this.form.display();
-            this._piece.display();
+            if(this._piece != null) this._piece.display();
         this.scene.popMatrix();
 
 

@@ -65,6 +65,7 @@ class GameOrchestrator {
 
     pickObj(obj, customId) 
     {
+        
         if (obj instanceof MyTile) 
         {
             console.log("Tile with id: " + customId + " selected")
