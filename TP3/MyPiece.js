@@ -10,12 +10,25 @@ class MyPiece {
         this.picked = false;
     }
 
+    isPicked(){
+        return this.picked;
+    }
+
+    pick()
+    {
+        if(this.picked) this.picked = false;
+        else this.picked = true;
+    }
+
+
     display()
     {
+        this.scene.registerForPick( this.id, this);
+        this.scene.clearPickRegistration();
         if(this.picked)
         {
             this.scene.pushMatrix();
-                this.scene.scale(1,1,2);
+                this.scene.scale(1.5,1.5,1);
                 this.piece.display();
             this.scene.popMatrix();
         }

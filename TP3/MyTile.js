@@ -1,13 +1,15 @@
 class MyTile{
-    constructor(scene,position,texture)
+    constructor(scene,id,position,texture)
     {
         this.scene = scene;
+        this.id = id;
         this.position = position;
-        this._piece = new MyPiece(scene,1 , "", "");
+        this._piece = new MyPiece(scene,this.id , "", "");
 
         this.form = new MyHexagon(scene);
 
         this.texture = texture;
+        this.picked = false;
     }
 
     get piece() {
@@ -18,6 +20,16 @@ class MyTile{
         this._piece = value;
     }
 
+    isPicked(){
+        return this.picked;
+    }
+
+    pick()
+    {
+        if(this.picked) this.picked = false;
+        else this.picked = true;
+    }
+
     display()
     {   
         this.scene.gl.enable(this.scene.gl.BLEND); // enables blending
@@ -26,6 +38,13 @@ class MyTile{
 		
         this.scene.pushMatrix();
         this.scene.translate(this.position[0],this.position[1],this.position[2]);
+            if(this.picked)
+            {
+                this.scene.pushMatrix();
+                    this.scene.translate(0,0,1);
+                    this.form.display();
+                this.scene.popMatrix();
+            }
             this.texture.bind();
             this.form.display();
             this._piece.display();
