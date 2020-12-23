@@ -1,13 +1,13 @@
 class MyTile{
-    constructor(scene,position)
+    constructor(scene,position,texture)
     {
         this.scene = scene;
         this.position = position;
-        this._piece = new MyPiece(scene, "", "")
+        this._piece = new MyPiece(scene,1 , "", "");
 
         this.form = new MyHexagon(scene);
 
-        this.texture = new CGFtexture(this.scene, "./scenes/images/tile.png");
+        this.texture = texture;
     }
 
     get piece() {
@@ -28,7 +28,7 @@ class MyTile{
         this.scene.translate(this.position[0],this.position[1],this.position[2]);
             this.texture.bind();
             this.form.display();
-            // this._piece.display();
+            this._piece.display();
         this.scene.popMatrix();
 
 

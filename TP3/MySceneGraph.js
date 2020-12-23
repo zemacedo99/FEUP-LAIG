@@ -1312,7 +1312,7 @@ class MySceneGraph {
      */
     displayScene() {
         // this.auxBoard.display();
-        this.mainBoard.display();
+        // this.mainBoard.display();
         //this.processNode(this.idRoot, this.nodes[this.idRoot].material, this.nodes[this.idRoot].texture);
     }
 
