@@ -1311,8 +1311,8 @@ class MySceneGraph {
      * Displays the scene, processing each node, starting in the root node.
      */
     displayScene() {
-        //this.mainBoard.display();
-        this.auxBoard.display();
+        // this.auxBoard.display();
+        // this.mainBoard.display();
         //this.processNode(this.idRoot, this.nodes[this.idRoot].material, this.nodes[this.idRoot].texture);
     }
 

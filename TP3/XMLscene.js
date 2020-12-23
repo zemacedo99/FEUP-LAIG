@@ -34,6 +34,7 @@ class XMLscene extends CGFscene {
 
         this.axis = new CGFaxis(this);
         this.setUpdatePeriod(100);
+        this.setPickEnabled(true);
         this.initialTime = 0;
 
         this.loadingProgressObject = new MyRectangle(this, -1, -.1, 1, .1);
@@ -45,6 +46,7 @@ class XMLscene extends CGFscene {
         // this.rectangle = new MyRectangle(this, 0, 0, 1, 1);
         // this.shader = new CGFshader(this.gl, "./shaders/spritesheet.vert", "./shaders/spritesheet.frag");
 
+        this.gameOrchestrator = new GameOrchestrator(this.graph,this);
     }
 
     /**
@@ -160,6 +162,8 @@ class XMLscene extends CGFscene {
      */
     display() {
         // ---- BEGIN Background, camera and axis setup
+        this.gameOrchestrator.managePickRequest(this.pickMode,this.pickResults);
+        this.clearPickRegistration(); //Clears the currently registered id and associated object
 
         // Clear image and depth buffer everytime we update the scene
         this.gl.viewport(0, 0, this.gl.canvas.width, this.gl.canvas.height);
@@ -198,6 +202,7 @@ class XMLscene extends CGFscene {
 
             // Displays the scene (MySceneGraph function).
             this.graph.displayScene();
+            this.gameOrchestrator.display();
             // this.graph.textures["bookCoverTexture"].bind();
             // this.rectangle.display();
 
