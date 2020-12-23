@@ -16,15 +16,7 @@ class MyTile {
     }
 
     update(time){
-    }
-
-    createAnimation(oldTile, nextTile){
-        let time = new Date();
-        let t_start = time.getMilliseconds();
-        if(oldTile instanceof MyTile && nextTile instanceof MyTile){
-            while(time.getMilliseconds() - t_start < 2000){ // primeiros 2s
-            }
-        }
+        this.piece.update(time);
     }
 
     display() {

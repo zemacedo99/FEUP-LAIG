@@ -9,6 +9,9 @@ class MyPiece {
         this.picked = false;
     }
 
+    update(time){
+    }
+
     display()
     {
         if(this.picked)
