@@ -19,7 +19,7 @@ class GameOrchestrator {
     update(time) {
         this.gameBoard.update(time);
         if(this.trash === null){
-            this.gameBoard.tiles[5].piece.startMovement(this.gameBoard.tiles[5], this.gameBoard.tiles[10])
+            this.gameBoard.tiles[5].piece.startMovement(this.gameBoard.tiles[5], this.gameBoard.tiles[30])
             this.trash = true;
         }
     }
