@@ -13,11 +13,15 @@ class GameOrchestrator {
         this.auxBoard = [];
         this.positionAuxBoards = [];
         this.initAuxBoards();
+        this.trash = null;
     }
-
 
     update(time) {
         this.gameBoard.update(time);
+        if(this.trash === null){
+            this.gameBoard.tiles[5].piece.startMovement(this.gameBoard.tiles[5], this.gameBoard.tiles[10])
+            this.trash = true;
+        }
     }
 
     initAuxBoards() {
@@ -33,10 +37,10 @@ class GameOrchestrator {
         this.positionAuxBoards[0]["rotate"] = [0, 0, 0, 1];
 
         this.positionAuxBoards[1]["translate"] = [14, -10, 0];
-        this.positionAuxBoards[1]["rotate"] = [Math.PI/3, 0, 0, 1];
+        this.positionAuxBoards[1]["rotate"] = [Math.PI / 3, 0, 0, 1];
 
         this.positionAuxBoards[2]["translate"] = [-14, -10, 0];
-        this.positionAuxBoards[2]["rotate"] = [-Math.PI/3, 0, 0, 1];
+        this.positionAuxBoards[2]["rotate"] = [-Math.PI / 3, 0, 0, 1];
     }
 
     // setTheme(){
