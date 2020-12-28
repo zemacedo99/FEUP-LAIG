@@ -42,10 +42,6 @@ class MySceneGraph {
         this.nodes = [];
         this.spriteanimations = [];
 
-        this.mainBoard = new MyMainBoard(this.scene);
-        // this.auxBoard = new MyAuxBoard(this.scene);
-        
-
         // File reading 
         this.reader = new CGFXMLreader();
 
@@ -1311,9 +1307,7 @@ class MySceneGraph {
      * Displays the scene, processing each node, starting in the root node.
      */
     displayScene() {
-        // this.auxBoard.display();
-        // this.mainBoard.display();
-        //this.processNode(this.idRoot, this.nodes[this.idRoot].material, this.nodes[this.idRoot].texture);
+        this.processNode(this.idRoot, this.nodes[this.idRoot].material, this.nodes[this.idRoot].texture);
     }
 
     processNode(id, matParent, texParent) {

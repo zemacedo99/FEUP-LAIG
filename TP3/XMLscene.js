@@ -41,11 +41,6 @@ class XMLscene extends CGFscene {
         this.loadingProgress = 0;
 
         this.defaultAppearance = new CGFappearance(this);
-
-        //this.sphere = new MySphere (this,5,10,10);
-        // this.rectangle = new MyRectangle(this, 0, 0, 1, 1);
-        // this.shader = new CGFshader(this.gl, "./shaders/spritesheet.vert", "./shaders/spritesheet.frag");
-
         this.gameOrchestrator = new GameOrchestrator(this.graph,this);
     }
 
@@ -57,8 +52,6 @@ class XMLscene extends CGFscene {
     }
 
     updateCamera(id) {
-        // console.log('UPDATE CAMERA: ');
-        // console.log(this.graph.views[id])
         this.camera = this.graph.views[id]
         this.interface.setActiveCamera(this.camera);
     }
@@ -67,7 +60,7 @@ class XMLscene extends CGFscene {
     update(t) {
         let time = t / 1000; // time in seconds
 
-        if (this.initialTime == 0) {
+        if (this.initialTime === 0) {
             this.initialTime = time;
         }
 
@@ -188,7 +181,6 @@ class XMLscene extends CGFscene {
         var cont = 0;
         for (const [key, value] of Object.entries(this.lightsValues)) {
             if (value === false) {
-                //console.log(key)
                 this.lights[cont].disable();
                 this.lights[cont].update();
             }
@@ -203,10 +195,8 @@ class XMLscene extends CGFscene {
             this.defaultAppearance.apply();
 
             // Displays the scene (MySceneGraph function).
-            this.graph.displayScene();
+            //this.graph.displayScene();
             this.gameOrchestrator.display();
-            // this.graph.textures["bookCoverTexture"].bind();
-            // this.rectangle.display();
 
         } else {
             // Show some "loading" visuals
