@@ -16,8 +16,8 @@ class GameOrchestrator {
         this.auxBoard = [];
         this.positionAuxBoards = [];
         this.initAuxBoards();
+        this.trash = null;
     }
-
 
     update(time) {
         this.gameBoard.update(time);
@@ -36,10 +36,10 @@ class GameOrchestrator {
         this.positionAuxBoards[0]["rotate"] = [0, 0, 0, 1];
 
         this.positionAuxBoards[1]["translate"] = [14, -10, 0];
-        this.positionAuxBoards[1]["rotate"] = [Math.PI/3, 0, 0, 1];
+        this.positionAuxBoards[1]["rotate"] = [Math.PI / 3, 0, 0, 1];
 
         this.positionAuxBoards[2]["translate"] = [-14, -10, 0];
-        this.positionAuxBoards[2]["rotate"] = [-Math.PI/3, 0, 0, 1];
+        this.positionAuxBoards[2]["rotate"] = [-Math.PI / 3, 0, 0, 1];
     }
 
     // setTheme(){
@@ -99,7 +99,7 @@ class GameOrchestrator {
             else if (!obj.isPicked() ) { //second object, move the piece to the tile destination (current obj)
                 obj.pick();
 
-                // this.previousObj.createAnimation(this.gameBoard.tiles[this.previousPick-1],this.gameBoard.tiles[customId-1])//creates animation of the piece. customId is the id of the tile
+                this.previousObj.startMovement(this.gameBoard.tiles[this.previousPick-1],this.gameBoard.tiles[customId-1])//creates animation of the piece. customId is the id of the tile
                 this.previousPick = null;
                 console.log("tile destination selected");
             }

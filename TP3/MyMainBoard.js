@@ -2,11 +2,13 @@ class MyMainBoard {
     constructor(scene) {
         this.scene = scene;
         this.tiles = [];
-
         this.tileTexture = new CGFtexture(this.scene, "./scenes/images/tile.png");
-
-
         this.fillBoard();
+    }
+
+    update(time){
+        for (let tile of this.tiles)
+            tile.update(time);
     }
 
     fillBoard() {
