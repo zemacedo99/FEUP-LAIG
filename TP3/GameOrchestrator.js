@@ -52,7 +52,6 @@ class GameOrchestrator {
 
     setTheme(theme) {
         this.theme = theme;
-        console.log(this.theme.materials['greenPiece'])
         this.initAuxBoards();
     }
 

@@ -15,7 +15,11 @@ class MyPiece {
     }
 
     startMovement(fromTile, toTile){
+        let piece = new MyPiece(this.scene, 0, "", "");
         this.pieceMovement.startMovement(fromTile.position, toTile.position)
+        piece.clone(fromTile.getPiece())
+        toTile.setPiece(piece);
+        fromTile.setPiece(null);
     }
 
     clone(piece){
