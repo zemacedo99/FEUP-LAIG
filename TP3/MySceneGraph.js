@@ -43,7 +43,7 @@ class MySceneGraph {
         this.spriteanimations = [];
 
         this.mainBoard = new MyMainBoard(this.scene);
-        this.auxBoard = new MyAuxBoard(this.scene);
+        // this.auxBoard = new MyAuxBoard(this.scene);
         
 
         // File reading 

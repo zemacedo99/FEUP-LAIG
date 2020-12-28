@@ -19,8 +19,8 @@ class MyMainBoard {
             this.tiles.push(new MyTile(this.scene,id, [(c * 2), -18, 0],this.tileTexture));  id++;
         }
 
-        let tempPiece = new MyPiece(this.scene,this.tiles[0].id , "", "");
-        this.tiles[0].setPiece(tempPiece);
+        // let tempPiece = new MyPiece(this.scene,this.tiles[0].id , "", "");
+        // this.tiles[0].setPiece(tempPiece);
 
         for (let c = 0; c < 8; c++) {
             this.tiles.push(new MyTile(this.scene,id, [-3 + (c * 2), -1.5, 0],this.tileTexture));  id++;

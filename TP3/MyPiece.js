@@ -8,8 +8,20 @@ class MyPiece {
         this.piece = new MyCylinder(scene,0.25,0.25,0.25,16,16);
         this.picked = false;
         this.pieceMovement = new MyPieceMovement(scene, this.piece);
+
+        this.defaultMaterial = new CGFappearance(this.scene);
+        this.initWhiteMaterial();
     }
 
+    initWhiteMaterial()
+    {
+        this.whiteMaterial = new CGFappearance(this.scene);
+        this.whiteMaterial.setAmbient(1,1,1,1.0);
+        this.whiteMaterial.setDiffuse(1,1,1,1.0);
+        this.whiteMaterial.setSpecular(1,1,1,1.0);
+        this.whiteMaterial.setEmission(1,1,1,1.0);
+    }
+    
     update(time){
         this.pieceMovement.update(time);
     }
@@ -42,18 +54,26 @@ class MyPiece {
     {
         this.scene.registerForPick( this.id, this);
         this.scene.clearPickRegistration();
-        if(this.picked)
-        {
-            this.scene.pushMatrix();
+        
+        this.color.apply();
+        this.scene.pushMatrix();
+
+            if(this.picked)
+            {
                 this.scene.scale(1.5,1.5,1);
                 this.piece.display();
-            this.scene.popMatrix();
-        }
+            }
 
-        if(this.pieceMovement.active)
-            this.pieceMovement.display();
-        else
-            this.piece.display();
+            else if(this.pieceMovement.active)
+            {
+                this.pieceMovement.display();
+            }
+            else
+            {
+                this.piece.display();
+            }
 
+        this.scene.popMatrix();
+        this.whiteMaterial.apply();
     }
 }

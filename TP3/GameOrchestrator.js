@@ -15,6 +15,7 @@ class GameOrchestrator {
         this.gameBoard = new MyMainBoard(this.scene);
         this.auxBoard = [];
         this.positionAuxBoards = [];
+        this.initPieceColorsMaterials();
         this.initAuxBoards();
         this.trash = null;
     }
@@ -24,9 +25,10 @@ class GameOrchestrator {
     }
 
     initAuxBoards() {
-        this.auxBoard.push(new MyAuxBoard(this.scene));
-        this.auxBoard.push(new MyAuxBoard(this.scene));
-        this.auxBoard.push(new MyAuxBoard(this.scene));
+        console.log(this.theme.materials)
+        this.auxBoard.push(new MyAuxBoard(this.scene,this.greenMaterial,122));
+        this.auxBoard.push(new MyAuxBoard(this.scene,this.purpleMaterial,122+43));
+        this.auxBoard.push(new MyAuxBoard(this.scene,this.orangeMaterial,122+43+43));
 
         this.positionAuxBoards[0] = [];
         this.positionAuxBoards[1] = [];
@@ -40,6 +42,34 @@ class GameOrchestrator {
 
         this.positionAuxBoards[2]["translate"] = [-14, -10, 0];
         this.positionAuxBoards[2]["rotate"] = [-Math.PI / 3, 0, 0, 1];
+    }
+
+
+    initPieceColorsMaterials(){
+        this.whiteMaterial = new CGFappearance(this.scene);
+        this.whiteMaterial.setAmbient(1,1,1,1.0);
+        this.whiteMaterial.setDiffuse(1,1,1,1.0);
+        this.whiteMaterial.setSpecular(1,1,1,1.0);
+        this.whiteMaterial.setEmission(1,1,1,1.0);
+
+        this.greenMaterial = new CGFappearance(this.scene);
+        this.greenMaterial.setAmbient(0.015625,0.578125,0.20703125,1.0);
+        this.greenMaterial.setDiffuse(0.015625,0.578125,0.20703125,1.0);
+        this.greenMaterial.setSpecular(0.015625,0.578125,0.20703125,1.0);
+        this.greenMaterial.setEmission(0.015625,0.578125,0.20703125,1.0);
+
+        this.purpleMaterial = new CGFappearance(this.scene);
+        this.purpleMaterial.setAmbient(96/256,40/256,129/256,1.0);
+        this.purpleMaterial.setDiffuse(96/256,40/256,129/256,1.0);
+        this.purpleMaterial.setSpecular(96/256,40/256,129/256,1.0);
+        this.purpleMaterial.setEmission(96/256,40/256,129/256,1.0);
+
+        this.orangeMaterial = new CGFappearance(this.scene);
+        this.orangeMaterial.setAmbient(237/256,92/256,47/256,1.0);
+        this.orangeMaterial.setDiffuse(237/256,92/256,47/256,1.0);
+        this.orangeMaterial.setSpecular(237/256,92/256,47/256,1.0);
+        this.orangeMaterial.setEmission(237/256,92/256,47/256,1.0);
+
     }
 
     // setTheme(){
@@ -133,6 +163,7 @@ class GameOrchestrator {
 
     display() {
         this.scene.pushMatrix();
+        this.whiteMaterial.apply();
         for (let key in this.auxBoard) {
             this.scene.pushMatrix();
             let myCoord = [
