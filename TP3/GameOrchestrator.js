@@ -44,32 +44,25 @@ class GameOrchestrator {
         this.positionAuxBoards[2]["rotate"] = [-Math.PI / 3, 0, 0, 1];
     }
 
+    generateMaterial(red, green, blue, alpha = 1.0){
+        let r = red > 1   ? Math.min(red/256, 1) : red;
+        let g = green > 1 ? Math.min(green/256, 1) : green;
+        let b = blue > 1  ? Math.min(blue/256, 1) : blue;
+        let mat = new CGFappearance(this.scene);
+        mat.setAmbient(r, g, b, alpha);
+        mat.setDiffuse(r, g, b, alpha);
+        mat.setSpecular(r, g, b, alpha);
+        mat.setEmission(r, g, b, alpha);
+
+        return mat;
+    }
+
 
     initPieceColorsMaterials(){
-        this.whiteMaterial = new CGFappearance(this.scene);
-        this.whiteMaterial.setAmbient(1,1,1,1.0);
-        this.whiteMaterial.setDiffuse(1,1,1,1.0);
-        this.whiteMaterial.setSpecular(1,1,1,1.0);
-        this.whiteMaterial.setEmission(1,1,1,1.0);
-
-        this.greenMaterial = new CGFappearance(this.scene);
-        this.greenMaterial.setAmbient(0.015625,0.578125,0.20703125,1.0);
-        this.greenMaterial.setDiffuse(0.015625,0.578125,0.20703125,1.0);
-        this.greenMaterial.setSpecular(0.015625,0.578125,0.20703125,1.0);
-        this.greenMaterial.setEmission(0.015625,0.578125,0.20703125,1.0);
-
-        this.purpleMaterial = new CGFappearance(this.scene);
-        this.purpleMaterial.setAmbient(96/256,40/256,129/256,1.0);
-        this.purpleMaterial.setDiffuse(96/256,40/256,129/256,1.0);
-        this.purpleMaterial.setSpecular(96/256,40/256,129/256,1.0);
-        this.purpleMaterial.setEmission(96/256,40/256,129/256,1.0);
-
-        this.orangeMaterial = new CGFappearance(this.scene);
-        this.orangeMaterial.setAmbient(237/256,92/256,47/256,1.0);
-        this.orangeMaterial.setDiffuse(237/256,92/256,47/256,1.0);
-        this.orangeMaterial.setSpecular(237/256,92/256,47/256,1.0);
-        this.orangeMaterial.setEmission(237/256,92/256,47/256,1.0);
-
+        this.whiteMaterial = this.generateMaterial(256, 256, 256);
+        this.greenMaterial = this.generateMaterial(4, 128, 57);
+        this.purpleMaterial = this.generateMaterial(96, 40, 129);
+        this.orangeMaterial = this.generateMaterial(237, 92, 47);
     }
 
     // setTheme(){
