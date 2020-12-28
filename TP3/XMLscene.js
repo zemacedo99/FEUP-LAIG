@@ -41,7 +41,7 @@ class XMLscene extends CGFscene {
         this.loadingProgress = 0;
 
         this.defaultAppearance = new CGFappearance(this);
-        this.gameOrchestrator = new GameOrchestrator(this.graph,this);
+        this.gameOrchestrator = new GameOrchestrator(this);
     }
 
     /**

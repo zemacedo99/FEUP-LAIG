@@ -5,9 +5,10 @@
  */
 
 class GameOrchestrator {
-    constructor(theme, scene) {
+    constructor(scene) {
         this.scene = scene;
-        this.theme = new MySceneGraph('LAIG_TP3_XML_T1_G11_v01.xml', scene);
+        let filename = getUrlVars()['file'] || "LAIG_TP3_XML_T1_G11_v01.xml";
+        this.scene.graph = new MySceneGraph(filename, scene);
        
         this.previousPick = null;
         this.previousObj = null
@@ -17,7 +18,6 @@ class GameOrchestrator {
         this.positionAuxBoards = [];
         this.initPieceColorsMaterials();
         this.initAuxBoards();
-        this.trash = null;
     }
 
     update(time) {
@@ -25,7 +25,6 @@ class GameOrchestrator {
     }
 
     initAuxBoards() {
-        console.log(this.theme.materials)
         this.auxBoard.push(new MyAuxBoard(this.scene,this.greenMaterial,122));
         this.auxBoard.push(new MyAuxBoard(this.scene,this.purpleMaterial,122+43));
         this.auxBoard.push(new MyAuxBoard(this.scene,this.orangeMaterial,122+43+43));
