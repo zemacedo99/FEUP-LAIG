@@ -16,23 +16,33 @@ class MyAuxBoard {
     }
 
     fillBoard() {
+        let id = 1;
         for (let i = 0; i < 7; i++) // 7 linhas
             for (let j = 0; j < 6; j++) // 6 colunas
                 if (i % 2) // linha impar
+                {
                     this.tiles.push(
-                        new MyTile(this.scene, [j * 2 - 1, i * 1.5, 0], this.tileTexture)
+                        new MyTile(this.scene,id, [j * 2 - 1, i * 1.5, 0], this.tileTexture)
                     )
+                    id++;
+                }
+
                 else
+                {
                     this.tiles.push(
-                        new MyTile(this.scene, [j * 2, i * 1.5, 0], this.tileTexture)
+                        new MyTile(this.scene,id, [j * 2, i * 1.5, 0], this.tileTexture)
                     )
+                    id++;
+                }
     }
 
     display() {
         this.scene.pushMatrix();
         this.scene.translate(2 - ((13) / 2), -1.5 * 3, 0);
         for (let i = 0; i < this.tiles.length; i++) {
+            this.scene.registerForPick(i + 1, this.tiles[i]);
             this.tiles[i].display();
+            this.scene.clearPickRegistration();
         }
         this.scene.popMatrix();
     }

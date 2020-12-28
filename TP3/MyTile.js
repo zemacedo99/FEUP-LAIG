@@ -44,7 +44,7 @@ class MyTile{
                     this.form.display();
                 this.scene.popMatrix();
             }
-            // this.texture.bind();
+            this.texture.bind();
             this.form.display();
             if(this._piece != null) this._piece.display();
         this.scene.popMatrix();
