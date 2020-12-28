@@ -99,10 +99,31 @@ class GameOrchestrator {
                 console.log("pls select a piece");
             } else if (!obj.isPicked()) { //second object, move the piece to the tile destination (current obj)
                 obj.pick();
+                let fromBoard;
+                let maxIdBoard = this.gameBoard.tiles.length;
+                if (this.previousPick <= maxIdBoard) {
+                    fromBoard = this.gameBoard;
+                    console.log("Main BOARD")
+                } else if (this.previousPick < this.auxBoard[0].id ) { // termina em id++
+                    fromBoard = this.auxBoard[0];
+                    this.previousPick -= maxIdBoard
+                    console.log("Green BOARD")
+                } else if (this.previousPick < this.auxBoard[1].id) {
+                    fromBoard = this.auxBoard[1];
+                    this.previousPick -= (this.auxBoard[0].id - 1)
+                    console.log("Purple BOARD")
+                } else {
+                    console.log("Orange BOARD")
+                    fromBoard = this.auxBoard[2];
+                    this.previousPick -= (this.auxBoard[1].id - 1)
+                }
 
-                this.previousObj.startMovement(this.gameBoard.tiles[this.previousPick - 1], this.gameBoard.tiles[customId - 1])//creates animation of the piece. customId is the id of the tile
-                this.previousPick = null;
-                console.log("tile destination selected");
+                if(this.gameBoard.tiles[customId - 1] !== undefined){
+                    this.previousObj.startMovement(fromBoard.tiles[this.previousPick - 1], this.gameBoard.tiles[customId - 1])//creates animation of the piece. customId is the id of the tile
+                    this.previousPick = null;
+                    console.log("tile destination selected");
+                }
+
             } else { // reset
                 obj.pick();
                 this.previousObj = null;

@@ -33,8 +33,7 @@ class MyPiece {
 
     pick()
     {
-        if(this.picked) this.picked = false;
-        else this.picked = true;
+        this.picked = !this.picked;
     }
 
 
