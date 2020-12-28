@@ -8,18 +8,6 @@ class MyPiece {
         this.piece = new MyCylinder(scene,0.25,0.25,0.25,16,16);
         this.picked = false;
         this.pieceMovement = new MyPieceMovement(scene, this.piece);
-
-        this.defaultMaterial = new CGFappearance(this.scene);
-        this.initWhiteMaterial();
-    }
-
-    initWhiteMaterial()
-    {
-        this.whiteMaterial = new CGFappearance(this.scene);
-        this.whiteMaterial.setAmbient(1,1,1,1.0);
-        this.whiteMaterial.setDiffuse(1,1,1,1.0);
-        this.whiteMaterial.setSpecular(1,1,1,1.0);
-        this.whiteMaterial.setEmission(1,1,1,1.0);
     }
     
     update(time){
@@ -74,6 +62,5 @@ class MyPiece {
             }
 
         this.scene.popMatrix();
-        this.whiteMaterial.apply();
     }
 }

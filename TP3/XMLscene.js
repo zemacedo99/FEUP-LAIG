@@ -148,6 +148,8 @@ class XMLscene extends CGFscene {
         this.initLights();
         this.interface.lightsGroup(this.graph.lights)
 
+        this.gameOrchestrator.setTheme(this.graph)
+
         this.sceneInited = true;
 
     }
