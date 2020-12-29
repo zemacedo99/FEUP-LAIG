@@ -20,15 +20,17 @@ class MyPiece {
         piece.clone(fromTile.getPiece())
         toTile.setPiece(piece);
         fromTile.setPiece(null);
+        toTile.pick(); // effect of unpick
     }
 
     clone(piece){
         this.id = piece.id;
         this.scene = piece.scene;
         this.color = piece.color;
-        this.player = piece.owership;
+        this.player = piece.player;
         this.piece = piece.piece;
-        this.picked = piece.picked;
+        this.picked = false;
+        if(piece.isPicked()) piece.pick();
     }
 
     isPicked(){

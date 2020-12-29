@@ -70,15 +70,12 @@ class GameOrchestrator {
 
 
     managePickRequest(mode, results) {
-        if (mode == false) {
+        if (mode === false) {
             if (results != null && results.length > 0) {
-                for (var i = 0; i < results.length; i++) {
-                    var obj = results[i][0];
+                for (let i = 0; i < results.length; i++) {
+                    let obj = results[i][0];
                     if (obj) {
-                        var customId = results[i][1];
-                        console.log("Picked object: ");
-                        console.log(obj);
-                        console.log("with pick id: " + customId);
+                        let customId = results[i][1];
                         this.pickObj(obj, customId);
                     }
                 }
@@ -91,11 +88,9 @@ class GameOrchestrator {
     pickObj(obj, customId) {
 
         if (obj instanceof MyTile) {
-            console.log("Tile with id: " + customId + " selected")
-
             if (!obj.isPicked() && this.previousPick == null) // first object
             {
-                console.log("pls select a piece");
+                console.log("Please, select a piece");
             } else if (!obj.isPicked()) { //second object, move the piece to the tile destination (current obj)
                 obj.pick();
                 let fromBoard;
@@ -120,24 +115,28 @@ class GameOrchestrator {
                 if(this.gameBoard.tiles[customId - 1] !== undefined){
                     this.previousObj.startMovement(fromBoard.tiles[this.previousPick - 1], this.gameBoard.tiles[customId - 1])//creates animation of the piece. customId is the id of the tile
                     this.previousPick = null;
-                    console.log("tile destination selected");
+                    console.log("Tile has been picked:");
+                    console.log(obj);
                 }
 
             } else { // reset
-                obj.pick();
+                obj.pick(); // effect of unpick
                 this.previousObj = null;
                 this.previousPick = null;
+                console.log("Tile has been unpicked.");
             }
         } else if (obj instanceof MyPiece) {
-            console.log("Piece with id: " + customId + " selected")
+
             if (!obj.isPicked() && this.previousPick == null) // first object, select piece
             {
                 this.previousPick = customId;
                 this.previousObj = obj;
                 obj.pick();
-                console.log("piece selected");
+                console.log("Piece has been picked:");
+                console.log(obj);
             } else { // reset
-                obj.pick();
+                obj.pick(); //effect of unpick
+                console.log("Piece has been unpicked.");
                 this.previousObj = null;
                 this.previousPick = null;
             }
