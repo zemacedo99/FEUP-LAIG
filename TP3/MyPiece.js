@@ -13,16 +13,6 @@ class MyPiece {
         this.pieceMovement.update(time);
     }
 
-    clone(piece) {
-        this.id = piece.id;
-        this.scene = piece.scene;
-        this.color = piece.color;
-        this.player = piece.player;
-        this.piece = piece.piece;
-        this.picked = false;
-        if (piece.isPicked()) piece.pick();
-    }
-
     isPicked() {
         return this.picked;
     }

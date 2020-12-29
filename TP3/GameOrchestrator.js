@@ -91,8 +91,7 @@ class GameOrchestrator {
             if (!obj.isPicked() && this.previousPick == null) // first object
             {
                 console.log("Please, select a piece");
-            } else if (!obj.isPicked()) { //second object, move the piece to the tile destination (current obj)
-                obj.pick();
+            } else if (!obj.isPicked() && obj.getPiece() === null) { //second object, move the piece to the tile destination (current obj)
                 let fromBoard;
                 let maxIdBoard = this.gameBoard.tiles.length;
                 if (this.previousPick <= maxIdBoard) {
@@ -113,6 +112,7 @@ class GameOrchestrator {
                 }
 
                 if(this.gameBoard.tiles[customId - 1] !== undefined){
+                    obj.pick();
                     fromBoard.tiles[this.previousPick - 1].startMovement(this.gameBoard.tiles[customId - 1])//creates animation of the piece. customId is the id of the tile
                     this.previousPick = null;
                     console.log("Tile has been picked:");
@@ -120,7 +120,7 @@ class GameOrchestrator {
                 }
 
             } else { // reset
-                obj.pick(); // effect of unpick
+                if(obj.isPicked()) obj.pick(); // effect of unpick
                 this.previousObj = null;
                 this.previousPick = null;
                 console.log("Tile has been unpicked.");
