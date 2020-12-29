@@ -8,6 +8,7 @@ class MyPieceMovement {
         this.maxDesloc = [0, 0]
         this.dist = 0;
 
+        this.position = [0, 0, 0]
         this.active = false;
         this.startTime = null;
         this.spendTime = 0;
@@ -22,13 +23,8 @@ class MyPieceMovement {
     }
 
     startMovement(from, to) {
-        let fromP = from;
-        let toP = to;
-        console.log(fromP)
-        console.log(toP)
-        this.position = fromP;
-        this.toPosition = toP;
-        this.maxDesloc = [this.toPosition[0] - this.position[0], this.toPosition[1] - this.position[1]]
+        this.toPosition = to;
+        this.maxDesloc = [this.toPosition[0] - from[0], this.toPosition[1] - from[1]]
         this.dist = Math.sqrt((this.maxDesloc[0] * this.maxDesloc[0]) + (this.maxDesloc[1] * this.maxDesloc[1]))
         this.active = true;
         console.log(this)
