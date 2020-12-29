@@ -38,6 +38,16 @@ class MyTile {
         this.picked = !this.picked;
     }
 
+    startMovement(toTile) {
+        // this piece is the same of fromTile
+        let piece = new MyPiece(this.scene, 0, "", "");
+        piece.clone(this._piece)
+        toTile.setPiece(piece);
+        toTile.pick(); // effect of unpick
+        //toTile.getPiece().pieceMovement.startMovement(this.position, toTile.position)
+        this._piece = null;
+    }
+
     update(time) {
         if (this._piece !== null)
             this._piece.update(time);

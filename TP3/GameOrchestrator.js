@@ -113,7 +113,7 @@ class GameOrchestrator {
                 }
 
                 if(this.gameBoard.tiles[customId - 1] !== undefined){
-                    this.previousObj.startMovement(fromBoard.tiles[this.previousPick - 1], this.gameBoard.tiles[customId - 1])//creates animation of the piece. customId is the id of the tile
+                    fromBoard.tiles[this.previousPick - 1].startMovement(this.gameBoard.tiles[customId - 1])//creates animation of the piece. customId is the id of the tile
                     this.previousPick = null;
                     console.log("Tile has been picked:");
                     console.log(obj);
