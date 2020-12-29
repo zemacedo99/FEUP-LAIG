@@ -5,7 +5,6 @@ class MyPieceMovement {
     constructor(scene, piece) {
         this.scene = scene;
         this.piece = piece;
-        this.position = [0, 0, 0]
         this.maxDesloc = [0, 0]
         this.dist = 0;
 
@@ -23,9 +22,9 @@ class MyPieceMovement {
     }
 
     startMovement(from, to) {
-        this.fromPosition = from;
+        this.position = from
         this.toPosition = to;
-        this.maxDesloc = [this.toPosition[0] - this.fromPosition[0], this.toPosition[1] - this.fromPosition[1]]
+        this.maxDesloc = [this.toPosition[0] - this.position[0], this.toPosition[1] - this.position[1]]
         this.dist = Math.sqrt((this.maxDesloc[0] * this.maxDesloc[0]) + (this.maxDesloc[1] * this.maxDesloc[1]))
         this.active = true;
     }
@@ -44,7 +43,9 @@ class MyPieceMovement {
                     this.hookspendTime = this.spendTime;
                     break;
                 case (Math.floor(this.position[0]) !== this.toPosition[0] && Math.floor(this.position[1]) !== this.toPosition[1]):
-                    [this.position[0], this.position[1]] = this.getPosition(this.spendTime - this.hookspendTime);
+                    let pos = this.getPosition(this.spendTime - this.hookspendTime);
+                    this.position[0] = pos[0]
+                    this.position[1] = pos[1]
                     break;
                 default:
                     this.position[2] -= 0.5;
