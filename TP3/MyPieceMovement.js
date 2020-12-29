@@ -27,16 +27,16 @@ class MyPieceMovement {
         this.maxDesloc = [this.toPosition[0] - from[0], this.toPosition[1] - from[1]]
         this.dist = Math.sqrt((this.maxDesloc[0] * this.maxDesloc[0]) + (this.maxDesloc[1] * this.maxDesloc[1]))
         this.active = true;
-        console.log(this)
     }
 
     update(t) {
         let time = t / 1000; // time in seconds
         if (this.active === false)
             this.startTime = time; // always updating
-        else
+        else{
+            if(this.startTime === null) this.startTime = time
             this.spendTime = time - this.startTime;
-
+        }
         if (this.active === true) {
             switch (true) {
                 case (this.spendTime < 2.0):
