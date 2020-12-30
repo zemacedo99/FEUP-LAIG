@@ -14,10 +14,11 @@ class MyAuxBoard {
         this.pieceColor = pieceColor;
         this.tiles = [];
         this.tileTexture = new CGFtexture(this.scene, "./scenes/images/tile.png");
+        this.translate = [2 - ((13) / 2), -1.5 * 3, 0]
         this.fillBoard();
     }
 
-    update(time){
+    update(time) {
         for (let tile of this.tiles)
             tile.update(time);
     }
@@ -39,11 +40,15 @@ class MyAuxBoard {
                 this.tiles.push(tempTile);
                 this.id++;
             }
+        for (let tile of this.tiles) {
+            tile.position[0] += this.translate[0];
+            tile.position[1] += this.translate[1];
+            tile.position[2] += this.translate[2];
+        }
     }
 
     display() {
         this.scene.pushMatrix();
-        this.scene.translate(2 - ((13) / 2), -1.5 * 3, 0);
         for (let i = 0; i < this.tiles.length; i++) {
             this.scene.registerForPick(this.tiles[i].id, this.tiles[i]);
             this.tiles[i].display();
