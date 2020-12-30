@@ -40,11 +40,15 @@ class MyTile {
 
     startMovement(toTile) {
         // this piece is the same of fromTile
-        toTile.setPiece(Object.assign(Object.create(Object.getPrototypeOf(this._piece)), this._piece));
-        if(toTile.isPicked()) toTile.pick(); // effect of unpick
+        let pieceAux = new MyPiece(this.scene, 0, "", "")
+        pieceAux.clone(this._piece);
+        toTile.setPiece(pieceAux);
         if(toTile.getPiece().isPicked()) toTile.getPiece().pick(); // effect of unpick
-        toTile.getPiece().pieceMovement.startMovement(this.position, toTile.position)
-        this._piece = null;
+        toTile.getPiece().waitingMovement = true;
+        if(toTile.isPicked()) toTile.pick(); // effect of unpick
+        if(this.getPiece().isPicked()) this.getPiece().pick(); // effect of unpick
+        if(this.isPicked()) this.pick(); // effect of unpick
+        this._piece.pieceMovement.startMovement(this, toTile)
     }
 
     update(time) {

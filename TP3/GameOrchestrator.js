@@ -20,6 +20,9 @@ class GameOrchestrator {
 
     update(time) {
         this.gameBoard.update(time);
+        for(let auxB of this.auxBoard){
+            auxB.update(time);
+        }
     }
 
     initAuxBoards() {
@@ -135,7 +138,7 @@ class GameOrchestrator {
                 console.log("Piece has been picked:");
                 console.log(obj);
             } else { // reset
-                obj.pick(); //effect of unpick
+                if(obj.isPicked()) obj.pick(); //effect of unpick
                 console.log("Piece has been unpicked.");
                 this.previousObj = null;
                 this.previousPick = null;
