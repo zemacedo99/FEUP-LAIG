@@ -45,12 +45,27 @@ class GameOrchestrator {
 
         this.positionAuxBoards[0]["translate"] = [0, 16, 0];
         this.positionAuxBoards[0]["rotate"] = [0, 0, 0, 1];
+        for(let tile of this.auxBoard[0].tiles){
+            tile.position[0] += this.positionAuxBoards[0]["translate"][0];
+            tile.position[1] += this.positionAuxBoards[0]["translate"][1];
+            tile.position[2] += this.positionAuxBoards[0]["translate"][2];
+        }
 
         this.positionAuxBoards[1]["translate"] = [14, -10, 0];
         this.positionAuxBoards[1]["rotate"] = [Math.PI / 3, 0, 0, 1];
+        for(let tile of this.auxBoard[1].tiles){
+            tile.position[0] += this.positionAuxBoards[1]["translate"][0];
+            tile.position[1] += this.positionAuxBoards[1]["translate"][1];
+            tile.position[2] += this.positionAuxBoards[1]["translate"][2];
+        }
 
         this.positionAuxBoards[2]["translate"] = [-14, -10, 0];
         this.positionAuxBoards[2]["rotate"] = [-Math.PI / 3, 0, 0, 1];
+        for(let tile of this.auxBoard[2].tiles){
+            tile.position[0] += this.positionAuxBoards[2]["translate"][0];
+            tile.position[1] += this.positionAuxBoards[2]["translate"][1];
+            tile.position[2] += this.positionAuxBoards[2]["translate"][2];
+        }
     }
 
     setTheme(theme) {
@@ -152,18 +167,7 @@ class GameOrchestrator {
     display() {
         this.scene.pushMatrix();
         for (let key in this.auxBoard) {
-            this.scene.pushMatrix();
-            let myCoord = [
-                this.positionAuxBoards[key].translate,
-                this.positionAuxBoards[key].rotate,
-            ];
-            if (myCoord[0] !== undefined && myCoord[0].length === 3)
-                this.scene.translate(myCoord[0][0], myCoord[0][1], myCoord[0][2])
-            if (myCoord[1] !== undefined && myCoord[1].length === 4)
-                this.scene.rotate(myCoord[1][0], myCoord[1][1], myCoord[1][2], myCoord[1][3])
-
             this.auxBoard[key].display();
-            this.scene.popMatrix();
         }
         this.gameBoard.display();
         this.scene.popMatrix();
