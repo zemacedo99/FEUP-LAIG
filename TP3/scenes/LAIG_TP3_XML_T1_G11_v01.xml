@@ -144,6 +144,30 @@
             <emissive r="0.0" g="0.0" b="0.0" a="1.0" />
         </material>
 
+        <material id="greenPiece">
+            <shininess value="1.0" />
+            <ambient r="4.0" g="128.0" b="57.0" a="1.0" />
+            <diffuse r="4.0" g="128.0" b="57.0" a="1.0" />
+            <specular r="4.0" g="128.0" b="57.0" a="1.0" />
+            <emissive r="0.0" g="0.0" b="0.0" a="1.0" />
+        </material>
+
+        <material id="purplePiece">
+            <shininess value="1.0" />
+            <ambient r="96.0" g="40.0" b="129.0" a="1.0" />
+            <diffuse r="96.0" g="40.0" b="129.0" a="1.0" />
+            <specular r="96.0" g="40.0" b="129.0" a="1.0" />
+            <emissive r="0.0" g="0.0" b="0.0" a="1.0" />
+        </material>
+
+        <material id="orangePiece">
+            <shininess value="1.0" />
+            <ambient r="237.0" g="92.0" b="47.0" a="1.0" />
+            <diffuse r="237.0" g="92.0" b="47.0" a="1.0" />
+            <specular r="237.0" g="92.0" b="47.0" a="1.0" />
+            <emissive r="0.0" g="0.0" b="0.0" a="1.0" />
+        </material>
+
     </materials>
 
     <!--informacao de animacao -->

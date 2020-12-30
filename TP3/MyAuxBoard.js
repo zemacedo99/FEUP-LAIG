@@ -8,7 +8,7 @@
  * @param board - the board form
  */
 class MyAuxBoard {
-    constructor(scene,pieceColor,id) {
+    constructor(scene, pieceColor, id) {
         this.scene = scene;
         this.id = id;
         this.pieceColor = pieceColor;
@@ -22,21 +22,19 @@ class MyAuxBoard {
         for (let i = 0; i < 7; i++) // 7 linhas
             for (let j = 0; j < 6; j++) // 6 colunas
             {
-            if (i % 2) // linha impar
-            {
-                tempTile = new MyTile(this.scene,this.id, [j * 2 - 1, i * 1.5, 0], this.tileTexture);
-            }
-            else
-            {
-                tempTile = new MyTile(this.scene,this.id, [j * 2, i * 1.5, 0], this.tileTexture);
-            }
+                if (i % 2) // linha impar
+                {
+                    tempTile = new MyTile(this.scene, this.id, [j * 2 - 1, i * 1.5, 0], this.tileTexture);
+                } else {
+                    tempTile = new MyTile(this.scene, this.id, [j * 2, i * 1.5, 0], this.tileTexture);
+                }
 
-            let tempPiece = new MyPiece(this.scene,tempTile.id ,this.pieceColor, "");
-            tempTile.setPiece(tempPiece);
-            this.tiles.push(tempTile);
-            this.id++;
+                let tempPiece = new MyPiece(this.scene, tempTile.id, this.pieceColor, "");
+                tempTile.setPiece(tempPiece);
+                this.tiles.push(tempTile);
+                this.id++;
             }
-        }
+    }
 
     display() {
         this.scene.pushMatrix();

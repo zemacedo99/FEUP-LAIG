@@ -23,28 +23,20 @@ class MySceneGraph {
      */
     constructor(filename, scene) {
         this.loadedOk = null;
-
         // Establish bidirectional references between scene and graph.
         this.scene = scene;
-        scene.graph = this;
-
-        
         this.idRoot = null; // The id of the root element.
-        
+
         this.axisCoords = [];
         this.axisCoords['x'] = [1, 0, 0];
         this.axisCoords['y'] = [0, 1, 0];
         this.axisCoords['z'] = [0, 0, 1];
-        
+
         // Save Elements
         this.views = [];
         this.defaultView = null;
         this.nodes = [];
         this.spriteanimations = [];
-
-        this.mainBoard = new MyMainBoard(this.scene);
-        // this.auxBoard = new MyAuxBoard(this.scene);
-        
 
         // File reading 
         this.reader = new CGFXMLreader();
@@ -305,15 +297,15 @@ class MySceneGraph {
      */
     parseViews(viewsNode) {
         var defaultView = this.getStringAttr(viewsNode, 'default')
-      
+
         if (defaultView == null)
             return "Erro on parse view element: no default defined.";
 
         var children = viewsNode.children;
         var nodeNames = [];
 
-        for (var i = 0; i < children.length; i++){
-            switch (children[i].nodeName){
+        for (var i = 0; i < children.length; i++) {
+            switch (children[i].nodeName) {
                 case 'perspective':
                     this.parsePerspectiveView(children[i]);
                     break;
@@ -602,47 +594,46 @@ class MySceneGraph {
      */
     parseSpriteSheets(spritesheetsNode) {
 
-            //For each spritesheet in spritesheets block, check ID, file URL, size of the columns  and lines
-            var children = spritesheetsNode.children;
+        //For each spritesheet in spritesheets block, check ID, file URL, size of the columns  and lines
+        var children = spritesheetsNode.children;
 
-            this.spritesheets = [];
+        this.spritesheets = [];
 
-            // Any number of spritesheets.
-            for (var i = 0; i < children.length; i++) 
-            {
+        // Any number of spritesheets.
+        for (var i = 0; i < children.length; i++) {
 
-                if (children[i].nodeName != "spritesheet") {
-                    this.onXMLMinorError("unknown tag <" + children[i].nodeName + ">");
-                    continue;
-                }
-
-                // Get id of the current spritesheet
-                var spritesheetID = this.reader.getString(children[i], 'id');
-                if (spritesheetID == null)
-                    return "no ID defined for spritesheet";
-
-                // Checks for repeated IDs.
-                if (this.spritesheets[spritesheetID] != null)
-                    return "ID must be unique for each spritesheet (conflict: ID = " + spritesheetID + ")";
-
-                let spritesheetURL = this.reader.getString(children[i], 'path');
-                if (spritesheetURL == null)
-                    return "No path for spritesheet with ID = " + spritesheetID + ")";
-
-                let sizeM = this.reader.getInteger(children[i], 'sizeM');
-                if (sizeM == null)
-                    return "No columns size for spritesheet with ID = " + spritesheetID + ")";
-    
-                let sizeN = this.reader.getInteger(children[i], 'sizeN');
-                if (sizeN == null)
-                    return "No lines size for spritesheet with ID = " + spritesheetID + ")";
-    
-
-                let spritesheetTexture = new CGFtexture(this.scene, spritesheetURL);
-                let spritesheet = new MySpritesheet(this.scene,spritesheetTexture,sizeM,sizeN);
-
-                this.spritesheets[spritesheetID] = spritesheet;
+            if (children[i].nodeName != "spritesheet") {
+                this.onXMLMinorError("unknown tag <" + children[i].nodeName + ">");
+                continue;
             }
+
+            // Get id of the current spritesheet
+            var spritesheetID = this.reader.getString(children[i], 'id');
+            if (spritesheetID == null)
+                return "no ID defined for spritesheet";
+
+            // Checks for repeated IDs.
+            if (this.spritesheets[spritesheetID] != null)
+                return "ID must be unique for each spritesheet (conflict: ID = " + spritesheetID + ")";
+
+            let spritesheetURL = this.reader.getString(children[i], 'path');
+            if (spritesheetURL == null)
+                return "No path for spritesheet with ID = " + spritesheetID + ")";
+
+            let sizeM = this.reader.getInteger(children[i], 'sizeM');
+            if (sizeM == null)
+                return "No columns size for spritesheet with ID = " + spritesheetID + ")";
+
+            let sizeN = this.reader.getInteger(children[i], 'sizeN');
+            if (sizeN == null)
+                return "No lines size for spritesheet with ID = " + spritesheetID + ")";
+
+
+            let spritesheetTexture = new CGFtexture(this.scene, spritesheetURL);
+            let spritesheet = new MySpritesheet(this.scene, spritesheetTexture, sizeM, sizeN);
+
+            this.spritesheets[spritesheetID] = spritesheet;
+        }
         this.log("Parsed spritesheets");
         return null;
     }
@@ -684,11 +675,9 @@ class MySceneGraph {
             for (var d = 0; d < grandChildren.length; d++) {
                 switch (grandChildren[d].nodeName) {
                     case "shininess":
-
                         var shininess = this.getFloatAttr(grandChildren[d], 'value');
                         //nodeNames.push(grandChildren[d].nodeName);
                         break;
-
 
                     case "ambient":
                         var ambient = this.parseColor(grandChildren[d], "ambient");
@@ -760,24 +749,23 @@ class MySceneGraph {
                 return "ID must be unique for each animation (conflict: ID = " + animationID + ")";
 
 
-            let animation = new KeyframeAnimation(this.scene,animationID);
+            let animation = new KeyframeAnimation(this.scene, animationID);
             this.animations[animationID] = animation;
 
             grandChildren = children[i].children;
-            
+
             for (let d = 0; d < grandChildren.length; d++) {
 
                 grandgrandChildren = grandChildren[d].children;
                 let keyframeInstant = this.reader.getFloat(grandChildren[d], 'instant');
-                
+
                 let translation;
                 let rotX;
                 let rotY;
                 let rotZ;
-                let scale = [1,1,1];
+                let scale = [1, 1, 1];
 
-                for(let j = 0; j < grandgrandChildren.length; j++)
-                {
+                for (let j = 0; j < grandgrandChildren.length; j++) {
                     switch (grandgrandChildren[j].nodeName) {
                         case "translation":
                             translation = this.parseCoordinates3D(grandgrandChildren[j], grandgrandChildren[j].nodeName);
@@ -796,7 +784,7 @@ class MySceneGraph {
                                     rotY = rad;
                                     break;
                                 case "z":
-                                    rotZ = rad; 
+                                    rotZ = rad;
                                     break;
                                 default:
                                     break;
@@ -804,7 +792,7 @@ class MySceneGraph {
                             }
                             break;
 
-                            
+
                         case "scale":
                             scale = this.parseScale(grandgrandChildren[j], grandgrandChildren[j].nodeName);
                             break;
@@ -816,7 +804,7 @@ class MySceneGraph {
                 }
 
 
-                let keyframe = new Keyframe(keyframeInstant,translation,rotX,rotY,rotZ,scale);
+                let keyframe = new Keyframe(keyframeInstant, translation, rotX, rotY, rotZ, scale);
                 this.animations[animationID].addKeyframe(keyframe);
             }
 
@@ -826,7 +814,6 @@ class MySceneGraph {
         this.log("Parsed animations");
         return null;
     }
-
 
 
     /**
@@ -928,7 +915,7 @@ class MySceneGraph {
             if (materialIndex != -1) {
                 materialID = this.reader.getString(grandChildren[materialIndex], 'id');
                 if (materialID != "null" && this.materials[materialID] == null) {
-                    this.onXMLError("No material found on node: "+ nodeID);
+                    this.onXMLError("No material found on node: " + nodeID);
                 }
             } else {
                 this.onXMLMinorError("No materials");
@@ -959,18 +946,15 @@ class MySceneGraph {
 
             // Animation
             let animationID;
-      
+
             if (animationIndex != -1) {
                 animationID = this.reader.getString(grandChildren[animationIndex], 'id');
                 if (animationID != "null" && this.animations[animationID] == null) {
-                    this.onXMLError("No animation found on node "+ nodeID);
-                }
-                else 
-                {
+                    this.onXMLError("No animation found on node " + nodeID);
+                } else {
                     // animationID = "none";
                 }
-            } 
-            
+            }
 
 
             // Descendants
@@ -1046,61 +1030,60 @@ class MySceneGraph {
                                     break;
 
                                 case "spritetext":
-                                    var text = this.reader.getString(grandgrandChildren[d],'text');
+                                    var text = this.reader.getString(grandgrandChildren[d], 'text');
 
-                                    primitive = new MySpriteText(this.scene,text);
+                                    primitive = new MySpriteText(this.scene, text);
                                     break;
 
                                 case "spriteanim":
-                                    var ssid = this.reader.getString(grandgrandChildren[d],'ssid');
-                                    var startCell = this.reader.getFloat(grandgrandChildren[d],'startCell');
-                                    var endCell = this.reader.getFloat(grandgrandChildren[d],'endCell');
-                                    var duration = this.reader.getFloat(grandgrandChildren[d],'duration');
+                                    var ssid = this.reader.getString(grandgrandChildren[d], 'ssid');
+                                    var startCell = this.reader.getFloat(grandgrandChildren[d], 'startCell');
+                                    var endCell = this.reader.getFloat(grandgrandChildren[d], 'endCell');
+                                    var duration = this.reader.getFloat(grandgrandChildren[d], 'duration');
 
-                                    primitive = new MySpriteAnimation(this.scene,ssid,startCell,endCell,duration);
+                                    primitive = new MySpriteAnimation(this.scene, ssid, startCell, endCell, duration);
                                     this.spriteanimations.push(primitive);
                                     break;
 
                                 case "plane":
-                                    var npartsU = this.reader.getFloat(grandgrandChildren[d],'npartsU');
-                                    var npartsV = this.reader.getFloat(grandgrandChildren[d],'npartsV');
+                                    var npartsU = this.reader.getFloat(grandgrandChildren[d], 'npartsU');
+                                    var npartsV = this.reader.getFloat(grandgrandChildren[d], 'npartsV');
 
-                                    primitive = new MyPlane(this.scene,npartsU,npartsV);
+                                    primitive = new MyPlane(this.scene, npartsU, npartsV);
                                     break;
-                                
+
                                 case "patch":
-                                    var npointsU = this.reader.getFloat(grandgrandChildren[d],'npointsU');
-                                    var npointsV = this.reader.getFloat(grandgrandChildren[d],'npointsV');
-                                    var npartsU = this.reader.getFloat(grandgrandChildren[d],'npartsU');
-                                    var npartsV = this.reader.getFloat(grandgrandChildren[d],'npartsV');
+                                    var npointsU = this.reader.getFloat(grandgrandChildren[d], 'npointsU');
+                                    var npointsV = this.reader.getFloat(grandgrandChildren[d], 'npointsV');
+                                    var npartsU = this.reader.getFloat(grandgrandChildren[d], 'npartsU');
+                                    var npartsV = this.reader.getFloat(grandgrandChildren[d], 'npartsV');
 
                                     let controlpoints = [];
                                     let grandgrandgrandChildren = grandgrandChildren[d].children;
 
-                                    for(var z = 0; z < grandgrandgrandChildren.length; z++)
-                                    {
+                                    for (var z = 0; z < grandgrandgrandChildren.length; z++) {
                                         let point = this.parseCoordinates3D(grandgrandgrandChildren[z], grandgrandChildren[d].nodeName);
                                         point.push(1);
                                         controlpoints.push(point);
                                     }
 
-                                    let controlvertexes = this.processControlPoints(controlpoints,npointsU,npointsV);
+                                    let controlvertexes = this.processControlPoints(controlpoints, npointsU, npointsV);
 
-                                    primitive = new MyPatch(this.scene,npointsU,npointsV,npartsU,npartsV,controlvertexes);
+                                    primitive = new MyPatch(this.scene, npointsU, npointsV, npartsU, npartsV, controlvertexes);
                                     break;
-                                
-                                
+
+
                                 case "defbarrel":
-                                    let defbase = this.reader.getFloat(grandgrandChildren[d],'base');
-                                    let defmiddle = this.reader.getFloat(grandgrandChildren[d],'middle');
-                                    let defheight = this.reader.getFloat(grandgrandChildren[d],'height');
-                                    let defslices = this.reader.getFloat(grandgrandChildren[d],'slices');
-                                    let defstacks = this.reader.getFloat(grandgrandChildren[d],'stacks');
+                                    let defbase = this.reader.getFloat(grandgrandChildren[d], 'base');
+                                    let defmiddle = this.reader.getFloat(grandgrandChildren[d], 'middle');
+                                    let defheight = this.reader.getFloat(grandgrandChildren[d], 'height');
+                                    let defslices = this.reader.getFloat(grandgrandChildren[d], 'slices');
+                                    let defstacks = this.reader.getFloat(grandgrandChildren[d], 'stacks');
 
-                                    
-                                    primitive = new MyDefbarrel(this.scene,defbase,defmiddle,defheight,defslices,defstacks);
+
+                                    primitive = new MyDefbarrel(this.scene, defbase, defmiddle, defheight, defslices, defstacks);
                                     break;
-    
+
 
                                 default:
                                     this.onXMLMinorError("Warning, invalid primitive");
@@ -1121,33 +1104,29 @@ class MySceneGraph {
             }
 
 
-            this.nodes[nodeID] = new MyNode(nodeID, materialID, texture, matrix, descendants, primitives,animationID);
+            this.nodes[nodeID] = new MyNode(nodeID, materialID, texture, matrix, descendants, primitives, animationID);
         }
     }
 
-    processControlPoints(controlpoints,npointsU,npointsV)
-    {
+    processControlPoints(controlpoints, npointsU, npointsV) {
         let ncontrolvertexes = npointsU * npointsV;
-        let count  = 0;
+        let count = 0;
         let controlvertexes = [];
         let U = [];
 
-        for(let u = 0; u < npointsU; u++)
-        {
+        for (let u = 0; u < npointsU; u++) {
             let V = []
-            for(let v = 0; v<npointsV; v++)
-            {
+            for (let v = 0; v < npointsV; v++) {
                 V.push(controlpoints[count]);
                 count++;
-                if( count == ncontrolvertexes)
-                {
+                if (count == ncontrolvertexes) {
                     break;
-                }    
+                }
             }
-            
+
             controlvertexes.push(V);
 
-            
+
         }
 
 
@@ -1280,18 +1259,21 @@ class MySceneGraph {
 
         // R
         var r = this.getFloatAttr(node, 'r');
-        if (!(r != null && !isNaN(r) && r >= 0 && r <= 1))
-            return "unable to parse R component of the " + messageError;
+        if (r != null && !isNaN(r) && r >= 0) {
+            if (r > 1) r = Math.min(r/256, 1);
+        } else return "unable to parse R component of the " + messageError;
 
         // G
         var g = this.getFloatAttr(node, 'g');
-        if (!(g != null && !isNaN(g) && g >= 0 && g <= 1))
-            return "unable to parse G component of the " + messageError;
+        if (g != null && !isNaN(g) && g >= 0) {
+            if (g > 1) g = Math.min(g/256, 1);
+        } else return "unable to parse G component of the " + messageError;
 
         // B
         var b = this.getFloatAttr(node, 'b');
-        if (!(b != null && !isNaN(b) && b >= 0 && b <= 1))
-            return "unable to parse B component of the " + messageError;
+        if (b != null && !isNaN(b) && b >= 0) {
+            if (b > 1) b = Math.min(b/256, 1);
+        } else return "unable to parse B component of the " + messageError;
 
         // A
         var a = this.getFloatAttr(node, 'a');
@@ -1311,30 +1293,26 @@ class MySceneGraph {
      * Displays the scene, processing each node, starting in the root node.
      */
     displayScene() {
-        // this.auxBoard.display();
-        // this.mainBoard.display();
-        //this.processNode(this.idRoot, this.nodes[this.idRoot].material, this.nodes[this.idRoot].texture);
+        this.processNode(this.idRoot, this.nodes[this.idRoot].material, this.nodes[this.idRoot].texture);
     }
 
     processNode(id, matParent, texParent) {
-        
+
         // Apply materials and textures
 
         this.scene.pushMatrix();
 
         this.scene.multMatrix(this.nodes[id].matrix);
 
-        if(this.nodes[id].animation)
-        {
+        if (this.nodes[id].animation) {
             this.animations[this.nodes[id].animation].apply();
         }
 
         let materialAux = this.nodes[id].material === 'null' ? matParent : this.nodes[id].material;
-        let textureAux  = this.nodes[id].texture  === 'null' ? texParent : this.nodes[id].texture;
+        let textureAux = this.nodes[id].texture === 'null' ? texParent : this.nodes[id].texture;
         if (id !== this.idRoot) {
 
-            if (this.materials[materialAux] != undefined)
-            {
+            if (this.materials[materialAux] != undefined) {
                 if (textureAux == 'clear') {
                     textureAux = null;
                 }
