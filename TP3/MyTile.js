@@ -43,8 +43,7 @@ class MyTile {
         toTile.setPiece(Object.assign(Object.create(Object.getPrototypeOf(this._piece)), this._piece));
         if(toTile.isPicked()) toTile.pick(); // effect of unpick
         if(toTile.getPiece().isPicked()) toTile.getPiece().pick(); // effect of unpick
-        toTile.getPiece().pieceMovement.startMovement(this.position, toTile.position)
-        this._piece = null;
+        this.getPiece().pieceMovement.startMovement(this, toTile.position)
     }
 
     update(time) {

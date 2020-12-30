@@ -13,6 +13,7 @@ class MyPieceMovement {
         this.startTime = null;
         this.spendTime = 0;
         this.hookspendTime = 0;
+        this.mytile = null;
     }
 
     getPosition(time) {
@@ -22,8 +23,12 @@ class MyPieceMovement {
         ]
     }
 
-    startMovement(from, to) {
+    startMovement(fromTile, to) {
         this.toPosition = to;
+        this.mytile = fromTile;
+        let from = this.mytile.position;
+        console.log(from)
+        console.log(to)
         this.maxDesloc = [this.toPosition[0] - from[0], this.toPosition[1] - from[1]]
         this.dist = Math.sqrt((this.maxDesloc[0] * this.maxDesloc[0]) + (this.maxDesloc[1] * this.maxDesloc[1]))
         this.active = true;
@@ -52,7 +57,8 @@ class MyPieceMovement {
                     this.position[2] -= 0.5;
                     if (this.position[2] <= 0) {
                         this.position = 0;
-                        this.active = false
+                        this.mytile.setPiece(null)
+                        this.active = false;
                     }
                     break;
             }
