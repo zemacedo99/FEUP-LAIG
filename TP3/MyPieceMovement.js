@@ -47,7 +47,8 @@ class MyPieceMovement {
                     this.position[2] += 0.5;
                     this.hookspendTime = this.spendTime;
                     break;
-                case (Math.floor(this.position[0]) !== this.toPosition[0] && Math.floor(this.position[1]) !== this.toPosition[1] && this.spendTime < 10): // nao passa de (10 - 2)s
+                case (Math.floor(this.position[0]) !== this.toPosition[0] && Math.floor(this.position[1]) !== this.toPosition[1] && this.spendTime < 12): // nao passa de (12 - 2)s
+                    console.log(this.position)
                     let pos = this.getPosition(this.spendTime - this.hookspendTime);
                     this.position[0] = pos[0]
                     this.position[1] = pos[1]
