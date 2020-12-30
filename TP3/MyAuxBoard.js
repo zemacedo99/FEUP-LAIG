@@ -17,6 +17,11 @@ class MyAuxBoard {
         this.fillBoard();
     }
 
+    update(time){
+        for (let tile of this.tiles)
+            tile.update(time);
+    }
+
     fillBoard() {
         let tempTile;
         for (let i = 0; i < 7; i++) // 7 linhas
