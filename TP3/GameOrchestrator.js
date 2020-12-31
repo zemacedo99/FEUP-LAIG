@@ -15,12 +15,11 @@ class GameOrchestrator {
 
         this.gameBoard = new MyMainBoard(this.scene);
         this.auxBoard = [];
-        this.positionAuxBoards = [];
     }
 
     update(time) {
         this.gameBoard.update(time);
-        for(let auxB of this.auxBoard){
+        for (let auxB of this.auxBoard) {
             auxB.update(time);
         }
     }
@@ -39,32 +38,42 @@ class GameOrchestrator {
             new MyAuxBoard(this.scene, this.theme.materials['orangePiece'], curr_id + 1)
         );
 
-        this.positionAuxBoards[0] = [];
-        this.positionAuxBoards[1] = [];
-        this.positionAuxBoards[2] = [];
-
-        this.positionAuxBoards[0]["translate"] = [0, 16, 0];
-        this.positionAuxBoards[0]["rotate"] = [0, 0, 0, 1];
-        for(let tile of this.auxBoard[0].tiles){
-            tile.position[0] += this.positionAuxBoards[0]["translate"][0];
-            tile.position[1] += this.positionAuxBoards[0]["translate"][1];
-            tile.position[2] += this.positionAuxBoards[0]["translate"][2];
+        let matrixRotation2d = function (angle) {
+            return [[Math.cos(angle), -Math.sin(angle)], [Math.sin(angle), Math.cos(angle)]]
         }
 
-        this.positionAuxBoards[1]["translate"] = [14, -10, 0];
-        this.positionAuxBoards[1]["rotate"] = [Math.PI / 3, 0, 0, 1];
-        for(let tile of this.auxBoard[1].tiles){
-            tile.position[0] += this.positionAuxBoards[1]["translate"][0];
-            tile.position[1] += this.positionAuxBoards[1]["translate"][1];
-            tile.position[2] += this.positionAuxBoards[1]["translate"][2];
+        let coordsRotation = function (oldCoords, angle) {
+            let rotationMatrix = matrixRotation2d(angle);
+            return [
+                oldCoords[0] * rotationMatrix[0][0] + oldCoords[1] * rotationMatrix[0][1],
+                oldCoords[0] * rotationMatrix[1][0] + oldCoords[1] * rotationMatrix[1][1]
+            ]
         }
 
-        this.positionAuxBoards[2]["translate"] = [-14, -10, 0];
-        this.positionAuxBoards[2]["rotate"] = [-Math.PI / 3, 0, 0, 1];
-        for(let tile of this.auxBoard[2].tiles){
-            tile.position[0] += this.positionAuxBoards[2]["translate"][0];
-            tile.position[1] += this.positionAuxBoards[2]["translate"][1];
-            tile.position[2] += this.positionAuxBoards[2]["translate"][2];
+        let positionAuxBoards = {
+            0: {
+                translate: [0, 16, 0],
+                rotate: 0
+            },
+            1: {
+                translate: [14, -10, 0],
+                rotate: Math.PI / 3
+            },
+            2: {
+                translate: [-14, -10, 0],
+                rotate: -Math.PI / 3
+            },
+        }
+
+        for (let key in this.auxBoard) {
+            for (let tile of this.auxBoard[key].tiles) {
+                let pos = coordsRotation(tile.position, positionAuxBoards[key].rotate);
+                tile.position[0] = pos[0];
+                tile.position[1] = pos[1];
+                tile.position[0] += positionAuxBoards[key].translate[0]
+                tile.position[1] += positionAuxBoards[key].translate[1]
+                tile.position[2] += positionAuxBoards[key].translate[2]
+            }
         }
     }
 
@@ -115,7 +124,7 @@ class GameOrchestrator {
                 if (this.previousPick <= maxIdBoard) {
                     fromBoard = this.gameBoard;
                     console.log("Main BOARD")
-                } else if (this.previousPick < this.auxBoard[0].id ) { // termina em id++
+                } else if (this.previousPick < this.auxBoard[0].id) { // termina em id++
                     fromBoard = this.auxBoard[0];
                     this.previousPick -= maxIdBoard
                     console.log("Green BOARD")
@@ -129,7 +138,7 @@ class GameOrchestrator {
                     this.previousPick -= (this.auxBoard[1].id - 1)
                 }
 
-                if(this.gameBoard.tiles[customId - 1] !== undefined){
+                if (this.gameBoard.tiles[customId - 1] !== undefined) {
                     obj.pick();
                     fromBoard.tiles[this.previousPick - 1].startMovement(this.gameBoard.tiles[customId - 1])//creates animation of the piece. customId is the id of the tile
                     this.previousPick = null;
@@ -138,7 +147,7 @@ class GameOrchestrator {
                 }
 
             } else { // reset
-                if(obj.isPicked()) obj.pick(); // effect of unpick
+                if (obj.isPicked()) obj.pick(); // effect of unpick
                 this.previousObj = null;
                 this.previousPick = null;
                 console.log("Tile has been unpicked.");
@@ -153,7 +162,7 @@ class GameOrchestrator {
                 console.log("Piece has been picked:");
                 console.log(obj);
             } else { // reset
-                if(obj.isPicked()) obj.pick(); //effect of unpick
+                if (obj.isPicked()) obj.pick(); //effect of unpick
                 console.log("Piece has been unpicked.");
                 this.previousObj = null;
                 this.previousPick = null;
