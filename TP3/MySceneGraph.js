@@ -1068,7 +1068,10 @@ class MySceneGraph {
                                     break;
 
                                 case "gameboard":
-                                    primitive = this.instanceGameOrchestrator
+                                    this.gameorchestrator.pieces['greenPiece'] = this.reader.getString(grandgrandChildren[d], 'green');
+                                    this.gameorchestrator.pieces['purplePiece'] = this.reader.getString(grandgrandChildren[d], 'purple');
+                                    this.gameorchestrator.pieces['orangePiece'] = this.reader.getString(grandgrandChildren[d], 'orange');
+                                    primitive = this.instanceGameOrchestrator;
                                     break;
 
                                 case "patch":
@@ -1124,8 +1127,6 @@ class MySceneGraph {
 
 
             this.nodes[nodeID] = new MyNode(nodeID, materialID, texture, matrix, descendants, primitives, animationID);
-
-            console.log(this.nodes)
         }
     }
 

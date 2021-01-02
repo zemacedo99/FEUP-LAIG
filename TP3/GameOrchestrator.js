@@ -25,18 +25,18 @@ class GameOrchestrator {
 
     initBoards() {
         this.gameBoard = new MyMainBoard(this.scene, this.theme);
-
+        console.log(this.theme)
         let curr_id = this.gameBoard.tiles.length
         this.auxBoard.push(
-            new MyAuxBoard(this.scene, this.theme.materials['greenPiece'], this.theme.textures['tileGreenAuxBoard'], curr_id + 1)
+            new MyAuxBoard(this.scene, this.theme.materials['greenPiece'], this.theme.pieces['greenPiece'], this.theme.textures['tileGreenAuxBoard'], curr_id + 1)
         );
         curr_id += this.auxBoard[0].tiles.length;
         this.auxBoard.push(
-            new MyAuxBoard(this.scene, this.theme.materials['purplePiece'], this.theme.textures['tilePurpleAuxBoard'], curr_id + 1)
+            new MyAuxBoard(this.scene, this.theme.materials['purplePiece'], this.theme.pieces['purplePiece'], this.theme.textures['tilePurpleAuxBoard'], curr_id + 1)
         );
         curr_id += this.auxBoard[1].tiles.length;
         this.auxBoard.push(
-            new MyAuxBoard(this.scene, this.theme.materials['orangePiece'], this.theme.textures['tileOrangeAuxBoard'], curr_id + 1)
+            new MyAuxBoard(this.scene, this.theme.materials['orangePiece'], this.theme.pieces['orangePiece'], this.theme.textures['tileOrangeAuxBoard'], curr_id + 1)
         );
 
         let matrixRotation2d = function (angle) {
@@ -179,7 +179,7 @@ class GameOrchestrator {
         for (let key in this.auxBoard) {
             this.auxBoard[key].display();
         }
-        if(this.gameBoard !== null)
+        if (this.gameBoard !== null)
             this.gameBoard.display();
         this.scene.popMatrix();
         this.scene.clearPickRegistration();

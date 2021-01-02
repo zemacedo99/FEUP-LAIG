@@ -4,10 +4,23 @@ class MyPiece {
         this.scene = scene;
         this.color = color;
         this.player = owership;
-        this.piece = structure || new MyCylinder(scene, 0.25, 0.25, 0.25, 16, 16);
+        this.piece = this.switchStructure(structure);
         this.picked = false;
         this.waitingMovement = false;
         this.pieceMovement = new MyPieceMovement(scene, this.piece);
+    }
+
+    switchStructure(structure){
+        let standart = new MyCylinder(this.scene, 0.5, 0.3, 0.3, 16, 16);
+        if(structure === null) return standart;
+        switch (structure){
+            case 'cylinder':
+                return standart;
+            case 'sphere':
+                return new MySphere(this.scene, 0.4, 16, 16);
+            default:
+                return standart;
+        }
     }
 
     clone(piece) {
@@ -39,7 +52,8 @@ class MyPiece {
 
         this.color.apply();
         this.scene.pushMatrix();
-
+        if(this.piece instanceof MySphere)
+            this.scene.translate(0, 0, 0.2);
         if (!this.waitingMovement) {
             if (this.pieceMovement.active) {
                 this.pieceMovement.display();

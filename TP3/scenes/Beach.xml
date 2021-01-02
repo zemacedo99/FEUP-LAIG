@@ -1354,12 +1354,12 @@
             <material id="null"/>
             <texture id="clear"/>
             <descendants>
-                <leaf type="gameboard"/>
+                <leaf type="gameboard" green="cylinder" purple="cylinder" orange="sphere"/>
             </descendants>
             <transformations>
                 <rotation axis="z" angle="-90"/>
-                <translation x="-6.0" y="2.0" z="0.1"/>
-                <scale sx="0.1" sy="0.1" sz="1.0"/>
+                <translation x="-6.0" y="2.0" z="0.0"/>
+                <scale sx="0.1" sy="0.1" sz="0.1"/>
             </transformations>
         </node>
 
