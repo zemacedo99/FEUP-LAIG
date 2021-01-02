@@ -1339,11 +1339,11 @@
             <descendants>
                 <noderef id="picnicBasket"/>
                 <noderef id="book"/>
-                <gameorchestrator id="game">
+                <gameboard id="game">
                     <pieces id="pieces_red" format="cylinder"/>
                     <pieces id="pieces_green" format="cylinder"/>
                     <pieces id="pieces_orange" format="cylinder"/>
-                </gameorchestrator>
+                </gameboard>
 
                 <leaf type="rectangle" x1="0" y1="0" x2="3" y2="6"/>
             </descendants>

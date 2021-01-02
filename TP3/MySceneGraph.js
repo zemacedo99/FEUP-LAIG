@@ -39,6 +39,7 @@ class MySceneGraph {
         this.spriteanimations = [];
 
         // Save Theme Game
+        this.instanceGameOrchestrator = null;
         this.gameorchestrator = {materials: [], textures: [], pieces: []}
 
         // File reading 
@@ -993,6 +994,10 @@ class MySceneGraph {
 
                             descendants.push(descendant_nodeID);
                             break;
+
+                        case "gameboard":
+                            this.instanceGameOrchestrator = new GameOrchestrator(this.scene);
+                            primitive = this.instanceGameOrchestrator;
 
                         case "leaf":
                             let primitiveType = this.reader.getString(grandgrandChildren[d], 'type');

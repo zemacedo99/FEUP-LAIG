@@ -12,7 +12,7 @@ class XMLscene extends CGFscene {
         this.interface = myinterface;
         this.lightsValues = [];
         this.selectedTheme = getUrlVars()['file'] || "Beach";
-        let filename = getUrlVars()['file']+".xml" || "Beach.xml";
+        let filename = getUrlVars()['file'] + ".xml" || "Beach.xml";
         this.graph = new MySceneGraph(filename, this);
         this.graphs = [
             "Beach",
@@ -47,7 +47,7 @@ class XMLscene extends CGFscene {
         this.loadingProgress = 0;
 
         this.defaultAppearance = new CGFappearance(this);
-        this.gameOrchestrator = new GameOrchestrator(this);
+        this.gameOrchestrator = null;
     }
 
     /**
@@ -72,14 +72,14 @@ class XMLscene extends CGFscene {
 
         let deltaTime = time - this.initialTime; // deltaTime is the time since the start
         if (this.loopAnimations !== "Never") {
-            if( deltaTime >= parseInt(this.loopAnimations) ){ // each cicle
+            if (deltaTime >= parseInt(this.loopAnimations)) { // each cicle
                 deltaTime = 0;
                 this.initialTime = time;
             }
         }
+        if (this.gameOrchestrator !== null)
+            this.gameOrchestrator.update(t);
 
-        this.gameOrchestrator.update(t);
-        
         // updates animations
         if (this.sceneInited) {
             if (!this.graph.animations) return;
@@ -156,6 +156,8 @@ class XMLscene extends CGFscene {
         this.initLights();
         this.interface.lightsGroup(this.graph.lights)
 
+        this.gameOrchestrator = this.graph.instanceGameOrchestrator;
+        console.log(this.gameOrchestrator)
         this.gameOrchestrator.setTheme(this.graph.gameorchestrator)
 
         this.sceneInited = true;
@@ -167,7 +169,8 @@ class XMLscene extends CGFscene {
      */
     display() {
         // ---- BEGIN Background, camera and axis setup
-        this.gameOrchestrator.managePickRequest(this.pickMode,this.pickResults);
+        if (this.gameOrchestrator !== null)
+            this.gameOrchestrator.managePickRequest(this.pickMode, this.pickResults);
         this.clearPickRegistration(); //Clears the currently registered id and associated object
 
         // Clear image and depth buffer everytime we update the scene
@@ -206,7 +209,7 @@ class XMLscene extends CGFscene {
 
             // Displays the scene (MySceneGraph function).
             this.graph.displayScene();
-            this.gameOrchestrator.display();
+            //this.gameOrchestrator.display();
 
         } else {
             // Show some "loading" visuals

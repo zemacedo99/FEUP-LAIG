@@ -32,6 +32,9 @@ class MyPieceMovement {
         this.maxDesloc = [this.toPosition[0] - from[0], this.toPosition[1] - from[1]]
         this.dist = Math.sqrt((this.maxDesloc[0] * this.maxDesloc[0]) + (this.maxDesloc[1] * this.maxDesloc[1]))
         this.active = true;
+        console.log(from)
+        console.log(toTile.position)
+        console.log(this.maxDesloc)
     }
 
     update(t) {
@@ -48,8 +51,18 @@ class MyPieceMovement {
                     this.position[2] += 0.5;
                     this.hookspendTime = this.spendTime;
                     break;
-                case (Math.round(this.position[0]*10)/10 !== Math.round(this.maxDesloc[0]*10)/10 && Math.round(this.position[1]*10)/10 !== Math.round(this.maxDesloc[1]*10)/10 && this.spendTime < 22): // not higher than 20s
-                    //console.log("("+ Math.round(this.position[0]*10)/10 + ", " + Math.round(this.position[1]*10)/10 + ") != ("+Math.round(this.maxDesloc[0]*10)/10+ ", " + Math.round(this.maxDesloc[1]*10)/10 + ")")
+                case (this.spendTime < 22 // not higher than 20s
+                    && !( // nao é maior que o maximo desloc em X
+                        (this.maxDesloc[0] > 0 &&  this.position[0] > this.maxDesloc[0])
+                        || (this.maxDesloc[0] < 0 &&  this.position[0] < this.maxDesloc[0])
+                    )
+                    && !( // nao é maior que o maximo desloc em y
+                        (this.maxDesloc[1] > 0 &&  this.position[1] > this.maxDesloc[1])
+                        || (this.maxDesloc[1] < 0 &&  this.position[1] < this.maxDesloc[1])
+                    )
+                ):
+
+                    console.log("("+ Math.round(this.position[0]*10)/10 + ", " + Math.round(this.position[1]*10)/10 + ") != ("+Math.round(this.maxDesloc[0]*10)/10+ ", " + Math.round(this.maxDesloc[1]*10)/10 + ")")
                     let pos = this.getPosition(this.spendTime - this.hookspendTime);
                     this.position[0] = pos[0]
                     this.position[1] = pos[1]

@@ -179,7 +179,8 @@ class GameOrchestrator {
         for (let key in this.auxBoard) {
             this.auxBoard[key].display();
         }
-        this.gameBoard.display();
+        if(this.gameBoard !== null)
+            this.gameBoard.display();
         this.scene.popMatrix();
         this.scene.clearPickRegistration();
     }
