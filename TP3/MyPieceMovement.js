@@ -32,9 +32,6 @@ class MyPieceMovement {
         this.maxDesloc = [this.toPosition[0] - from[0], this.toPosition[1] - from[1]]
         this.dist = Math.sqrt((this.maxDesloc[0] * this.maxDesloc[0]) + (this.maxDesloc[1] * this.maxDesloc[1]))
         this.active = true;
-        console.log(from)
-        console.log(toTile.position)
-        console.log(this.maxDesloc)
     }
 
     update(t) {

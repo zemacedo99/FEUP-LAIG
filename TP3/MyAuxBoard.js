@@ -8,12 +8,12 @@
  * @param board - the board form
  */
 class MyAuxBoard {
-    constructor(scene, pieceColor, id) {
+    constructor(scene, pieceColor, tileTexture, id) {
         this.scene = scene;
         this.id = id;
         this.pieceColor = pieceColor;
         this.tiles = [];
-        this.tileTexture = new CGFtexture(this.scene, "./scenes/images/tile.png");
+        this.tileTexture = tileTexture;
         this.translate = [2 - ((13) / 2), -1.5 * 3, 0]
         this.fillBoard();
     }

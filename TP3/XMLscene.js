@@ -12,7 +12,6 @@ class XMLscene extends CGFscene {
         this.interface = myinterface;
         this.lightsValues = [];
         this.selectedTheme = getUrlVars()['file'] || "Beach";
-        console.log(getUrlVars())
         let filename = getUrlVars()['file']+".xml" || "Beach.xml";
         this.graph = new MySceneGraph(filename, this);
         this.graphs = [
@@ -157,7 +156,7 @@ class XMLscene extends CGFscene {
         this.initLights();
         this.interface.lightsGroup(this.graph.lights)
 
-        this.gameOrchestrator.setTheme(this.graph)
+        this.gameOrchestrator.setTheme(this.graph.gameorchestrator)
 
         this.sceneInited = true;
 

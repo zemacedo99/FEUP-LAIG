@@ -1,9 +1,10 @@
 class MyMainBoard {
-    constructor(scene) {
+    constructor(scene, theme) {
         this.scene = scene;
         this.tiles = [];
-        this.tileTexture = new CGFtexture(this.scene, "./scenes/images/tile.png");
-        this.translate = [-4, 1.5 * 6, 0]
+        this.theme = theme;
+        this.tileTexture = this.theme.textures['tileMainBoard'];
+        this.translate = [-4, 1.5 * 6, 0];
         this.fillBoard();
     }
 
