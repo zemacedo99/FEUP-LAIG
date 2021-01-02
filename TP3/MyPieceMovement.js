@@ -32,9 +32,9 @@ class MyPieceMovement {
         this.maxDesloc = [this.toPosition[0] - from[0], this.toPosition[1] - from[1]]
         this.dist = Math.sqrt((this.maxDesloc[0] * this.maxDesloc[0]) + (this.maxDesloc[1] * this.maxDesloc[1]))
         this.active = true;
-        console.log(from)
+        /*console.log(from)
         console.log(toTile.position)
-        console.log(this.maxDesloc)
+        console.log(this.maxDesloc)*/
     }
 
     update(t) {
@@ -62,7 +62,7 @@ class MyPieceMovement {
                     )
                 ):
 
-                    console.log("("+ Math.round(this.position[0]*10)/10 + ", " + Math.round(this.position[1]*10)/10 + ") != ("+Math.round(this.maxDesloc[0]*10)/10+ ", " + Math.round(this.maxDesloc[1]*10)/10 + ")")
+                    //console.log("("+ Math.round(this.position[0]*10)/10 + ", " + Math.round(this.position[1]*10)/10 + ") != ("+Math.round(this.maxDesloc[0]*10)/10+ ", " + Math.round(this.maxDesloc[1]*10)/10 + ")")
                     let pos = this.getPosition(this.spendTime - this.hookspendTime);
                     this.position[0] = pos[0]
                     this.position[1] = pos[1]
