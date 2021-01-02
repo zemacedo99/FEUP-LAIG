@@ -10,7 +10,14 @@ class XMLscene extends CGFscene {
         super();
 
         this.interface = myinterface;
-        this.lightsValues = []
+        this.lightsValues = [];
+        this.selectedTheme = getUrlVars()['file'] || "Beach";
+        console.log(getUrlVars())
+        let filename = getUrlVars()['file']+".xml" || "Beach.xml";
+        this.graph = new MySceneGraph(filename, this);
+        this.graphs = [
+            "Beach",
+        ];
     }
 
     /**
@@ -140,7 +147,9 @@ class XMLscene extends CGFscene {
         this.interface.setActiveCamera(this.camera);
         this.interface.createSelectView(this.graph.views)
         this.loopAnimations = "Never";
-        this.interface.loopAnimations(this.graph.nodes, this.graph.animations);
+
+        this.interface.loopAnimations();
+        this.interface.selectTheme(this.graphs);
 
 
         this.setGlobalAmbientLight(...this.graph.ambient);
@@ -197,7 +206,7 @@ class XMLscene extends CGFscene {
             this.defaultAppearance.apply();
 
             // Displays the scene (MySceneGraph function).
-            //this.graph.displayScene();
+            this.graph.displayScene();
             this.gameOrchestrator.display();
 
         } else {

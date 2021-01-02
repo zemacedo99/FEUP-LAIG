@@ -7,9 +7,6 @@
 class GameOrchestrator {
     constructor(scene) {
         this.scene = scene;
-        let filename = getUrlVars()['file'] || "LAIG_TP3_XML_T1_G11_v01.xml";
-        this.scene.graph = new MySceneGraph(filename, scene);
-
         this.previousPick = null;
         this.previousObj = null
 
