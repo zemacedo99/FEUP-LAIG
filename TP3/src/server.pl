@@ -103,12 +103,11 @@ print_header_line(_).
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % Require your Prolog Files here
-:-use_module('alliances.pl');
-
+:-use_module('alliances.pl').
 
 parse_input(handshake, handshake).
 parse_input(test(C,N), Res) :- test(C,Res,N).
-parse_input(valid_move(RowIndex, SpaceIndex, Board, Space, Player, 1),Res) :- Res = valid_move(RowIndex, SpaceIndex, Board, Space, Player, 1).
+parse_input(valid_move(RowIndex, SpaceIndex, Board, Space, Player, 1),Res) :- ((valid_move(RowIndex, SpaceIndex, Board, Space, Player, 1),Res = yes);(Res = no)).
 parse_input(quit, goodbye).
 
 test(_,[],N) :- N =< 0.

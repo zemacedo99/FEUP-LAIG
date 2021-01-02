@@ -80,7 +80,7 @@ class MyProlog {
     validMove(RowIndex, SpaceIndex, Board, Space, Player, Mode = 1) {
         Board = this.gameBoardtoString(Board);
   
-        this.getPrologRequest("valid_move("+ RowIndex + ", " + SpaceIndex + ", " +  Board + ", " + Space + ", " + Player + ", " + Mode +")", this.handleMoveReply.bind(this));
+        this.getPrologRequest("valid_move("+ RowIndex + "," + SpaceIndex + "," +  Board + "," + Space + "," + Player + "," + Mode +")", this.handleMoveReply.bind(this));
     }
 
     close() {
