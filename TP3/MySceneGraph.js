@@ -39,7 +39,7 @@ class MySceneGraph {
         this.spriteanimations = [];
 
         // Save Theme Game
-        this.instanceGameOrchestrator = null;
+        this.instanceGameOrchestrator = new GameOrchestrator(this.scene);
         this.gameorchestrator = {materials: [], textures: [], pieces: []}
 
         // File reading 
@@ -995,10 +995,6 @@ class MySceneGraph {
                             descendants.push(descendant_nodeID);
                             break;
 
-                        case "gameboard":
-                            this.instanceGameOrchestrator = new GameOrchestrator(this.scene);
-                            primitive = this.instanceGameOrchestrator;
-
                         case "leaf":
                             let primitiveType = this.reader.getString(grandgrandChildren[d], 'type');
                             switch (primitiveType) {
@@ -1071,6 +1067,10 @@ class MySceneGraph {
                                     primitive = new MyPlane(this.scene, npartsU, npartsV);
                                     break;
 
+                                case "gameboard":
+                                    primitive = this.instanceGameOrchestrator
+                                    break;
+
                                 case "patch":
                                     var npointsU = this.reader.getFloat(grandgrandChildren[d], 'npointsU');
                                     var npointsV = this.reader.getFloat(grandgrandChildren[d], 'npointsV');
@@ -1124,6 +1124,8 @@ class MySceneGraph {
 
 
             this.nodes[nodeID] = new MyNode(nodeID, materialID, texture, matrix, descendants, primitives, animationID);
+
+            console.log(this.nodes)
         }
     }
 
@@ -1316,7 +1318,6 @@ class MySceneGraph {
     }
 
     processNode(id, matParent, texParent) {
-
         // Apply materials and textures
 
         this.scene.pushMatrix();
@@ -1332,7 +1333,7 @@ class MySceneGraph {
         if (id !== this.idRoot) {
 
             if (this.materials[materialAux] != undefined) {
-                if (textureAux == 'clear') {
+                if (textureAux === 'clear') {
                     textureAux = null;
                 }
 

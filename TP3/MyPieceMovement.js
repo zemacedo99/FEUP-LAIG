@@ -48,7 +48,7 @@ class MyPieceMovement {
         if (this.active === true) {
             switch (true) {
                 case (this.spendTime < 2.0):
-                    this.position[2] += 0.5;
+                    this.position[2] += 0.1;
                     this.hookspendTime = this.spendTime;
                     break;
                 case (this.spendTime < 22 // not higher than 20s
@@ -68,7 +68,7 @@ class MyPieceMovement {
                     this.position[1] = pos[1]
                     break;
                 default:
-                    this.position[2] -= 0.5;
+                    this.position[2] -= 0.1;
                     if (this.position[2] <= 0) {
                         this.position = 0;
                         this.mytile.setPiece(null)

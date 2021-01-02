@@ -1339,14 +1339,23 @@
             <descendants>
                 <noderef id="picnicBasket"/>
                 <noderef id="book"/>
-                <gameboard id="game">
-                    <pieces id="pieces_red" format="cylinder"/>
-                    <pieces id="pieces_green" format="cylinder"/>
-                    <pieces id="pieces_orange" format="cylinder"/>
-                </gameboard>
+                <noderef id="maingame"/>
 
                 <leaf type="rectangle" x1="0" y1="0" x2="3" y2="6"/>
             </descendants>
+        </node>
+
+        <node id="maingame">
+            <material id="null"/>
+            <texture id="clear"/>
+            <descendants>
+                <leaf type="gameboard"/>
+            </descendants>
+            <transformations>
+                <rotation axis="z" angle="-90"/>
+                <translation x="-6.0" y="2.0" z="0.1"/>
+                <scale sx="0.1" sy="0.1" sz="1.0"/>
+            </transformations>
         </node>
 
         <node id="picnicBasket">

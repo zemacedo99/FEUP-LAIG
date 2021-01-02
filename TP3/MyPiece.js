@@ -1,10 +1,10 @@
 class MyPiece {
-    constructor(scene, id, color, owership) {
+    constructor(scene, id, color, owership, structure = null) {
         this.id = id;
         this.scene = scene;
         this.color = color;
         this.player = owership;
-        this.piece = new MyCylinder(scene, 0.25, 0.25, 0.25, 16, 16);
+        this.piece = structure || new MyCylinder(scene, 0.25, 0.25, 0.25, 16, 16);
         this.picked = false;
         this.waitingMovement = false;
         this.pieceMovement = new MyPieceMovement(scene, this.piece);
