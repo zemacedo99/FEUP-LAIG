@@ -11,7 +11,10 @@ class GameOrchestrator {
         this.scene.graph = new MySceneGraph(filename, scene);
 
         this.previousPick = null;
-        this.previousObj = null
+        this.previousObj = null;
+
+        this.prolog = new MyProlog(this);
+        this.response = null;
 
         this.gameBoard = new MyMainBoard(this.scene);
         this.auxBoard = [];
@@ -114,11 +117,13 @@ class GameOrchestrator {
 
     pickObj(obj, customId) {
 
-        if (obj instanceof MyTile) {
+        if (obj instanceof MyTile) 
+        {
             if (!obj.isPicked() && this.previousPick == null) // first object
             {
                 console.log("Please, select a piece");
-            } else if (!obj.isPicked() && obj.getPiece() === null) { //second object, move the piece to the tile destination (current obj)
+            } 
+            else if (!obj.isPicked() && obj.getPiece() === null) { //second object, move the piece to the tile destination (current obj)
                 let fromBoard;
                 let maxIdBoard = this.gameBoard.tiles.length;
                 if (this.previousPick <= maxIdBoard) {
@@ -140,19 +145,41 @@ class GameOrchestrator {
 
                 if (this.gameBoard.tiles[customId - 1] !== undefined) {
                     obj.pick();
+
+                    
+                    for(let r = 0; r < this.gameBoard.board.length; r++)
+                    {
+                        for(let c = 0; c < this.gameBoard.board[r].length ;c++)
+                        {
+                            if (this.gameBoard.board[r][c] == obj)
+                            {
+                                let RowIndex = r;
+                                let SpaceIndex = c;
+                                let Space = "'X'";
+                                let Player = 1;
+                                let Mode = 1;
+                            
+                                this.prolog.validMove(RowIndex, SpaceIndex, this.gameBoard.board, Space , Player, Mode)
+                                // while(this.response == null) {}
+                            }
+                        }
+                    }
+
                     fromBoard.tiles[this.previousPick - 1].startMovement(this.gameBoard.tiles[customId - 1])//creates animation of the piece. customId is the id of the tile
                     this.previousPick = null;
-                    console.log("Tile has been picked:");
-                    console.log(obj);
+                    this.response = null;
                 }
 
-            } else { // reset
+            } 
+            else 
+            { // reset
                 if (obj.isPicked()) obj.pick(); // effect of unpick
                 this.previousObj = null;
                 this.previousPick = null;
-                console.log("Tile has been unpicked.");
             }
-        } else if (obj instanceof MyPiece) {
+        } 
+        else if (obj instanceof MyPiece) 
+        {
 
             if (!obj.isPicked() && this.previousPick == null) // first object, select piece
             {
@@ -161,17 +188,28 @@ class GameOrchestrator {
                 obj.pick();
                 console.log("Piece has been picked:");
                 console.log(obj);
-            } else { // reset
-                if (obj.isPicked()) obj.pick(); //effect of unpick
-                console.log("Piece has been unpicked.");
-                this.previousObj = null;
-                this.previousPick = null;
+            } 
+            else 
+            { // reset
+                if (obj.isPicked()) 
+                {
+                    obj.pick(); //effect of unpick
+                    console.log("Piece has been unpicked.");
+                    this.previousObj = null;
+                    this.previousPick = null;
+                }
+                else
+                {
+                    console.log("Please select a Tile, or select your already chosen piece");
+                }
             }
-        } else {
+
+        } 
+        else
+        {
             console.log("error selection object");
         }
     }
-
 
     display() {
         this.scene.pushMatrix();
