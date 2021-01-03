@@ -1,6 +1,6 @@
 class MyPieceMovement {
 
-    VELOCIDADE = 4.0
+    VELOCIDADE = 8.0
 
     constructor(scene, piece) {
         this.scene = scene;

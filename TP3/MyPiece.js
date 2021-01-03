@@ -18,8 +18,6 @@ class MyPiece {
                 return standart;
             case 'sphere':
                 return new MySphere(this.scene, 0.4, 16, 16);
-            case 'man':
-                return new CGFOBJModel(this.scene, 'models/male.obj');
             default:
                 return standart;
         }
@@ -56,11 +54,6 @@ class MyPiece {
         this.scene.pushMatrix();
         if(this.piece instanceof MySphere)
             this.scene.translate(0, 0, 0.2);
-        if(this.piece instanceof CGFOBJModel){
-            this.scene.scale(0.2, 0.2, 0.2);
-            this.scene.rotate(-Math.PI/2, 0, 0, 1);
-            this.scene.rotate(Math.PI/2, 1, 0, 0);
-        }
         if (!this.waitingMovement) {
             if (this.pieceMovement.active) {
                 this.pieceMovement.display();
