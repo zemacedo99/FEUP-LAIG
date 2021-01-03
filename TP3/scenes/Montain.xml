@@ -1,7 +1,7 @@
 <lsf id="montain">
 
     <initials>
-        <reference length="3"/>
+        <reference length="0"/>
         <!-- axis length; "0" means no axis displayed -->
         <root id="montainRoot"/>
         <!-- identifier of root node of the scene graph; this node -->
@@ -11,7 +11,7 @@
     <views default="Perspective Camera">
         <!-- at least one of the following type of cameras must be declared -->
         <perspective id="Perspective Camera" near="0.1" far="500" angle="45">
-            <from x="200" y="200" z="200"/>
+            <from x="8" y="8" z="8"/>
             <to x="0" y="0" z="0"/>
         </perspective>
         <ortho id="Ortho Camera" near="0.2" far="100" left="-30" right="30" top="40" bottom="-20">
@@ -42,7 +42,8 @@
 
     <textures>
         <!-- NOTE: this block "TEXTURE" must be repeated as necessary with different "id" -->
-        <texture id="cubemap" path="./scenes/images/cubemap.png"/>
+        <texture id="montain" path="./scenes/images/montain.jpg"/>
+        <texture id="universe" path="./scenes/images/universe.jpg"/>
 
         <texture id="tileMainBoard" path="./scenes/images/tile.png"/>
         <texture id="tileGreenAuxBoard" path="./scenes/images/tile.png"/>
@@ -109,134 +110,7 @@
     <!-- o bloco "animations" é opcional, mas quando existir -->
     <!-- deve ser declarado imediatamente antes do bloco  "nodes" -->
     <animations>
-        <!-- O bloco animations pode ser vazio, isto é, pode -->
-        <!-- não ser declarada qualquer animação -->
 
-        <animation id="openPicnikBasketAnimation">
-
-
-            <keyframe instant="0.0">
-                <translation x="0.0" y="0.0" z="0.0"/>
-                <rotation axis="x" angle="0"/>
-                <rotation axis="y" angle="0"/>
-                <rotation axis="z" angle="0"/>
-                <scale sx="1.0" sy="1.0" sz="1.0"/>
-            </keyframe>
-
-            <keyframe instant="5.0">
-                <translation x="0.0" y="0.0" z="0.0"/>
-                <rotation axis="x" angle="0"/>
-                <rotation axis="y" angle="-25"/>
-                <rotation axis="z" angle="0"/>
-                <scale sx="1.0" sy="1.0" sz="1.0"/>
-            </keyframe>
-
-            <keyframe instant="10.0">
-                <translation x="0.0" y="0.0" z="0.0"/>
-                <rotation axis="x" angle="0"/>
-                <rotation axis="y" angle="-45"/>
-                <rotation axis="z" angle="0"/>
-                <scale sx="1.0" sy="1.0" sz="1.0"/>
-            </keyframe>
-
-            <keyframe instant="15.0">
-                <translation x="0.0" y="0.0" z="0.0"/>
-                <rotation axis="x" angle="0"/>
-                <rotation axis="y" angle="-25"/>
-                <rotation axis="z" angle="0"/>
-                <scale sx="1.0" sy="1.0" sz="1.0"/>
-            </keyframe>
-
-
-        </animation>
-
-        <animation id="ballAnimation">
-
-
-            <keyframe instant="0.0"> <!-- Partida -->
-                <translation x="0.0" y="0.0" z="0.0"/>
-                <rotation axis="x" angle="0"/>
-                <rotation axis="y" angle="0"/>
-                <rotation axis="z" angle="0"/>
-                <scale sx="1.0" sy="1.0" sz="1.0"/>
-            </keyframe>
-
-            <keyframe instant="1.8"> <!-- Pre Solo Aux (inicio salto) -->
-                <translation x="0.0" y="-10.0" z="0.0"/>
-                <rotation axis="x" angle="0"/>
-                <rotation axis="y" angle="0"/>
-                <rotation axis="z" angle="0"/>
-                <scale sx="1.0" sy="1.0" sz="1.0"/>
-            </keyframe>
-            <keyframe instant="2"> <!-- Solo (inicio salto) -->
-                <translation x="0.0" y="-10.0" z="0.0"/>
-                <rotation axis="x" angle="0"/>
-                <rotation axis="y" angle="0"/>
-                <rotation axis="z" angle="0"/>
-                <scale sx="1.0" sy="0.6" sz="1.0"/>
-            </keyframe>
-            <keyframe instant="2.1"> <!-- Pos Solo Aux (inicio salto) -->
-                <translation x="0.0" y="-10.0" z="0.0"/>
-                <rotation axis="x" angle="0"/>
-                <rotation axis="y" angle="0"/>
-                <rotation axis="z" angle="0"/>
-                <scale sx="1.0" sy="1.0" sz="1.0"/>
-            </keyframe>
-
-            <keyframe instant="2.8"> <!-- Pre Topo (salto) -->
-                <translation x="0.0" y="-5.8" z="-2.0"/>
-                <rotation axis="x" angle="-20"/>
-                <rotation axis="y" angle="0"/>
-                <rotation axis="z" angle="0"/>
-                <scale sx="1.0" sy="1.0" sz="1.0"/>
-            </keyframe>
-            <keyframe instant="2.9"> <!-- Pre Topo (salto) -->
-                <translation x="0.0" y="-6.0" z="-2.0"/>
-                <rotation axis="x" angle="-20"/>
-                <rotation axis="y" angle="0"/>
-                <rotation axis="z" angle="0"/>
-                <scale sx="1.0" sy="1.0" sz="1.0"/>
-            </keyframe>
-            <keyframe instant="3.0"> <!-- Topo (salto) -->
-                <translation x="0.0" y="-6.0" z="-2.0"/>
-                <rotation axis="x" angle="-20"/>
-                <rotation axis="y" angle="0"/>
-                <rotation axis="z" angle="0"/>
-                <scale sx="1.0" sy="1.0" sz="1.0"/>
-            </keyframe>
-            <keyframe instant="3.1"> <!-- Pos Topo (salto) -->
-                <translation x="0.0" y="-6.0" z="-2.5"/>
-                <rotation axis="x" angle="-20"/>
-                <rotation axis="y" angle="0"/>
-                <rotation axis="z" angle="0"/>
-                <scale sx="1.0" sy="1.0" sz="1.0"/>
-            </keyframe>
-
-            <keyframe instant="4.0"> <!-- Solo (fim salto) -->
-                <translation x="0.0" y="-10.0" z="-5.0"/>
-                <rotation axis="x" angle="-40"/>
-                <rotation axis="y" angle="0"/>
-                <rotation axis="z" angle="0"/>
-                <scale sx="1.0" sy="0.8" sz="1.0"/>
-            </keyframe>
-
-            <keyframe instant="6.0"> <!-- Rolamento -->
-                <translation x="0" y="-10.0" z="-8.0"/>
-                <rotation axis="x" angle="-30"/>
-                <rotation axis="y" angle="0"/>
-                <rotation axis="z" angle="0"/>
-                <scale sx="1" sy="1" sz="1"/>
-            </keyframe>
-
-            <keyframe instant="8.0"> <!-- Fim -->
-                <translation x="0" y="-10.0" z="-10.0"/>
-                <rotation axis="x" angle="-60"/>
-                <rotation axis="y" angle="0"/>
-                <rotation axis="z" angle="0"/>
-                <scale sx="0.8" sy="0.8" sz="0.8"/>
-            </keyframe>
-
-        </animation>
 
     </animations>
 
@@ -269,26 +143,83 @@
 
         <node id="cubemap">
             <material id="null"/>
-            <texture id="cubemap"/>
             <transformations>
-                <scale sx="200" sy="200" sz="200"/>
+                <scale sx="10" sy="10" sz="10"/>
             </transformations>
             <descendants>
-                <noderef id="terrain"/>
-                <leaf type="scenario"/>
+                <noderef id="cubetop" />
+                <noderef id="cubeleft" />
+                <noderef id="cuberight" />
+                <noderef id="cubefront" />
+                <noderef id="cubeback" />
+                <noderef id="cubebottom" />
             </descendants>
         </node>
 
-        <node id="terrain">
+        <node id="cubetop">
             <material id="null"/>
-            <texture id="clear"/>
+            <texture id="universe"/>
             <transformations>
-                <rotation axis="x" angle="90" />
-                <translation x="0.0" y="0.0" z="0.5" />
-                <scale sx="0.5" sy="0.5" sz="0.5"/>
+                <rotation axis="x" angle="180"/>
+                <translation x="0.0" y="-1.0" z="0.0" />
             </transformations>
             <descendants>
-                <leaf type="terrain"/>
+                <leaf type="plane" npartsU="10" npartsV="10"/>
+            </descendants>
+        </node>
+        <node id="cubeleft">
+            <material id="null"/>
+            <texture id="universe"/>
+            <transformations>
+                <rotation axis="z" angle="90"/>
+                <translation x="0.0" y="-1.0" z="0.0" />
+            </transformations>
+            <descendants>
+                <leaf type="plane" npartsU="10" npartsV="10"/>
+            </descendants>
+        </node>
+        <node id="cuberight">
+            <material id="null"/>
+            <texture id="universe"/>
+            <transformations>
+                <rotation axis="z" angle="-90"/>
+                <translation x="0.0" y="-1.0" z="0.0" />
+            </transformations>
+            <descendants>
+                <leaf type="plane" npartsU="10" npartsV="10"/>
+            </descendants>
+        </node>
+        <node id="cubefront">
+            <material id="null"/>
+            <texture id="universe"/>
+            <transformations>
+                <rotation axis="x" angle="90"/>
+                <translation x="0.0" y="-1.0" z="0.0" />
+            </transformations>
+            <descendants>
+                <leaf type="plane" npartsU="10" npartsV="10"/>
+            </descendants>
+        </node>
+        <node id="cubeback">
+            <material id="null"/>
+            <texture id="universe"/>
+            <transformations>
+                <rotation axis="x" angle="-90"/>
+                <translation x="0.0" y="-1.0" z="0.0" />
+            </transformations>
+            <descendants>
+                <leaf type="plane" npartsU="10" npartsV="10"/>
+            </descendants>
+        </node>
+        <node id="cubebottom">
+            <material id="null"/>
+            <texture id="montain"/>
+            <transformations>
+                <rotation axis="y" angle="-90"/>
+                <translation x="0.0" y="-1.0" z="0.0" />
+            </transformations>
+            <descendants>
+                <leaf type="plane" npartsU="10" npartsV="10"/>
             </descendants>
         </node>
 

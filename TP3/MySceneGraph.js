@@ -1048,10 +1048,6 @@ class MySceneGraph {
                                     primitive = new MyCubeMap(this.scene);
                                     break;
 
-                                case "terrain":
-                                    primitive = new MyTerrain(this.scene, 100, 100);
-                                    break;
-
                                 case "man":
                                     primitive = new CGFOBJModel(this.scene, 'models/male.obj');
                                     break;
