@@ -38,6 +38,10 @@ class MySceneGraph {
         this.nodes = [];
         this.spriteanimations = [];
 
+        // Save Theme Game
+        this.instanceGameOrchestrator = new GameOrchestrator(this.scene);
+        this.gameorchestrator = {materials: [], textures: [], pieces: []}
+
         // File reading 
         this.reader = new CGFXMLreader();
 
@@ -579,7 +583,15 @@ class MySceneGraph {
                 return "No path for texture with ID = " + textureID + ")";
 
             var texture = new CGFtexture(this.scene, textureURL);
-            this.textures[textureID] = texture;
+            if ([
+                "tileMainBoard",
+                "tileGreenAuxBoard",
+                "tilePurpleAuxBoard",
+                "tileOrangeAuxBoard",
+            ].includes(textureID)) {
+                this.gameorchestrator.textures[textureID] = texture;
+            } else
+                this.textures[textureID] = texture;
         }
 
 
@@ -650,6 +662,7 @@ class MySceneGraph {
 
         var grandChildren = [];
         var nodeNames = [];
+        let isGame = false;
 
         // Any number of materials.
         for (var i = 0; i < children.length; i++) {
@@ -668,12 +681,13 @@ class MySceneGraph {
             if (this.materials[materialID] != null)
                 return "ID must be unique for each material (conflict: ID = " + materialID + ")";
 
-            //Continue here
-
             grandChildren = children[i].children;
 
             for (var d = 0; d < grandChildren.length; d++) {
                 switch (grandChildren[d].nodeName) {
+                    case "game":
+                        isGame = true;
+                        break;
                     case "shininess":
                         var shininess = this.getFloatAttr(grandChildren[d], 'value');
                         //nodeNames.push(grandChildren[d].nodeName);
@@ -712,8 +726,11 @@ class MySceneGraph {
             material.setSpecular(...specular);
             material.setEmission(...emissive);
 
-
-            this.materials[materialID] = material;
+            if (isGame === false)
+                this.materials[materialID] = material;
+            else {
+                this.gameorchestrator.materials[materialID] = material;
+            }
         }
         this.log("Parsed materials");
         return null;
@@ -970,8 +987,6 @@ class MySceneGraph {
 
                     switch (grandgrandChildren[d].nodeName) {
                         case "noderef":
-
-
                             // Get id of the current descendent.
                             var descendant_nodeID = this.reader.getString(grandgrandChildren[d], 'id');
                             if (descendant_nodeID == null)
@@ -1050,6 +1065,13 @@ class MySceneGraph {
                                     var npartsV = this.reader.getFloat(grandgrandChildren[d], 'npartsV');
 
                                     primitive = new MyPlane(this.scene, npartsU, npartsV);
+                                    break;
+
+                                case "gameboard":
+                                    this.gameorchestrator.pieces['greenPiece'] = this.reader.getString(grandgrandChildren[d], 'green');
+                                    this.gameorchestrator.pieces['purplePiece'] = this.reader.getString(grandgrandChildren[d], 'purple');
+                                    this.gameorchestrator.pieces['orangePiece'] = this.reader.getString(grandgrandChildren[d], 'orange');
+                                    primitive = this.instanceGameOrchestrator;
                                     break;
 
                                 case "patch":
@@ -1260,19 +1282,19 @@ class MySceneGraph {
         // R
         var r = this.getFloatAttr(node, 'r');
         if (r != null && !isNaN(r) && r >= 0) {
-            if (r > 1) r = Math.min(r/256, 1);
+            if (r > 1) r = Math.min(r / 256, 1);
         } else return "unable to parse R component of the " + messageError;
 
         // G
         var g = this.getFloatAttr(node, 'g');
         if (g != null && !isNaN(g) && g >= 0) {
-            if (g > 1) g = Math.min(g/256, 1);
+            if (g > 1) g = Math.min(g / 256, 1);
         } else return "unable to parse G component of the " + messageError;
 
         // B
         var b = this.getFloatAttr(node, 'b');
         if (b != null && !isNaN(b) && b >= 0) {
-            if (b > 1) b = Math.min(b/256, 1);
+            if (b > 1) b = Math.min(b / 256, 1);
         } else return "unable to parse B component of the " + messageError;
 
         // A
@@ -1297,7 +1319,6 @@ class MySceneGraph {
     }
 
     processNode(id, matParent, texParent) {
-
         // Apply materials and textures
 
         this.scene.pushMatrix();
@@ -1313,7 +1334,7 @@ class MySceneGraph {
         if (id !== this.idRoot) {
 
             if (this.materials[materialAux] != undefined) {
-                if (textureAux == 'clear') {
+                if (textureAux === 'clear') {
                     textureAux = null;
                 }
 
@@ -1323,11 +1344,11 @@ class MySceneGraph {
             }
         }
 
-        for (var x = 0; x < this.nodes[id].primitives.length; x++) {
+        for (let x = 0; x < this.nodes[id].primitives.length; x++) {
             this.nodes[id].primitives[x].display();
         }
 
-        for (var x = 0; x < this.nodes[id].descendants.length; x++) {
+        for (let x = 0; x < this.nodes[id].descendants.length; x++) {
             this.processNode(this.nodes[id].descendants[x], materialAux, textureAux);
         }
 

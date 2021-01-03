@@ -67,6 +67,16 @@ class MyInterface extends CGFinterface {
             .name('Loop Animations');
     }
 
+    selectTheme(scenes) {
+        let options = [];
+        for (let item of scenes){
+            options.push(item.toString())
+        }
+        this.gui.add(this.scene, 'selectedTheme', options)
+            .name('Theme')
+            .onChange(val => (window.location.href = location.protocol + '//' + location.host + location.pathname+"?file="+val ));
+    }
+
 
     viewsGroup(views) {
         var viewValues = [];
