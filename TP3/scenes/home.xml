@@ -5,7 +5,7 @@
         <root id="homeRoot"/>
     </initials>
 
-    <views default="Player view">
+    <views default="Perspective view">
 
         <perspective id="Perspective Camera" near="0.1" far="500" angle="45">
             <from x="25" y="15" z="30"/>
