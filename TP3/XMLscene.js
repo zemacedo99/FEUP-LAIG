@@ -16,7 +16,8 @@ class XMLscene extends CGFscene {
         this.graph = new MySceneGraph(filename, this);
         this.graphs = [
             "Beach",
-            "Montain"
+            "Montain",
+            "home",
         ];
     }
 
