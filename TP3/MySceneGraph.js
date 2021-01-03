@@ -1044,6 +1044,14 @@ class MySceneGraph {
                                     primitive = new MyCylinder(this.scene, height, topRadius, bottomRadius, stacks, slices);
                                     break;
 
+                                case "scenario":
+                                    primitive = new MyCubeMap(this.scene);
+                                    break;
+
+                                case "terrain":
+                                    primitive = new MyTerrain(this.scene, 100, 100);
+                                    break;
+
                                 case "man":
                                     primitive = new CGFOBJModel(this.scene, 'models/male.obj');
                                     break;

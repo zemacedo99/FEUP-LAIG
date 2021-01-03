@@ -1,0 +1,309 @@
+<lsf id="montain">
+
+    <initials>
+        <reference length="3"/>
+        <!-- axis length; "0" means no axis displayed -->
+        <root id="montainRoot"/>
+        <!-- identifier of root node of the scene graph; this node -->
+        <!-- must be defined in one of the following NODE declarations -->
+    </initials>
+
+    <views default="Perspective Camera">
+        <!-- at least one of the following type of cameras must be declared -->
+        <perspective id="Perspective Camera" near="0.1" far="500" angle="45">
+            <from x="200" y="200" z="200"/>
+            <to x="0" y="0" z="0"/>
+        </perspective>
+        <ortho id="Ortho Camera" near="0.2" far="100" left="-30" right="30" top="40" bottom="-20">
+            <from x="10" y="0" z="20"/>
+            <to x="10" y="0" z="0"/>
+            <up x="0" y="1" z="0"/><!-- optional, default 0,1,0 -->
+        </ortho>
+    </views>
+
+    <illumination>
+        <ambient r="0.2" g="0.2" b="0.2" a="1.0"/>           <!-- global ambient -->
+        <background r="0.1" g="0.7" b="1.0" a="1.0"/>        <!-- background color -->
+    </illumination>
+
+
+    <lights>
+        <!-- NOTE: this block "light" must be repeated as necessary with different "id". At least one light should be present, and a maximum of eight lights is accepted. -->
+        <light id="demoLight">            <!-- light identifier -->
+            <enable value="1"/>
+            <!-- enable/disable -->
+            <position x="10" y="20" z="9.5" w="1.0"/><!-- light position; w=1: point light; w=0: directional light -->
+            <ambient r="0" g="0" b="0" a="1.0"/>                   <!-- ambient component -->
+            <diffuse r="1.0" g="1.0" b="1.0" a="1.0"/>             <!-- diffuse component -->
+            <specular r="1.0" g="1.0" b="1.0" a="1.0"/>            <!-- specular component -->
+        </light>
+    </lights>
+
+
+    <textures>
+        <!-- NOTE: this block "TEXTURE" must be repeated as necessary with different "id" -->
+        <texture id="cubemap" path="./scenes/images/cubemap.png"/>
+
+        <texture id="tileMainBoard" path="./scenes/images/tile.png"/>
+        <texture id="tileGreenAuxBoard" path="./scenes/images/tile.png"/>
+        <texture id="tilePurpleAuxBoard" path="./scenes/images/tile.png"/>
+        <texture id="tileOrangeAuxBoard" path="./scenes/images/tile.png"/>
+    </textures>
+
+    <!-- spritesheets -->
+    <!-- o bloco "spritesheets" deve ser declarado -->
+    <!-- imediatamente após o bloco "textures" -->
+    <spritesheets>
+
+    </spritesheets>
+
+
+    <materials>
+        <!-- NOTE: the "MATERIAL" block may be repeated as required. Each defined material
+         requires a distinct "id". At least one material should be present. -->
+        <material id="demoMaterial">
+            <shininess value="0.0"/>
+            <ambient r="1.0" g="1.0" b="1.0" a="1.0"/>
+            <diffuse r="1.0" g="1.0" b="1.0" a="1.0"/>
+            <specular r="1.0" g="1.0" b="1.0" a="1.0"/>
+            <emissive r="1.0" g="1.0" b="1.0" a="1.0"/>
+        </material>
+        <material id="whiteMaterial">
+            <shininess value="1.0"/>
+            <ambient r="1.0" g="1.0" b="1.0" a="1.0"/>
+            <diffuse r="1.0" g="1.0" b="1.0" a="1.0"/>
+            <specular r="1.0" g="1.0" b="1.0" a="1.0"/>
+            <emissive r="0.0" g="0.0" b="0.0" a="1.0"/>
+        </material>
+
+        <material id="greenPiece">
+            <game/>
+            <shininess value="1.0"/>
+            <ambient r="4.0" g="128.0" b="57.0" a="1.0"/>
+            <diffuse r="4.0" g="128.0" b="57.0" a="1.0"/>
+            <specular r="4.0" g="128.0" b="57.0" a="1.0"/>
+            <emissive r="0.0" g="0.0" b="0.0" a="1.0"/>
+        </material>
+
+        <material id="purplePiece">
+            <game/>
+            <shininess value="1.0"/>
+            <ambient r="96.0" g="40.0" b="129.0" a="1.0"/>
+            <diffuse r="96.0" g="40.0" b="129.0" a="1.0"/>
+            <specular r="96.0" g="40.0" b="129.0" a="1.0"/>
+            <emissive r="0.0" g="0.0" b="0.0" a="1.0"/>
+        </material>
+
+        <material id="orangePiece">
+            <game/>
+            <shininess value="1.0"/>
+            <ambient r="237.0" g="92.0" b="47.0" a="1.0"/>
+            <diffuse r="237.0" g="92.0" b="47.0" a="1.0"/>
+            <specular r="237.0" g="92.0" b="47.0" a="1.0"/>
+            <emissive r="0.0" g="0.0" b="0.0" a="1.0"/>
+        </material>
+
+    </materials>
+
+    <!--informacao de animacao -->
+    <!-- o bloco "animations" é opcional, mas quando existir -->
+    <!-- deve ser declarado imediatamente antes do bloco  "nodes" -->
+    <animations>
+        <!-- O bloco animations pode ser vazio, isto é, pode -->
+        <!-- não ser declarada qualquer animação -->
+
+        <animation id="openPicnikBasketAnimation">
+
+
+            <keyframe instant="0.0">
+                <translation x="0.0" y="0.0" z="0.0"/>
+                <rotation axis="x" angle="0"/>
+                <rotation axis="y" angle="0"/>
+                <rotation axis="z" angle="0"/>
+                <scale sx="1.0" sy="1.0" sz="1.0"/>
+            </keyframe>
+
+            <keyframe instant="5.0">
+                <translation x="0.0" y="0.0" z="0.0"/>
+                <rotation axis="x" angle="0"/>
+                <rotation axis="y" angle="-25"/>
+                <rotation axis="z" angle="0"/>
+                <scale sx="1.0" sy="1.0" sz="1.0"/>
+            </keyframe>
+
+            <keyframe instant="10.0">
+                <translation x="0.0" y="0.0" z="0.0"/>
+                <rotation axis="x" angle="0"/>
+                <rotation axis="y" angle="-45"/>
+                <rotation axis="z" angle="0"/>
+                <scale sx="1.0" sy="1.0" sz="1.0"/>
+            </keyframe>
+
+            <keyframe instant="15.0">
+                <translation x="0.0" y="0.0" z="0.0"/>
+                <rotation axis="x" angle="0"/>
+                <rotation axis="y" angle="-25"/>
+                <rotation axis="z" angle="0"/>
+                <scale sx="1.0" sy="1.0" sz="1.0"/>
+            </keyframe>
+
+
+        </animation>
+
+        <animation id="ballAnimation">
+
+
+            <keyframe instant="0.0"> <!-- Partida -->
+                <translation x="0.0" y="0.0" z="0.0"/>
+                <rotation axis="x" angle="0"/>
+                <rotation axis="y" angle="0"/>
+                <rotation axis="z" angle="0"/>
+                <scale sx="1.0" sy="1.0" sz="1.0"/>
+            </keyframe>
+
+            <keyframe instant="1.8"> <!-- Pre Solo Aux (inicio salto) -->
+                <translation x="0.0" y="-10.0" z="0.0"/>
+                <rotation axis="x" angle="0"/>
+                <rotation axis="y" angle="0"/>
+                <rotation axis="z" angle="0"/>
+                <scale sx="1.0" sy="1.0" sz="1.0"/>
+            </keyframe>
+            <keyframe instant="2"> <!-- Solo (inicio salto) -->
+                <translation x="0.0" y="-10.0" z="0.0"/>
+                <rotation axis="x" angle="0"/>
+                <rotation axis="y" angle="0"/>
+                <rotation axis="z" angle="0"/>
+                <scale sx="1.0" sy="0.6" sz="1.0"/>
+            </keyframe>
+            <keyframe instant="2.1"> <!-- Pos Solo Aux (inicio salto) -->
+                <translation x="0.0" y="-10.0" z="0.0"/>
+                <rotation axis="x" angle="0"/>
+                <rotation axis="y" angle="0"/>
+                <rotation axis="z" angle="0"/>
+                <scale sx="1.0" sy="1.0" sz="1.0"/>
+            </keyframe>
+
+            <keyframe instant="2.8"> <!-- Pre Topo (salto) -->
+                <translation x="0.0" y="-5.8" z="-2.0"/>
+                <rotation axis="x" angle="-20"/>
+                <rotation axis="y" angle="0"/>
+                <rotation axis="z" angle="0"/>
+                <scale sx="1.0" sy="1.0" sz="1.0"/>
+            </keyframe>
+            <keyframe instant="2.9"> <!-- Pre Topo (salto) -->
+                <translation x="0.0" y="-6.0" z="-2.0"/>
+                <rotation axis="x" angle="-20"/>
+                <rotation axis="y" angle="0"/>
+                <rotation axis="z" angle="0"/>
+                <scale sx="1.0" sy="1.0" sz="1.0"/>
+            </keyframe>
+            <keyframe instant="3.0"> <!-- Topo (salto) -->
+                <translation x="0.0" y="-6.0" z="-2.0"/>
+                <rotation axis="x" angle="-20"/>
+                <rotation axis="y" angle="0"/>
+                <rotation axis="z" angle="0"/>
+                <scale sx="1.0" sy="1.0" sz="1.0"/>
+            </keyframe>
+            <keyframe instant="3.1"> <!-- Pos Topo (salto) -->
+                <translation x="0.0" y="-6.0" z="-2.5"/>
+                <rotation axis="x" angle="-20"/>
+                <rotation axis="y" angle="0"/>
+                <rotation axis="z" angle="0"/>
+                <scale sx="1.0" sy="1.0" sz="1.0"/>
+            </keyframe>
+
+            <keyframe instant="4.0"> <!-- Solo (fim salto) -->
+                <translation x="0.0" y="-10.0" z="-5.0"/>
+                <rotation axis="x" angle="-40"/>
+                <rotation axis="y" angle="0"/>
+                <rotation axis="z" angle="0"/>
+                <scale sx="1.0" sy="0.8" sz="1.0"/>
+            </keyframe>
+
+            <keyframe instant="6.0"> <!-- Rolamento -->
+                <translation x="0" y="-10.0" z="-8.0"/>
+                <rotation axis="x" angle="-30"/>
+                <rotation axis="y" angle="0"/>
+                <rotation axis="z" angle="0"/>
+                <scale sx="1" sy="1" sz="1"/>
+            </keyframe>
+
+            <keyframe instant="8.0"> <!-- Fim -->
+                <translation x="0" y="-10.0" z="-10.0"/>
+                <rotation axis="x" angle="-60"/>
+                <rotation axis="y" angle="0"/>
+                <rotation axis="z" angle="0"/>
+                <scale sx="0.8" sy="0.8" sz="0.8"/>
+            </keyframe>
+
+        </animation>
+
+    </animations>
+
+
+    <nodes>
+
+        <node id="montainRoot">            <!-- defines one intermediate node; may be repeated as necessary -->
+            <!-- next two lines are mandatory -->
+            <material
+                    id="demoMaterial"/><!-- this superimposes the material received from parent node id="null" maintains material from parent node -->
+
+            <texture
+                    id="clear"><!-- declared texture superimposes the texture received from parent node id="null" maintains texture from parent node id="clear" clears texture declaration received from parent node -->
+                <amplification afs="2.0" aft="2.0"/><!-- for primitives = dx/afs, dy/aft -->
+            </texture>
+
+            <!-- geom. transf. are optional and may be repeated, in any order, as necessary: -->
+            <transformations>
+                <!-- <translation x="0.0" y="0.0" z="0.0" /> -->
+                <!-- <rotation axis="y" angle="45" /> -->
+                <!--<scale sx="10.0" sy="10.0" sz="10.0"/>-->
+            </transformations>
+
+            <!-- declaring descendants, at least one node or one leaf must be present
+             descendants may be mixed, nodes and leafs -->
+            <descendants>
+                <noderef id="cubemap"/>
+            </descendants>
+        </node>
+
+        <node id="cubemap">
+            <material id="null"/>
+            <texture id="cubemap"/>
+            <transformations>
+                <scale sx="200" sy="200" sz="200"/>
+            </transformations>
+            <descendants>
+                <noderef id="terrain"/>
+                <leaf type="scenario"/>
+            </descendants>
+        </node>
+
+        <node id="terrain">
+            <material id="null"/>
+            <texture id="clear"/>
+            <transformations>
+                <rotation axis="x" angle="90" />
+                <translation x="0.0" y="0.0" z="0.5" />
+                <scale sx="0.5" sy="0.5" sz="0.5"/>
+            </transformations>
+            <descendants>
+                <leaf type="terrain"/>
+            </descendants>
+        </node>
+
+        <node id="maingame">
+            <material id="null"/>
+            <texture id="clear"/>
+            <descendants>
+                <leaf type="gameboard" green="cylinder" purple="cylinder" orange="sphere"/>
+            </descendants>
+            <transformations>
+                <rotation axis="z" angle="-90"/>
+                <translation x="-6.0" y="2.0" z="0.0"/>
+                <scale sx="0.1" sy="0.1" sz="0.1"/>
+            </transformations>
+        </node>
+
+    </nodes>
+</lsf>
