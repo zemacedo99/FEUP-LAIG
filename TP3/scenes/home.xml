@@ -44,10 +44,10 @@
 
     <lights>
         
-        <light id="demoLight">          
+        <light id="sun">          
             <enable value="1"/>
             
-            <position x="10" y="20" z="9.5" w="1.0"/>
+            <position x="25" y="49" z="25" w="1.0"/>
             <ambient r="0" g="0" b="0" a="1.0"/>                 
             <diffuse r="1.0" g="1.0" b="1.0" a="1.0"/>           
             <specular r="1.0" g="1.0" b="1.0" a="1.0"/>        
@@ -557,12 +557,27 @@
                 <scale sx="5" sy="5" sz="5" />
             </transformations>
             <descendants>
+                <noderef id="maingame"/>
                 <noderef id="tableTop" />
                 <noderef id="leg1" />
                 <noderef id="leg2" />
                 <noderef id="leg3" />
                 <noderef id="leg4" />
             </descendants>
+        </node>
+
+
+        <node id="maingame">
+            <material id="null"/>
+            <texture id="clear"/>
+            <descendants>
+                <leaf type="gameboard" green="cylinder" purple="cylinder" orange="sphere"/>
+            </descendants>
+            <transformations>
+                <scale sx="0.025" sy="0.025" sz="0.025"/>
+                <rotation axis="x" angle="-90" />
+                <translation x="42.5" y="-25" z="37.5"/>
+            </transformations>
         </node>
 
         <node id="tableTop">
