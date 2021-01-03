@@ -12,7 +12,7 @@ class XMLscene extends CGFscene {
         this.interface = myinterface;
         this.lightsValues = [];
         this.selectedTheme = getUrlVars()['file'] || "Beach";
-        let filename = getUrlVars()['file'] + ".xml" || "Beach.xml";
+        let filename = (getUrlVars()['file'] || "Beach") + ".xml";
         this.graph = new MySceneGraph(filename, this);
         this.graphs = [
             "Beach",
