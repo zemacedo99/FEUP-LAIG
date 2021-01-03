@@ -1,0 +1,482 @@
+<lsf id="home">
+
+    <initials>
+        <reference length="0"/>
+        <root id="homeRoot"/>
+    </initials>
+
+    <views default="Perspective Game">
+        <!-- at least one of the following type of cameras must be declared -->
+        <perspective id="Perspective Camera" near="0.1" far="500" angle="45">
+            <from x="25" y="15" z="30"/>
+            <to x="0" y="0" z="0"/>
+        </perspective>
+        <ortho id="Ortho Camera" near="0.2" far="100" left="-30" right="30" top="40" bottom="-20">
+            <from x="10" y="0" z="20"/>
+            <to x="10" y="0" z="0"/>
+            <up x="0" y="1" z="0"/><!-- optional, default 0,1,0 -->
+        </ortho>
+
+        <perspective id="Perspective Game" near="0.1" far="500" angle="45">
+            <from x="15" y="5" z="5"/>
+            <to x="10" y="0" z="10"/>
+        </perspective>
+
+    </views>
+
+    <illumination>
+        <ambient r="0.2" g="0.2" b="0.2" a="1.0"/>         
+        <background r="0.1" g="0.7" b="1.0" a="1.0"/>       
+    </illumination>
+
+
+    <lights>
+       
+        <light id="demoLight">           
+            <enable value="1"/>
+            
+            <position x="10" y="20" z="9.5" w="1.0"/><
+            <ambient r="0" g="0" b="0" a="1.0"/>                   
+            <diffuse r="1.0" g="1.0" b="1.0" a="1.0"/>            
+            <specular r="1.0" g="1.0" b="1.0" a="1.0"/>           
+        </light>
+    </lights>
+
+
+    <textures>
+        
+        <texture id="demoTexture" path="./scenes/images/vidral.jpg"/>
+        <texture id="sandTexture" path="./scenes/images/sand.jpg"/>
+        <texture id="skyTexture" path="./scenes/images/clearSky.jpg"/>
+        <texture id="ballTexture" path="./scenes/images/ball.jpg"/>
+        <texture id="buoyTexture" path="./scenes/images/buoy.jpg"/>
+        <texture id="donutTexture" path="./scenes/images/donut.jpg"/>
+        <texture id="orangeTowelTexture" path="./scenes/images/orangeTowel.jpg"/>
+        <texture id="picnicBasketTexture" path="./scenes/images/picnicBasket.jpg"/>
+        <texture id="cheeseTexture" path="./scenes/images/cheese.jpg"/>
+        <texture id="pagTexture" path="./scenes/images/pag.jpg"/>
+        <texture id="bookCoverTexture" path="./scenes/images/book_cover.jpg"/>
+        <texture id="landScapeTexture" path="./scenes/images/landScape.jpg"/>
+        <texture id="aircraftBodyTexture" path="./scenes/images/aircraftBody.png"/>
+        <texture id="windowTexture" path="./scenes/images/window.png"/>
+        <texture id="soccerBallTexture" path="./scenes/images/futebol.jpg"/>
+        <texture id="boatTexture" path="./scenes/images/boat.png"/>
+        <texture id="roopTexture" path="./scenes/images/roop.png"/>
+
+        <texture id="tileMainBoard" path="./scenes/images/tile.png"/>
+        <texture id="tileGreenAuxBoard" path="./scenes/images/tile.png"/>
+        <texture id="tilePurpleAuxBoard" path="./scenes/images/tile.png"/>
+        <texture id="tileOrangeAuxBoard" path="./scenes/images/tile.png"/>
+    </textures>
+
+    <!-- spritesheets -->
+    <!-- o bloco "spritesheets" deve ser declarado -->
+    <!-- imediatamente após o bloco "textures" -->
+    <spritesheets>
+
+        <!-- Semelhante à declaração de textura, -->
+        <!-- mas inclui a definição do nº de colunas e linhas -->
+        <spritesheet id="testSpriteSheetText" path="./scenes/images/spriteSheet/test.png" sizeM="4" sizeN="4"/>
+        <spritesheet id="berlinfontSpriteSheetText" path="./scenes/images/spriteSheet/Berlinfont.png" sizeM="16"
+                     sizeN="16"/>
+        <spritesheet id="redFrogSpriteSheetAnim" path="./scenes/images/spriteSheet/red_frog.png" sizeM="2" sizeN="4"/>
+        <spritesheet id="greenFrogSpriteSheetAnim" path="./scenes/images/spriteSheet/green_frog.png" sizeM="4"
+                     sizeN="2"/>
+        <spritesheet id="propellerSpriteSheetAnim" path="./scenes/images/spriteSheet/propellerSprite.png" sizeM="4"
+                     sizeN="2"/>
+
+    </spritesheets>
+
+
+    <materials>
+        <!-- NOTE: the "MATERIAL" block may be repeated as required. Each defined material
+         requires a distinct "id". At least one material should be present. -->
+        <material id="demoMaterial">
+            <shininess value="0.0"/>
+            <ambient r="1.0" g="1.0" b="1.0" a="1.0"/>
+            <diffuse r="1.0" g="1.0" b="1.0" a="1.0"/>
+            <specular r="1.0" g="1.0" b="1.0" a="1.0"/>
+            <emissive r="1.0" g="1.0" b="1.0" a="1.0"/>
+        </material>
+
+        <material id="redMaterial">
+            <shininess value="0.0"/>
+            <ambient r="1.0" g="0.0" b="0.0" a="1.0"/>
+            <diffuse r="1.0" g="0.0" b="0.0" a="1.0"/>
+            <specular r="1.0" g="0.0" b="0.0" a="1.0"/>
+            <emissive r="0.0" g="0.0" b="0.0" a="1.0"/>
+        </material>
+
+        <material id="greenMaterial">
+            <shininess value="0.0"/>
+            <ambient r="0.0" g="0.1" b="0.0" a="0.5"/>
+            <diffuse r="0.0" g="0.1" b="0.0" a="0.5"/>
+            <specular r="0.0" g="0.1" b="0.0" a="0.5"/>
+            <emissive r="0.0" g="0.1" b="0.0" a="0.5"/>
+        </material>
+
+        <material id="blueMaterial">
+            <shininess value="0.0"/>
+            <ambient r="0.0" g="0.0" b="1.0" a="1.0"/>
+            <diffuse r="0.0" g="0.0" b="1.0" a="1.0"/>
+            <specular r="0.0" g="0.0" b="1.0" a="1.0"/>
+            <emissive r="0.0" g="0.0" b="0.0" a="1.0"/>
+        </material>
+
+        <material id="brownMaterial">
+            <shininess value="0.3"/>
+            <ambient r="0.5" g="0.25" b="0.0" a="1.0"/>
+            <diffuse r="0.5" g="0.25" b="0.0" a="1.0"/>
+            <specular r="0.5" g="0.25" b="0.0" a="1.0"/>
+            <emissive r="0.5" g="0.25" b="0.0" a="1.0"/>
+        </material>
+
+        <material id="bookBlueMaterial">
+            <shininess value="0.3"/>
+            <ambient r="0.25" g="0.36" b="0.43" a="1.0"/>
+            <diffuse r="0.25" g="0.36" b="0.43" a="1.0"/>
+            <specular r="0.25" g="0.36" b="0.43" a="1.0"/>
+            <emissive r="0.25" g="0.36" b="0.43" a="1.0"/>
+        </material>
+
+        <material id="blackMaterial">
+            <shininess value="0.0"/>
+            <ambient r="0.0" g="0.0" b="0.0" a="1.0"/>
+            <diffuse r="0.0" g="0.0" b="0.0" a="1.0"/>
+            <specular r="0.0" g="0.0" b="0.0" a="1.0"/>
+            <emissive r="0.0" g="0.0" b="0.0" a="1.0"/>
+        </material>
+
+        <material id="whiteMaterial">
+            <shininess value="1.0"/>
+            <ambient r="1.0" g="1.0" b="1.0" a="1.0"/>
+            <diffuse r="1.0" g="1.0" b="1.0" a="1.0"/>
+            <specular r="1.0" g="1.0" b="1.0" a="1.0"/>
+            <emissive r="0.0" g="0.0" b="0.0" a="1.0"/>
+        </material>
+
+        <material id="greenPiece">
+            <game/>
+            <shininess value="1.0"/>
+            <ambient r="4.0" g="128.0" b="57.0" a="1.0"/>
+            <diffuse r="4.0" g="128.0" b="57.0" a="1.0"/>
+            <specular r="4.0" g="128.0" b="57.0" a="1.0"/>
+            <emissive r="0.0" g="0.0" b="0.0" a="1.0"/>
+        </material>
+
+        <material id="purplePiece">
+            <game/>
+            <shininess value="1.0"/>
+            <ambient r="96.0" g="40.0" b="129.0" a="1.0"/>
+            <diffuse r="96.0" g="40.0" b="129.0" a="1.0"/>
+            <specular r="96.0" g="40.0" b="129.0" a="1.0"/>
+            <emissive r="0.0" g="0.0" b="0.0" a="1.0"/>
+        </material>
+
+        <material id="orangePiece">
+            <game/>
+            <shininess value="1.0"/>
+            <ambient r="237.0" g="92.0" b="47.0" a="1.0"/>
+            <diffuse r="237.0" g="92.0" b="47.0" a="1.0"/>
+            <specular r="237.0" g="92.0" b="47.0" a="1.0"/>
+            <emissive r="0.0" g="0.0" b="0.0" a="1.0"/>
+        </material>
+
+    </materials>
+
+    <!--informacao de animacao -->
+    <!-- o bloco "animations" é opcional, mas quando existir -->
+    <!-- deve ser declarado imediatamente antes do bloco  "nodes" -->
+    <animations>
+        <!-- O bloco animations pode ser vazio, isto é, pode -->
+        <!-- não ser declarada qualquer animação -->
+        <animation id="demoAnimation">
+            <!-- A animação inicia-se no tempo da primeira keyframe, -->
+            <!-- sendo que o objeto em causa deve permanecer -->
+            <!-- invisível até esse momento -->
+
+            <!-- Deve existir pelo menos 1 elemento keyframe. -->
+            <!-- instant é o tempo expresso em segundos -->
+            <!-- desde o inicio da animação. -->
+            <!-- Os keyframes devem ser declarados por -->
+            <!-- ordem crescente do tempo. -->
+
+            <keyframe instant="0.0">
+                <!-- translate, rotate e scale representam as -->
+                <!-- quantidades das transformações -->
+                <!-- correspondentes, medidas em relação à -->
+                <!-- situação inicial (instante zero) -->
+                <!-- Para uma mesma keyframe, os elementos -->
+                <!-- translate, rotate e scale sao obrigatorios -->
+                <!-- e fornecidos por esta ordem -->
+
+                <translation x="0.0" y="0.0" z="0.0"/>
+                <rotation axis="x" angle="45.0"/>
+                <rotation axis="y" angle="0.0"/>
+                <rotation axis="z" angle="0.0"/>
+                <scale sx="1.0" sy="1.0" sz="1.0"/>
+
+            </keyframe>
+
+        </animation>
+
+        <animation id="openPicnikBasketAnimation">
+
+
+            <keyframe instant="0.0">
+                <translation x="0.0" y="0.0" z="0.0"/>
+                <rotation axis="x" angle="0"/>
+                <rotation axis="y" angle="0"/>
+                <rotation axis="z" angle="0"/>
+                <scale sx="1.0" sy="1.0" sz="1.0"/>
+            </keyframe>
+
+            <keyframe instant="5.0">
+                <translation x="0.0" y="0.0" z="0.0"/>
+                <rotation axis="x" angle="0"/>
+                <rotation axis="y" angle="-25"/>
+                <rotation axis="z" angle="0"/>
+                <scale sx="1.0" sy="1.0" sz="1.0"/>
+            </keyframe>
+
+            <keyframe instant="10.0">
+                <translation x="0.0" y="0.0" z="0.0"/>
+                <rotation axis="x" angle="0"/>
+                <rotation axis="y" angle="-45"/>
+                <rotation axis="z" angle="0"/>
+                <scale sx="1.0" sy="1.0" sz="1.0"/>
+            </keyframe>
+
+            <keyframe instant="15.0">
+                <translation x="0.0" y="0.0" z="0.0"/>
+                <rotation axis="x" angle="0"/>
+                <rotation axis="y" angle="-25"/>
+                <rotation axis="z" angle="0"/>
+                <scale sx="1.0" sy="1.0" sz="1.0"/>
+            </keyframe>
+
+
+        </animation>
+
+        <animation id="aircraftMovementAnimation">
+
+
+            <keyframe instant="0.0">
+                <translation x="0.0" y="0.0" z="0.0"/>
+                <rotation axis="x" angle="0"/>
+                <rotation axis="y" angle="0"/>
+                <rotation axis="z" angle="0"/>
+                <scale sx="1.0" sy="1.0" sz="1.0"/>
+            </keyframe>
+
+            <keyframe instant="5.0">
+                <translation x="5.0" y="0.0" z="0.0"/>
+                <rotation axis="x" angle="0"/>
+                <rotation axis="y" angle="0"/>
+                <rotation axis="z" angle="0"/>
+                <scale sx="1.0" sy="1.0" sz="1.0"/>
+            </keyframe>
+
+            <keyframe instant="10.0">
+                <translation x="10.0" y="0.0" z="0.0"/>
+                <rotation axis="x" angle="0"/>
+                <rotation axis="y" angle="-10"/>
+                <rotation axis="z" angle="0"/>
+                <scale sx="1.0" sy="1.0" sz="1.0"/>
+            </keyframe>
+
+            <keyframe instant="15.0">
+                <translation x="15.0" y="0.0" z="0.0"/>
+                <rotation axis="x" angle="0"/>
+                <rotation axis="y" angle="0"/>
+                <rotation axis="z" angle="0"/>
+                <scale sx="1.0" sy="1.0" sz="1.0"/>
+            </keyframe>
+
+            <keyframe instant="20.0">
+                <translation x="20.0" y="0.0" z="0.0"/>
+                <rotation axis="x" angle="0"/>
+                <rotation axis="y" angle="0"/>
+                <rotation axis="z" angle="0"/>
+                <scale sx="1.0" sy="1.0" sz="1.0"/>
+            </keyframe>
+
+
+        </animation>
+
+        <animation id="ballAnimation">
+
+
+            <keyframe instant="0.0"> <!-- Partida -->
+                <translation x="0.0" y="0.0" z="0.0"/>
+                <rotation axis="x" angle="0"/>
+                <rotation axis="y" angle="0"/>
+                <rotation axis="z" angle="0"/>
+                <scale sx="1.0" sy="1.0" sz="1.0"/>
+            </keyframe>
+
+            <keyframe instant="1.8"> <!-- Pre Solo Aux (inicio salto) -->
+                <translation x="0.0" y="-10.0" z="0.0"/>
+                <rotation axis="x" angle="0"/>
+                <rotation axis="y" angle="0"/>
+                <rotation axis="z" angle="0"/>
+                <scale sx="1.0" sy="1.0" sz="1.0"/>
+            </keyframe>
+            <keyframe instant="2"> <!-- Solo (inicio salto) -->
+                <translation x="0.0" y="-10.0" z="0.0"/>
+                <rotation axis="x" angle="0"/>
+                <rotation axis="y" angle="0"/>
+                <rotation axis="z" angle="0"/>
+                <scale sx="1.0" sy="0.6" sz="1.0"/>
+            </keyframe>
+            <keyframe instant="2.1"> <!-- Pos Solo Aux (inicio salto) -->
+                <translation x="0.0" y="-10.0" z="0.0"/>
+                <rotation axis="x" angle="0"/>
+                <rotation axis="y" angle="0"/>
+                <rotation axis="z" angle="0"/>
+                <scale sx="1.0" sy="1.0" sz="1.0"/>
+            </keyframe>
+
+            <keyframe instant="2.8"> <!-- Pre Topo (salto) -->
+                <translation x="0.0" y="-5.8" z="-2.0"/>
+                <rotation axis="x" angle="-20"/>
+                <rotation axis="y" angle="0"/>
+                <rotation axis="z" angle="0"/>
+                <scale sx="1.0" sy="1.0" sz="1.0"/>
+            </keyframe>
+            <keyframe instant="2.9"> <!-- Pre Topo (salto) -->
+                <translation x="0.0" y="-6.0" z="-2.0"/>
+                <rotation axis="x" angle="-20"/>
+                <rotation axis="y" angle="0"/>
+                <rotation axis="z" angle="0"/>
+                <scale sx="1.0" sy="1.0" sz="1.0"/>
+            </keyframe>
+            <keyframe instant="3.0"> <!-- Topo (salto) -->
+                <translation x="0.0" y="-6.0" z="-2.0"/>
+                <rotation axis="x" angle="-20"/>
+                <rotation axis="y" angle="0"/>
+                <rotation axis="z" angle="0"/>
+                <scale sx="1.0" sy="1.0" sz="1.0"/>
+            </keyframe>
+            <keyframe instant="3.1"> <!-- Pos Topo (salto) -->
+                <translation x="0.0" y="-6.0" z="-2.5"/>
+                <rotation axis="x" angle="-20"/>
+                <rotation axis="y" angle="0"/>
+                <rotation axis="z" angle="0"/>
+                <scale sx="1.0" sy="1.0" sz="1.0"/>
+            </keyframe>
+
+            <keyframe instant="4.0"> <!-- Solo (fim salto) -->
+                <translation x="0.0" y="-10.0" z="-5.0"/>
+                <rotation axis="x" angle="-40"/>
+                <rotation axis="y" angle="0"/>
+                <rotation axis="z" angle="0"/>
+                <scale sx="1.0" sy="0.8" sz="1.0"/>
+            </keyframe>
+
+            <keyframe instant="6.0"> <!-- Rolamento -->
+                <translation x="0" y="-10.0" z="-8.0"/>
+                <rotation axis="x" angle="-30"/>
+                <rotation axis="y" angle="0"/>
+                <rotation axis="z" angle="0"/>
+                <scale sx="1" sy="1" sz="1"/>
+            </keyframe>
+
+            <keyframe instant="8.0"> <!-- Fim -->
+                <translation x="0" y="-10.0" z="-10.0"/>
+                <rotation axis="x" angle="-60"/>
+                <rotation axis="y" angle="0"/>
+                <rotation axis="z" angle="0"/>
+                <scale sx="0.8" sy="0.8" sz="0.8"/>
+            </keyframe>
+
+        </animation>
+
+    </animations>
+
+
+    <nodes>
+
+        <node id="homeRoot">            <!-- defines one intermediate node; may be repeated as necessary -->
+            <!-- next two lines are mandatory -->
+            <material
+                    id="demoMaterial"/><!-- this superimposes the material received from parent node id="null" maintains material from parent node -->
+
+            <texture
+                    id="clear"><!-- declared texture superimposes the texture received from parent node id="null" maintains texture from parent node id="clear" clears texture declaration received from parent node -->
+                <amplification afs="2.0" aft="2.0"/><!-- for primitives = dx/afs, dy/aft -->
+            </texture>
+
+            <!-- geom. transf. are optional and may be repeated, in any order, as necessary: -->
+            <transformations>
+                <!-- <translation x="0.0" y="0.0" z="0.0" /> -->
+                <!-- <rotation axis="y" angle="45" /> -->
+                <!-- <scale sx="1.0" sy="1.0" sz="1.0" /> -->
+            </transformations>
+
+            <!-- declaring descendants, at least one node or one leaf must be present
+             descendants may be mixed, nodes and leafs -->
+            <descendants>
+                <noderef id="sand"/>
+                <noderef id="sky"/>
+                <noderef id="landScape"/>
+            </descendants>
+        </node>
+
+
+        <node id="sand">
+
+            <material id="null"/>
+
+            <texture id="sandTexture">
+                <amplification afs="2.0" aft="2.0"/>
+            </texture>
+
+            <transformations>
+                <translation x="0" y="0.0" z="20.0"/>
+                <rotation axis="x" angle="-90"/>
+            </transformations>
+
+            <descendants>
+                <leaf type="rectangle" x1="0" y1="0" x2="20" y2="20"/>
+            </descendants>
+        </node>
+
+        <node id="sky">
+
+            <material id="null"/>
+
+            <texture id="skyTexture">
+                <amplification afs="2.0" aft="2.0"/>
+            </texture>
+
+            <transformations>
+                <translation x="0" y="20.0" z="0.0"/>
+                <rotation axis="x" angle="90"/>
+            </transformations>
+
+            <descendants>
+                <leaf type="rectangle" x1="0" y1="0" x2="20" y2="20"/>
+            </descendants>
+        </node>
+
+        <node id="landScape">
+
+            <material id="null"/>
+
+            <texture id="landScapeTexture">
+                <amplification afs="2.0" aft="2.0"/>
+            </texture>
+
+            <transformations>
+
+            </transformations>
+
+            <descendants>
+                <leaf type="rectangle" x1="0" y1="0" x2="20" y2="20"/>
+            </descendants>
+        </node>
+
+
+    </nodes>
+</lsf>
