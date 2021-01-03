@@ -1052,6 +1052,10 @@ class MySceneGraph {
                                     primitive = new CGFOBJModel(this.scene, 'models/male.obj');
                                     break;
 
+                                case "alien":
+                                    primitive = new CGFOBJModel(this.scene, 'models/Alien Animal.obj');
+                                    break;
+
                                 case "monkey":
                                     primitive = new CGFOBJModel(this.scene, 'models/suzanne.obj');
                                     break;
