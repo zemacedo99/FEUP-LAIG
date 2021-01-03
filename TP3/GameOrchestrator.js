@@ -160,12 +160,11 @@ class GameOrchestrator {
                                 let Mode = 1;
                             
                                 this.prolog.validMove(RowIndex, SpaceIndex, this.gameBoard.board, Space , Player, Mode)
-                                console.log(this.prolog.getResponse())
-                                // while(this.response == null) {}
                             }
                         }
                     }
 
+                    console.log(this.response)
                     fromBoard.tiles[this.previousPick - 1].startMovement(this.gameBoard.tiles[customId - 1])//creates animation of the piece. customId is the id of the tile
                     this.previousPick = null;
                     this.response = null;

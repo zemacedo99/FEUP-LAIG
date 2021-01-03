@@ -34,6 +34,11 @@ class MyPieceMovement {
     }
 
     update(t) {
+        
+        // if(this.scene.gameOrchestrator.response == null)
+        // {
+        //     return;
+        // }
         let time = t / 1000; // time in seconds
         if (this.active === false)
             this.startTime = time; // always updating
@@ -70,6 +75,7 @@ class MyPieceMovement {
                         this.mytile.setPiece(null)
                         this.totile.getPiece().waitingMovement = false;
                         this.active = false;
+                        // this.scene.gameOrchestrator.response = null;
                     }
                     break;
             }

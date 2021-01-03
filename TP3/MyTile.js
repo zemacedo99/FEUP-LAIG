@@ -62,9 +62,9 @@ class MyTile {
 
         this.scene.pushMatrix();
         this.scene.translate(this.position[0], this.position[1], this.position[2]);
-        if (this.picked) {
-            this.scene.translate(0, 0, 1);
-        }
+        // if (this.picked) {
+        //     this.scene.translate(0, 0, 1);
+        // }
         this.whiteMaterial.apply();
         this.texture.bind();
         this.form.display();
