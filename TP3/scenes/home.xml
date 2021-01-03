@@ -433,9 +433,52 @@
                 <leaf type="rectangle" x1="0" y1="0" x2="50" y2="50"/>
                 <noderef id="picnicTowel"/>
                 <noderef id="picnicBasket"/>
+                <noderef id="player1"/>
+                <noderef id="player2"/>
             </descendants>
 
         </node>
+
+        <node id="player1">
+
+            <material id="blueMaterial"/>
+
+            <texture id="null">
+                <amplification afs="2.0" aft="2.0"/>
+            </texture>
+
+            <transformations>
+                <translation x="25" y="27.5" z="0.0"/>
+                <rotation axis="x" angle="90"/>
+                <rotation axis="y" angle="180"/>
+                <scale sx="0.5" sy="0.5" sz="0.5" />
+            </transformations>
+
+            <descendants>
+                <leaf type="man"/>
+            </descendants>
+        </node>
+
+        <node id="player2">
+
+            <material id="blueMaterial"/>
+
+            <texture id="null">
+                <amplification afs="2.0" aft="2.0"/>
+            </texture>
+
+            <transformations>
+                <translation x="25" y="37.5" z="0.0"/>
+                <rotation axis="x" angle="90"/>
+                <!-- <rotation axis="y" angle="90"/> -->
+                <scale sx="0.5" sy="0.5" sz="0.5" />
+            </transformations>
+
+            <descendants>
+                <leaf type="man"/>
+            </descendants>
+        </node>
+
 
         <node id="sky">
 
@@ -571,7 +614,7 @@
             <material id="null"/>
             <texture id="clear"/>
             <descendants>
-                <leaf type="gameboard" green="cylinder" purple="cylinder" orange="sphere"/>
+                <leaf type="gameboard" green="cylinder" purple="cylinder" orange="cylinder"/>
             </descendants>
             <transformations>
                 <scale sx="0.025" sy="0.025" sz="0.025"/>
