@@ -8,7 +8,7 @@
         <!-- must be defined in one of the following NODE declarations -->
     </initials>
 
-    <views default="Game">
+    <views default="Perspective Game">
         <!-- at least one of the following type of cameras must be declared -->
         <perspective id="Perspective Camera" near="0.1" far="500" angle="45">
             <from x="25" y="15" z="30"/>
@@ -24,6 +24,10 @@
             <to x="12" y="0" z="8"/>
             <up x="0" y="0" z="1"/><!-- optional, default 0,1,0 -->
         </ortho>
+        <perspective id="Perspective Game" near="0.1" far="500" angle="45">
+            <from x="15" y="5" z="5"/>
+            <to x="10" y="0" z="10"/>
+        </perspective>
     </views>
 
     <illumination>
