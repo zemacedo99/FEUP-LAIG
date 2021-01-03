@@ -1044,6 +1044,14 @@ class MySceneGraph {
                                     primitive = new MyCylinder(this.scene, height, topRadius, bottomRadius, stacks, slices);
                                     break;
 
+                                case "man":
+                                    primitive = new CGFOBJModel(this.scene, 'models/male.obj');
+                                    break;
+
+                                case "monkey":
+                                    primitive = new CGFOBJModel(this.scene, 'models/suzanne.obj');
+                                    break;
+
                                 case "spritetext":
                                     var text = this.reader.getString(grandgrandChildren[d], 'text');
 
