@@ -28,7 +28,6 @@ class GameOrchestrator {
 
     initBoards() {
         this.gameBoard = new MyMainBoard(this.scene, this.theme);
-        console.log(this.theme)
         let curr_id = this.gameBoard.tiles.length
         this.auxBoard.push(
             new MyAuxBoard(this.scene, this.theme.materials['greenPiece'], this.theme.pieces['greenPiece'], this.theme.textures['tileGreenAuxBoard'], curr_id + 1)
