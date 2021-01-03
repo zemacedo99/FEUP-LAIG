@@ -161,6 +161,7 @@ class GameOrchestrator {
                                 let Mode = 1;
                             
                                 this.prolog.validMove(RowIndex, SpaceIndex, this.gameBoard.board, Space , Player, Mode)
+                                console.log(this.prolog.getResponse())
                                 // while(this.response == null) {}
                             }
                         }

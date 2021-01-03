@@ -77,6 +77,11 @@ class MyProlog {
         this.gameOrchestrator.response = response;
     }
 
+    getResponse()
+    {
+        return this.gameOrchestrator.response;
+    }
+
     validMove(RowIndex, SpaceIndex, Board, Space, Player, Mode = 1) {
         Board = this.gameBoardtoString(Board);
   
