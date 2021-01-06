@@ -11,7 +11,7 @@ class XMLscene extends CGFscene {
 
         this.interface = myinterface;
         this.lightsValues = [];
-        this.selectedTheme = getUrlVars()['file'] || "Beach";
+        this.selectedTheme = getUrlVars()['file'] || "home";
         let filename = (getUrlVars()['file'] || "Beach") + ".xml";
         this.graph = new MySceneGraph(filename, this);
         this.graphs = [
@@ -50,6 +50,26 @@ class XMLscene extends CGFscene {
 
         this.defaultAppearance = new CGFappearance(this);
         this.gameOrchestrator = null;
+        this.startGame = false;
+        this.gameTime = null;
+        this.gameMin = 0;
+        this.gameSec = 0;
+
+        this.startgame = function () {
+            this.startGame = true;
+        }
+        
+        this.quit = function () {
+            this.startGame = false;
+            this.gameTime = null;
+            this.gameMin = 0;
+            this.gameSec = 0;
+            // todo: reset the game
+        }
+
+        this.undo = function () {
+            this.graph.instanceGameOrchestrator.undo();
+        }
     }
 
     /**
@@ -97,6 +117,17 @@ class XMLscene extends CGFscene {
                 this.graph.spriteanimations[spriteanimation].update(deltaTime);
             }
         }
+
+        if(this.startGame == true && this.gameTime == null){
+            this.gameTime = t;
+        }
+
+        if(this.startGame == true && this.gameTime != null){
+            let timePlayed = (t - this.gameTime) / 1000;
+            this.gameMin = Math.floor(timePlayed / 60);
+            this.gameSec = Math.floor(timePlayed % 60);
+        }
+
 
     }
 
@@ -211,6 +242,7 @@ class XMLscene extends CGFscene {
             // Displays the scene (MySceneGraph function).
             this.graph.displayScene();
             //this.gameOrchestrator.display();
+            document.getElementById("time").innerText = "\nGame Duration \n Minutes " + this.gameMin + " Seconds " + this.gameSec + "\n\n\n";
 
         } else {
             // Show some "loading" visuals

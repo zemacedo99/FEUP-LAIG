@@ -21,6 +21,10 @@ class MyInterface extends CGFinterface {
         this.gui = new dat.GUI();
 
         // add a group of controls (and open/expand by defult)
+        this.gui.add(this.scene, 'startgame').name('Start Game!');
+        this.gui.add(this.scene, 'quit').name('Quit Game!');
+        this.gui.add(this.scene, 'undo').name('Undo move!');
+        // this.gui.add(this.scene, 'video').name('Play Video!');
 
         this.initKeys();
 

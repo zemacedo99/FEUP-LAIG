@@ -30,6 +30,10 @@ class MyTile {
         this._piece = value;
     }
 
+    removePiece() {
+        this._piece = null;
+    }
+
     isPicked() {
         return this.picked;
     }

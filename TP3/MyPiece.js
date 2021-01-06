@@ -9,7 +9,7 @@ class MyPiece {
         this.waitingMovement = false;
         this.pieceMovement = new MyPieceMovement(scene, this.piece);
     }
-
+    
     switchStructure(structure){
         let standart = new MyCylinder(this.scene, 0.5, 0.3, 0.3, 16, 16);
         if(structure === null) return standart;

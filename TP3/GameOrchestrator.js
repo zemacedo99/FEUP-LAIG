@@ -15,6 +15,7 @@ class GameOrchestrator {
 
         this.gameBoard = null;
         this.auxBoard = [];
+        this.gameMoves = [];
     }
 
     update(time) {
@@ -89,9 +90,29 @@ class GameOrchestrator {
 
     // }
 
-    // undo() {
 
-    // }
+    saveMovement(piece){
+        this.gameMoves.push(piece);
+    }   
+
+
+    undo() {
+        // console.log(this.gameMoves[this.gameMoves.length - 1]);
+        if(this.gameMoves.length != 0){
+            let i = this.gameMoves.length -1;   // last piece moved
+            
+            // this.gameMoves[i].pieceMovement.startMovement(this.gameMoves[i].pieceMovement.totile, this.gameMoves[i].pieceMovement.mytile);
+
+            this.gameBoard.tiles[this.gameMoves[i].pieceMovement.totile.id].removePiece();
+
+            console.log(this.gameBoard.tiles[this.gameMoves[i].pieceMovement.totile.id])
+            // this.auxBoard.tiles[this.gameMoves[i].id].setPiece(this.gameMoves[i]);
+    
+            // this.gameMoves[i].pick();
+
+            this.gameMoves.pop();
+        }
+    }
 
 
     // gameMovie() {
@@ -164,8 +185,9 @@ class GameOrchestrator {
                         }
                     }
 
-                    console.log(this.response)
+                    // console.log(this.response)
                     fromBoard.tiles[this.previousPick - 1].startMovement(this.gameBoard.tiles[customId - 1])//creates animation of the piece. customId is the id of the tile
+                    this.saveMovement(this.previousObj);
                     this.previousPick = null;
                     this.response = null;
                 }
@@ -212,14 +234,18 @@ class GameOrchestrator {
     }
 
     display() {
-        this.scene.pushMatrix();
-        for (let key in this.auxBoard) {
-            this.auxBoard[key].display();
+
+        if(this.scene.startGame)
+        {        
+            this.scene.pushMatrix();
+            for (let key in this.auxBoard) {
+                this.auxBoard[key].display();
+            }
+            if (this.gameBoard !== null)
+                this.gameBoard.display();
+            this.scene.popMatrix();
+            this.scene.clearPickRegistration();
         }
-        if (this.gameBoard !== null)
-            this.gameBoard.display();
-        this.scene.popMatrix();
-        this.scene.clearPickRegistration();
     }
 
 
