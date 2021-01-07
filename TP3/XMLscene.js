@@ -12,7 +12,7 @@ class XMLscene extends CGFscene {
         this.interface = myinterface;
         this.lightsValues = [];
         this.selectedTheme = getUrlVars()['file'] || "home";
-        let filename = (getUrlVars()['file'] || "Beach") + ".xml";
+        let filename = (getUrlVars()['file'] || "home") + ".xml";
         this.graph = new MySceneGraph(filename, this);
         this.graphs = [
             "Beach",
@@ -64,6 +64,10 @@ class XMLscene extends CGFscene {
             this.gameTime = null;
             this.gameMin = 0;
             this.gameSec = 0;
+            // console.log(this.gameOrchestrator)
+            // this.gameOrchestrator = Object.assign(Object.create(Object.getPrototypeOf(this.gameBackUp)), this.gameBackUp);
+            // console.log(this.gameOrchestrator)
+            location.reload();
             // todo: reset the game
         }
 
@@ -191,7 +195,8 @@ class XMLscene extends CGFscene {
 
         this.gameOrchestrator = this.graph.instanceGameOrchestrator;
         this.gameOrchestrator.setTheme(this.graph.gameorchestrator)
-
+        this.gameBackUp = Object.assign(Object.create(Object.getPrototypeOf(this.gameOrchestrator)), this.gameOrchestrator);
+        
         this.sceneInited = true;
 
     }
