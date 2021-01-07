@@ -102,12 +102,11 @@ class GameOrchestrator {
         if(this.gameMoves.length != 0){
             let i = this.gameMoves.length -1;   // last piece moved
             
-            // this.gameMoves[i].pieceMovement.startMovement(this.gameMoves[i].pieceMovement.totile, this.gameMoves[i].pieceMovement.mytile);
+            this.gameMoves[i].pieceMovement.startMovement(this.gameMoves[i].pieceMovement.totile, this.gameMoves[i].pieceMovement.mytile);
+   
+            // this.gameBoard.tiles[this.gameMoves[i].pieceMovement.totile.id].setPiece(null);
+            // this.auxBoard.tiles[this.gameMoves[i].id].setPiece(this.gameMoves[i]);  // 3 vectores be careful
 
-            this.gameBoard.tiles[this.gameMoves[i].pieceMovement.totile.id].setPiece(null);
-            // this.auxBoard.tiles[this.gameMoves[i].id].setPiece(this.gameMoves[i]);
-
-            console.log(this.auxBoard.tiles[this.gameMoves[i].id])
             // console.log(this.gameBoard.tiles[this.gameMoves[i].pieceMovement.totile.id])
     
             // this.gameMoves[i].pick();
@@ -189,8 +188,11 @@ class GameOrchestrator {
 
                     // console.log(this.response)
                     fromBoard.tiles[this.previousPick - 1].startMovement(this.gameBoard.tiles[customId - 1])//creates animation of the piece. customId is the id of the tile
-                    this.saveMovement(this.previousObj);
-                    console.log(this.gameMoves);
+                    console.log(this.gameBoard.tiles[customId - 1].getPiece());
+                    this.gameBoard.tiles[customId - 1].getPiece().pieceMovement.mytile = fromBoard.tiles[this.previousPick - 1];
+                    this.gameBoard.tiles[customId - 1].getPiece().pieceMovement.totile = this.gameBoard.tiles[customId - 1];
+                    this.gameBoard.tiles[customId - 1].getPiece().pieceMovement.waitingMovement = false;
+                    this.saveMovement(this.gameBoard.tiles[customId - 1].getPiece());
                     this.previousPick = null;
                     this.response = null;
                 }
