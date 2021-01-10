@@ -97,8 +97,6 @@ class GameOrchestrator {
 
 
     undo() {
-        console.log("UNDO")
-        console.log(this.gameMoves);
         if(this.gameMoves.length !== 0){
             let i = this.gameMoves.length - 1;   // last piece moved
             let pieceAux = new MyPiece(this.scene, 0, "", "")
@@ -106,15 +104,8 @@ class GameOrchestrator {
             this.gameMoves[i].getPiece().pieceMovement.totile.setPiece(pieceAux)
             this.gameMoves[i].setPiece(null)
             this.gameMoves.pop();
-            console.log(pieceAux)
         }
     }
-
-
-    // gameMovie() {
-
-    // }
-
 
     managePickRequest(mode, results) {
         if (mode === false) {
@@ -145,17 +136,13 @@ class GameOrchestrator {
                 let maxIdBoard = this.gameBoard.tiles.length;
                 if (this.previousPick <= maxIdBoard) {
                     fromBoard = this.gameBoard;
-                    console.log("Main BOARD")
                 } else if (this.previousPick < this.auxBoard[0].id) { // termina em id++
                     fromBoard = this.auxBoard[0];
                     this.previousPick -= maxIdBoard
-                    console.log("Green BOARD")
                 } else if (this.previousPick < this.auxBoard[1].id) {
                     fromBoard = this.auxBoard[1];
                     this.previousPick -= (this.auxBoard[0].id - 1)
-                    console.log("Purple BOARD")
                 } else {
-                    console.log("Orange BOARD")
                     fromBoard = this.auxBoard[2];
                     this.previousPick -= (this.auxBoard[1].id - 1)
                 }
@@ -181,10 +168,8 @@ class GameOrchestrator {
                         }
                     }
 
-                    // console.log(this.response)
                     fromBoard.tiles[this.previousPick - 1].startMovement(this.gameBoard.tiles[customId - 1])//creates animation of the piece. customId is the id of the tile
-                    this.saveMovement(this.gameBoard.tiles[customId - 1]);
-                    console.log(this.gameMoves);
+                    this.saveMovement(this.gameBoard.tiles[customId - 1])
                     this.previousPick = null;
                     this.response = null;
                 }
@@ -205,28 +190,17 @@ class GameOrchestrator {
                 this.previousPick = customId;
                 this.previousObj = obj;
                 obj.pick();
-                console.log("Piece has been picked:");
-                console.log(obj);
             } 
             else 
             { // reset
                 if (obj.isPicked()) 
                 {
                     obj.pick(); //effect of unpick
-                    console.log("Piece has been unpicked.");
                     this.previousObj = null;
                     this.previousPick = null;
                 }
-                else
-                {
-                    console.log("Please select a Tile, or select your already chosen piece");
-                }
             }
 
-        } 
-        else
-        {
-            console.log("error selection object");
         }
     }
 

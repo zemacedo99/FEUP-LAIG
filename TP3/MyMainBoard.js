@@ -135,9 +135,6 @@ class MyMainBoard {
             this.tiles.push(this.row7[c]);
         }
 
-        // console.log(this.board)
-        
-
         for (let tile of this.tiles) {
             tile.position[0] += this.translate[0];
             tile.position[1] += this.translate[1];

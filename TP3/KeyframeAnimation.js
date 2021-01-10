@@ -51,8 +51,6 @@ class KeyframeAnimation extends Animation {
     
         for(let i = 0; i < this.keyframes.length; i++)
         {
-            // console.log("current time: "+ currentTime)
-            // console.log("keyframe[i] instant: " + this.keyframes[i].instant)
             if(this.keyframes[i].instant == this.elapsedTime)
             {
                 this.translation = this.keyframes[i].translation;
@@ -63,22 +61,13 @@ class KeyframeAnimation extends Animation {
             else if(this.keyframes[i].instant < this.elapsedTime)
             {
                 previousKeyframe = this.keyframes[i];
-                // console.log(previousKeyframe.instant)
             }
             else if(this.keyframes[i].instant > this.elapsedTime)
             {
-                // console.log("elapsed time: "+ this.elapsedTime)
-                // console.log(this.keyframes[i])  
                 nextKeyframe = this.keyframes[i];
                 break;
             }
         }
-        
-        // console.log("elapsed time: "+ this.elapsedTime)
-        // console.log("previous: ")
-        // console.log(previousKeyframe.instant)
-        // console.log("next: ")
-        // console.log(nextKeyframe.instant)
 
         //Interpolation Amount
         let t  = (this.elapsedTime - previousKeyframe.instant) / ( nextKeyframe.instant - previousKeyframe.instant);

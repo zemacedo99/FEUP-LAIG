@@ -65,9 +65,6 @@ class XMLscene extends CGFscene {
             this.gameTime = null;
             this.gameMin = 0;
             this.gameSec = 0;
-            // console.log(this.gameOrchestrator)
-            // this.gameOrchestrator = Object.assign(Object.create(Object.getPrototypeOf(this.gameBackUp)), this.gameBackUp);
-            // console.log(this.gameOrchestrator)
             location.reload();
             // todo: reset the game
         }
@@ -120,7 +117,6 @@ class XMLscene extends CGFscene {
             for (let animation in this.graph.animations) {
                 this.graph.animations[animation].update(deltaTime);
                 if(this.graph.moviesCamera[this.camerasIds]){
-                    console.log(this.graph.animations[animation])
                    this.graph.views[this.camerasIds].position = [deltaTime, deltaTime, deltaTime]
                 }
             }

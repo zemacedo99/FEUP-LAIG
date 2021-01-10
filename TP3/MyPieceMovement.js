@@ -57,8 +57,6 @@ class MyPieceMovement {
                         || (this.maxDesloc[1] < 0 &&  this.position[1] < this.maxDesloc[1])
                     )
                 ):
-
-                    //console.log("("+ Math.round(this.position[0]*10)/10 + ", " + Math.round(this.position[1]*10)/10 + ") != ("+Math.round(this.maxDesloc[0]*10)/10+ ", " + Math.round(this.maxDesloc[1]*10)/10 + ")")
                     let pos = this.getPosition(this.spendTime - this.hookspendTime);
                     this.position[0] = pos[0]
                     this.position[1] = pos[1]

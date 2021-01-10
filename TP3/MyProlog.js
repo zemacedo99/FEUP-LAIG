@@ -72,9 +72,7 @@ class MyProlog {
 
     handleMoveReply(data) {
         let response = data.target.response;
-        // response = this.responsesToArrays(response);
         this.gameOrchestrator.response = response;
-        // console.log(this.gameOrchestrator.response);
     }
 
     getResponse()
