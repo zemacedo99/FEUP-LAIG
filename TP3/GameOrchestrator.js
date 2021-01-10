@@ -98,20 +98,15 @@ class GameOrchestrator {
 
     undo() {
         console.log("UNDO")
-        // console.log(this.gameMoves);
-        if(this.gameMoves.length != 0){
-            let i = this.gameMoves.length -1;   // last piece moved
-            
-            this.gameMoves[i].pieceMovement.startMovement(this.gameMoves[i].pieceMovement.totile, this.gameMoves[i].pieceMovement.mytile);
-   
-            // this.gameBoard.tiles[this.gameMoves[i].pieceMovement.totile.id].setPiece(null);
-            // this.auxBoard.tiles[this.gameMoves[i].id].setPiece(this.gameMoves[i]);  // 3 vectores be careful
-
-            // console.log(this.gameBoard.tiles[this.gameMoves[i].pieceMovement.totile.id])
-    
-            // this.gameMoves[i].pick();
-
+        console.log(this.gameMoves);
+        if(this.gameMoves.length !== 0){
+            let i = this.gameMoves.length - 1;   // last piece moved
+            let pieceAux = new MyPiece(this.scene, 0, "", "")
+            pieceAux.clone(this.gameMoves[i].getPiece());
+            this.gameMoves[i].getPiece().pieceMovement.totile.setPiece(pieceAux)
+            this.gameMoves[i].setPiece(null)
             this.gameMoves.pop();
+            console.log(pieceAux)
         }
     }
 
@@ -188,11 +183,8 @@ class GameOrchestrator {
 
                     // console.log(this.response)
                     fromBoard.tiles[this.previousPick - 1].startMovement(this.gameBoard.tiles[customId - 1])//creates animation of the piece. customId is the id of the tile
-                    console.log(this.gameBoard.tiles[customId - 1].getPiece());
-                    this.gameBoard.tiles[customId - 1].getPiece().pieceMovement.mytile = fromBoard.tiles[this.previousPick - 1];
-                    this.gameBoard.tiles[customId - 1].getPiece().pieceMovement.totile = this.gameBoard.tiles[customId - 1];
-                    this.gameBoard.tiles[customId - 1].getPiece().pieceMovement.waitingMovement = false;
-                    this.saveMovement(this.gameBoard.tiles[customId - 1].getPiece());
+                    this.saveMovement(this.gameBoard.tiles[customId - 1]);
+                    console.log(this.gameMoves);
                     this.previousPick = null;
                     this.response = null;
                 }

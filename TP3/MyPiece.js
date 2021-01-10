@@ -32,6 +32,11 @@ class MyPiece {
         this.waitingMovement = false;
         this.piece = Object.assign(Object.create(Object.getPrototypeOf(piece.piece)), piece.piece)
         this.pieceMovement = Object.assign(Object.create(Object.getPrototypeOf(piece.pieceMovement)), piece.pieceMovement)
+        this.pieceMovement.totile = null;
+        this.pieceMovement.mytile = null;
+        this.pieceMovement.toPosition = null;
+        this.pieceMovement.position = [0, 0, 0];
+
     }
 
     update(time) {
