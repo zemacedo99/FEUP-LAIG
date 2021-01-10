@@ -122,6 +122,7 @@ class XMLscene extends CGFscene {
                 if(this.graph.moviesCamera[this.camerasIds]){
                     console.log(this.graph.animations[animation])
                    this.graph.views[this.camerasIds].position = [deltaTime, deltaTime, deltaTime]
+                   this.graph.views[this.camerasIds].position = [this.graph.animations[animation].rawMovement(this.graph.views[this.camerasIds].position)[0], this.graph.animations[animation].rawMovement(this.graph.views[this.camerasIds].position)[0], this.graph.views[this.camerasIds].position[2]]
                 }
             }
 

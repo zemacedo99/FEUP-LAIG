@@ -88,13 +88,27 @@ class KeyframeAnimation extends Animation {
         vec3.lerp(this.scale, previousKeyframe.scale, nextKeyframe.scale,t);
     }
 
+    coordsRotation (oldCoords, angle) {
+        let rotationMatrix = [[Math.cos(angle), -Math.sin(angle)], [Math.sin(angle), Math.cos(angle)]];
+        return [
+            oldCoords[0] * rotationMatrix[0][0] + oldCoords[1] * rotationMatrix[0][1],
+            oldCoords[0] * rotationMatrix[1][0] + oldCoords[1] * rotationMatrix[1][1]
+        ]
+    }
+
+    rawMovement(oldCoords){
+
+        let returnvalue = this.coordsRotation(oldCoords, this.rotation[0]);
+        return [returnvalue[0] + this.translation[0], returnvalue[1] + this.translation[1]]
+    }
+
     apply()
     {
         this.scene.translate(this.translation[0],this.translation[1],this.translation[2]);
         this.scene.rotate(this.rotation[0],1,0,0); //x
         this.scene.rotate(this.rotation[1],0,1,0); //y
         this.scene.rotate(this.rotation[2],0,0,1); //z
-        this.scene.scale(this.scale[0],this.scale[1],this.scale[2]); 
+        this.scene.scale(this.scale[0],this.scale[1],this.scale[2]);
 
     }
     
