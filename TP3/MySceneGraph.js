@@ -349,7 +349,7 @@ class MySceneGraph {
 
         if (viewCoords.length === 3) {
             if (viewCoords[2].nodeName === "animationref") {
-                perspectiveNode['animationref'] = this.reader.getString(viewCoords[2], 'id');
+                perspectiveData['animationref'] = this.reader.getString(viewCoords[2], 'id');
             }
         }
 

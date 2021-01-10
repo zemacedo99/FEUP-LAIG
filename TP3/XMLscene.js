@@ -14,6 +14,7 @@ class XMLscene extends CGFscene {
         this.selectedTheme = getUrlVars()['file'] || "home";
         let filename = (getUrlVars()['file'] || "home") + ".xml";
         this.graph = new MySceneGraph(filename, this);
+        this.moveCamera = false;
         this.graphs = [
             "Beach",
             "Montain",
@@ -85,9 +86,12 @@ class XMLscene extends CGFscene {
 
     updateCamera(id) {
         this.camera = this.graph.views[id]
-        console.log(this.graph.moviesCamera)
         if(!this.graph.moviesCamera.hasOwnProperty(id)){
             this.interface.setActiveCamera(this.camera);
+            this.moveCamera = false;
+        }else{
+            this.moveCamera = true;
+            this.interface.setActiveCamera(null);
         }
     }
 
@@ -115,8 +119,11 @@ class XMLscene extends CGFscene {
             //update keyframeanimations
             for (let animation in this.graph.animations) {
                 this.graph.animations[animation].update(deltaTime);
+                if(this.graph.moviesCamera[this.camerasIds]){
+                    console.log(this.graph.animations[animation])
+                   this.graph.views[this.camerasIds].position = [deltaTime, deltaTime, deltaTime]
+                }
             }
-
 
             if (!this.graph.spriteanimations) return;
             //update spritesheets
