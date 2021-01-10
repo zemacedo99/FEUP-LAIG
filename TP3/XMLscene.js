@@ -85,7 +85,10 @@ class XMLscene extends CGFscene {
 
     updateCamera(id) {
         this.camera = this.graph.views[id]
-        this.interface.setActiveCamera(this.camera);
+        console.log(this.graph.moviesCamera)
+        if(!this.graph.moviesCamera.hasOwnProperty(id)){
+            this.interface.setActiveCamera(this.camera);
+        }
     }
 
     // called periodically (as per setUpdatePeriod(50-50000ms) in init())

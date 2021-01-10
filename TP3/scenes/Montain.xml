@@ -19,6 +19,12 @@
             <to x="10" y="0" z="0"/>
             <up x="0" y="1" z="0"/><!-- optional, default 0,1,0 -->
         </ortho>
+        <ortho id="Movie" near="0.2" far="100" left="-30" right="30" top="40" bottom="-20">
+            <from x="10" y="0" z="20"/>
+            <to x="10" y="0" z="0"/>
+            <up x="0" y="1" z="0"/><!-- optional, default 0,1,0 -->
+            <animationref id="cameraMovie"/>
+        </ortho>
         <perspective id="Perspective Game" near="0.1" far="500" angle="45">
             <from x="2" y="-3" z="0"/>
             <to x="0" y="-10" z="0"/>
@@ -162,6 +168,16 @@
             </keyframe>
 
 
+        </animation>
+
+        <animation id="cameraMovie">
+            <keyframe instant="0.0">
+                <translation x="0.0" y="0.0" z="0.0"/>
+                <rotation axis="x" angle="0"/>
+                <rotation axis="y" angle="0"/>
+                <rotation axis="z" angle="0"/>
+                <scale sx="1.0" sy="1.0" sz="1.0"/>
+            </keyframe>
         </animation>
 
     </animations>

@@ -34,6 +34,7 @@ class MySceneGraph {
 
         // Save Elements
         this.views = [];
+        this.moviesCamera = [];
         this.defaultView = null;
         this.nodes = [];
         this.spriteanimations = [];
@@ -346,7 +347,13 @@ class MySceneGraph {
 
         let viewCoords = perspectiveNode.children;
 
-        if (viewCoords.length !== 2) {
+        if (viewCoords.length === 3) {
+            if (viewCoords[2].nodeName === "animationref") {
+                perspectiveNode['animationref'] = this.reader.getString(viewCoords[2], 'id');
+            }
+        }
+
+        if (viewCoords.length !== 2 && viewCoords.length !== 3) {
             this.onXMLMinorError("Perspective View (id = " + perspectiveNode['id'] + ") invalid number of view coordinates");
         } else if (viewCoords[0].nodeName !== "from") {
             this.onXMLMinorError(this.missingNodeMessage(perspectiveNode.nodeName, "from"));
@@ -379,6 +386,8 @@ class MySceneGraph {
                 perspectiveData['from'],
                 perspectiveData['to'],
             );
+            if (perspectiveData.hasOwnProperty('animationref'))
+                this.moviesCamera[perspectiveData['id']] = perspectiveData['animationref'];
         }
     }
 
@@ -395,7 +404,13 @@ class MySceneGraph {
 
         let viewCoords = orthoNode.children;
 
-        if (viewCoords.length !== 2 && viewCoords.length !== 3) {
+        if (viewCoords.length === 4) {
+            if (viewCoords[3].nodeName === "animationref") {
+                orthoData['animationref'] = this.reader.getString(viewCoords[3], 'id');
+            }
+        }
+
+        if (viewCoords.length !== 2 && viewCoords.length !== 3 && viewCoords.length !== 4) {
             this.onXMLMinorError("Ortho View (id = " + orthoData['id'] + ") invalid number of view coordinates");
         } else if (viewCoords[0].nodeName !== "from") {
             this.onXMLMinorError(this.missingNodeMessage(orthoNode.nodeName, "from"));
@@ -432,6 +447,8 @@ class MySceneGraph {
                 orthoData['to'],
                 orthoData['up'],
             );
+            if (orthoData.hasOwnProperty('animationref'))
+                this.moviesCamera[orthoData['id']] = orthoData['animationref'];
         }
 
     }
